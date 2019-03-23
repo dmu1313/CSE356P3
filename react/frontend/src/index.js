@@ -6,7 +6,7 @@ import './index.css';
 import {App} from './App.js';
 import {NavBar} from './Navigation.js';
 import {Home} from './Home';
-import {LoginStatus} from './Accounts';
+import {LoginStatus} from './Routes';
 
 import * as serviceWorker from './serviceWorker';
 

@@ -6,7 +6,7 @@ const mongo = require('mongodb').MongoClient;
 const url = "mongodb://localhost:27017";
 
 const app = express();
-const port = 3000;
+const port = 3001;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -24,7 +24,17 @@ const DATABASE = constants.DATABASE;
 
 
 app.post('/adduser/', function (req, res) {
-
+    console.log("Add User");
     res.json(STATUS_OK);
 });
 
+app.post('/login/', function (req, res) {
+    console.log("Login");
+    res.json(STATUS_OK);
+});
+
+
+app.listen(port, function() {
+});
+
+// Math.floor(Date.now() / 1000);

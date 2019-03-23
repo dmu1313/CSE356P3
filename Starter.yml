@@ -1,0 +1,25 @@
+---
+- hosts: project2
+  vars:
+    script: /var/www/start.sh
+  remote_user: ubuntu
+  gather_facts: no
+  become: yes
+  tasks:
+    - name: Change script permissions
+      shell: chmod 777 {{ script }}
+      args:
+        executable: /bin/bash
+    - name: Start script
+      shell: sh {{ script }}
+    # - name: Transfer the script
+    #   copy: src=start.sh dest=/home/ubuntu mode=0777
+    # - name: Execute the script
+    #   command: sh /home/ubuntu/start.sh
+    # - name: Start script to run server
+    #   script: /home/ubuntu/HW/start.sh
+    #   args:
+    #     executable: bash
+      # shell: bash /var/www/start.sh
+      # args:
+      #   executable: /bin/bash

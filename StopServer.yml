@@ -1,0 +1,14 @@
+---
+- hosts: project2
+  vars:
+    script: /var/www/KillNode.sh
+  remote_user: ubuntu
+  gather_facts: no
+  become: yes
+  tasks:
+    - name: Change script permissions
+      shell: chmod 777 {{script}}
+      args:
+        executable: /bin/bash
+    - name: Execute kill server script
+      shell: sh {{script}}

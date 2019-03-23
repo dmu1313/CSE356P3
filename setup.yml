@@ -1,0 +1,92 @@
+---
+- hosts: project2
+  remote_user: ubuntu
+  gather_facts: no
+  become: yes
+  pre_tasks:
+    - name: update
+      apt:
+        update_cache: yes
+  tasks:
+    # - name: install apache
+    #   apt:
+    #     name: apache2
+    #     update_cache: yes
+    #     state: latest
+    # - name: set up mod proxy
+    #   shell: |
+    #     sudo a2enmod proxy
+    #     sudo a2enmod proxy_http
+    #     sudo a2enmod proxy_balancer
+    #     sudo a2enmod lbmethod_byrequests
+    #     sudo systemctl restart apache2
+    # - name: ensure apache is running
+    #   service:
+    #     name: apache2
+    #     state: started
+    # - name: install git
+    #   apt:
+    #     name: git
+    - name: Delete /var/www/ for the git checkout
+      shell: sudo rm -rf /var/www/
+    - name: Get git checkout
+      git:
+        repo: 'https://github.com/dmu1313/CSE356P2.git'
+        dest: /var/www/
+    - name: Set up reverse proxy
+      shell: |
+        sudo mv /var/www/000-default.conf /etc/apache2/sites-available/000-default.conf
+        sudo systemctl restart apache2
+    # - name: Download nodejs
+    #   apt:
+    #     name: nodejs
+    # - name: Download npm
+    #   apt:
+    #     name: npm
+    - name: Init npm in project directory
+      shell: |
+        cd /var/www/server/
+        sudo npm init -y
+      args:
+        chdir: /var/www/server/
+        # sudo npm install express -g --save
+    - name: Install Express JS
+      npm:
+        name: express
+        global: no
+        path: /var/www/server/
+    - name: Install NodeMailer
+      npm:
+        name: nodemailer
+        global: no
+        path: /var/www/server/
+    - name: Install Cookie-Parser
+      npm:
+        name: cookie-parser
+        global: no
+        path: /var/www/server
+    - name: Install MongoDB npm package
+      npm:
+        name: mongodb
+        global: no
+        path: /var/www/server
+    # - name: One time setup for MongoDB
+    #   shell: |
+    #     sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 9DA31620334BD75D9DCB49F368818C72E52529D4
+    #     echo "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.0.list
+    #     sudo apt-get update
+    # - name: One time install for MongoDB
+    #   apt:
+    #     name: mongodb-org
+    # - name: Start MongoDB
+    #   shell: |
+    #     sudo service mongod start
+    # - name: Start Express Server
+    #   shell: |
+    #     chmod 777 /var/www/start.sh
+    #     bash /var/www/start.sh
+      #   sudo node /var/www/server/app.js &
+      # args:
+      #   executable: /bin/bash
+      #   chdir: /var/www/server/
+

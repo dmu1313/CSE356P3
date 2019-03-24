@@ -1,10 +1,6 @@
 
-
 const express = require('express');
 const cookieParser = require('cookie-parser');
-const mongo = require('mongodb').MongoClient;
-const url = "mongodb://localhost:27017";
-
 const app = express();
 const port = 3001;
 
@@ -14,24 +10,21 @@ app.use(express.static(__dirname + "/static"));
 // app.use(cookieParser('cse356-cookie-secret'));
 app.use(cookieParser());
 
+app.set('trust proxy', true);
+
 let constants = require('./Utils.js');
 const STATUS_OK = constants.STATUS_OK;
 const STATUS_ERROR = constants.STATUS_ERROR;
-const DATABASE = constants.DATABASE;
-// const COLLECTION_USERS = "Users";
-// const COLLECTION_COOKIES = "Cookies";
-// const COLLECTION_GAMES = "Games";
 
 
-app.post('/adduser/', function (req, res) {
-    console.log("Add User");
-    res.json(STATUS_OK);
-});
+var mongoUtil = require('./MongoUtils.js');
+mongoUtil.connect();
 
-app.post('/login/', function (req, res) {
-    console.log("Login");
-    res.json(STATUS_OK);
-});
+require('./Login.js')(app);
+// require('./NewUser.js')(app);
+// require('./Questions.js')(app);
+// require('./Search.js')(app);
+require('./ConfigureDatabase.js')(app);
 
 
 app.listen(port, function() {

@@ -16,9 +16,13 @@ module.exports = function(app) {
             var timestamp = req.body.timestamp;
             var limit = req.body.limit;
 
+            console.log("search");
+            console.log("Timestamp: " + timestamp);
+            console.log("Limit: " + limit);
+
             var db = mongoUtil.getDB();
 
-            var searchQuery;
+            var searchQuery = {};
             if (timestamp != null) {
                 searchQuery = { timestamp: {$lte: timestamp} }
             }
@@ -32,10 +36,13 @@ module.exports = function(app) {
             var questionsArray = [];
 
             var cursor = await db.collection(COLLECTION_QUESTIONS).find(searchQuery).sort({ timestamp: -1 }).limit(limit);
-
+            console.log("1");
             while (await cursor.hasNext()) {
+                console.log("2");
                 let questionDoc = await cursor.next();
+                console.log("3");
                 let userDoc = await db.collection(COLLECTION_USERS).findOne({userId: questionDoc.userId});
+                console.log("4");
                 var question = {
                     id: questionDoc.questionId, user: { username: userDoc.username, reputation: userDoc.reputation },
                     title: questionDoc.title, body: questionDoc.body, score: questionDoc.score, view_count: questionDoc.view_count,
@@ -44,7 +51,7 @@ module.exports = function(app) {
                 };
                 questionsArray.push(question);
             }
-
+            console.log("5");
             res.json({status: "OK", questions: questionsArray});
         }
         catch(error) {

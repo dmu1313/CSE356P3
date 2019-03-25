@@ -63,7 +63,7 @@ class VerifyForm extends React.Component {
         return (
             <div>
                 <p className="Notification">{this.state.notification}</p>
-                <form className="" onSubmit={this.createAccount}>
+                <form className="" onSubmit={this.verifyAccount}>
                     <label>
                         Email:
                         <input className={this.props.className} type="text" name="email" value={this.state.email} onChange={this.handleChange} />

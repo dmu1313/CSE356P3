@@ -1,7 +1,7 @@
 
 function generateKey() {
     var key = "", possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    for (var i = 0; i < 64; i++) {
+    for (var i = 0; i < 32; i++) {
         key += possible.charAt(Math.floor(Math.random() * possible.length));
     }
     return key;
@@ -82,41 +82,31 @@ module.exports = function(app) {
             });
         }
 
+
+        var usernameExistsQuery = {username: username};
+        var emailExistsQuery = {email: email};
+
         var insertQuery = { userId: userId, username: username, password: password, email: email, reputation: 0, verified: false, key: key };
 
-        var insertSuccess = false;
-        db.collection(COLLECTION_USERS).findOne(userExistsQuery)
-        .then(function(doc) {
-            if (doc != null) {
-                userExists = true;
-                return null;
-            }
-            else {
-                return db.collection(COLLECTION_USERS).insertOne(insertQuery);
-            }
-        })
-        .then(function(result) {
-            if (result == null) {
-                insertSuccess = false;
-            }
-            else {
-                console.log("Inserting new user: " + username + ", " + result);
-                insertSuccess = true;
-            }
-        })
-        .catch(function(error) {
-            console.log("Failed to insert new user due to error: " + error);
-            insertSuccess = false;
-        })
-        .finally(function() {
-            if (insertSuccess) {
-                sendMail(email, key);
-                res.json(STATUS_OK);
-            }
-            else {
-                res.json({status: "error", error: "User already exists. You need a unique username and email."});
-            }
-        });
+        var isUsernameUnique = await db.collection(COLLECTION_USERS).findOne(usernameExistsQuery)
+                                        .then(function(userDoc) {
+                                            return userDoc != null;
+                                        });
+        var isEmailUnique = await db.collection(COLLECTION_USERS).findOne(emailExistsQuery)
+                                        .then(function(userDoc) {
+                                            return userDoc != null;
+                                        });
+
+        if (isUsernameUnique && isEmailUnique) {
+            let result = await db.collection(COLLECTION_USERS).insertOne(insertQuery);
+            console.log("Add user result: " + result);
+            sendMail(email, key);
+            res.json(STATUS_OK);
+        }
+        else {
+            res.json({status: "error", error: "User already exists. You need a unique username and email."});
+        }
+
     });
 
     app.post('/verify', function(req, res) {

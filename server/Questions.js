@@ -273,7 +273,7 @@ module.exports = function(app) {
             while (await cursor.hasNext()) {
                 console.log("3");
                 let answerDoc = await cursor.next();
-                let userDoc = await db.collection.findOne({userId: answerDoc.userId});
+                let userDoc = await db.collection(COLLECTION_USERS).findOne({userId: answerDoc.userId});
                 let answer = {
                                 id: answerDoc.answerId, user: userDoc.username, body: answerDoc.body, score: answerDoc.score,
                                 is_accepted: answerDoc.accepted, timestamp: answerDoc.timestamp, media: answerDoc.media
@@ -285,6 +285,7 @@ module.exports = function(app) {
             res.json({status: "OK", answers: answers});
         }
         catch (error) {
+            console.log("Error: " + error);
             res.json({status: "error", questions: null, error: "Failed to get answers for question with ID: " + id});
         }
 

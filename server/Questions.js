@@ -232,7 +232,7 @@ module.exports = function(app) {
 
         let timestamp = getUnixTime();
         var answerQuery = {
-                    answerID:answerId, questionId: id, body: body, media: [], userId: userId, score: 0,
+                    answerId:answerId, questionId: id, body: body, media: [], userId: userId, score: 0,
                     accepted: false, timestamp: timestamp
                 };
 

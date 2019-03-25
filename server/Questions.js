@@ -136,6 +136,12 @@ module.exports = function(app) {
                 res.json({status: "error", error: authErrorMessage});
                 return;
             }
+            if (title == null || body == null || tags == null) {
+                let validValuesMsg = "Title, body, and tags must all have valid values for /questions/add.";
+                console.log(validValuesMsg);
+                res.json({status: "error", error: validValuesMsg});
+                return;
+            }
 
             var questionId;
             var questionIdExists = true;

@@ -113,6 +113,7 @@ module.exports = function(app) {
 
     app.post('/questions/add', async function(req, res) {
         try {
+            console.log("/questions/add");
             var title = req.body.title;
             var body = req.body.body;
             var tags = req.body.tags; // Array of tags (strings)
@@ -120,6 +121,13 @@ module.exports = function(app) {
 
             var cookie = req.cookies['SessionID'];
             const authErrorMessage = "User is not logged in. Must be logged in to add a question.";
+
+            console.log("/////////////////////////////");
+            console.log("title: " + title);
+            console.log("body: " + body);
+            console.log("tags: " + tags);
+            console.log("media: " + media);
+            console.log("cookie: " + cookie);
 
             var userId = await mongoUtil.getIdForCookie(cookie);
             if (userId == null) {

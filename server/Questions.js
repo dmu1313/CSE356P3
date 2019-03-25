@@ -286,6 +286,10 @@ module.exports = function(app) {
                 console.log("Could not get user who posted the answer with id: " + answerDoc.answerId + ". Error: " + error);
             })
         })
+        .then(function(ret) {
+            console.log("Not sure what goes here. Might be nothing: " + ret);
+            searchSuccess = true;
+        })
         .catch(function(error) {
             console.log("Failed somewhere in the process of getting all answers to questionId: " + id + ". Error: " + error);
             searchSuccess = false;

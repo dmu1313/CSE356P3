@@ -24,6 +24,7 @@ module.exports = function(app) {
 
             var searchQuery = {};
             if (timestamp != null) {
+                timestamp = Math.floor(timestamp);
                 searchQuery = { timestamp: {$lte: timestamp} }
             }
             
@@ -50,6 +51,9 @@ module.exports = function(app) {
                     tags: questionDoc.tags, accepted_answer_id: questionDoc.accepted_answer_id
                 };
                 questionsArray.push(question);
+            }
+            for (var i = 0; i < questionsArray.length; i++) {
+                console.log(questionsArray[i]);
             }
             console.log("5");
             res.json({status: "OK", questions: questionsArray});

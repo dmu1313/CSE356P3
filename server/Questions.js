@@ -69,6 +69,7 @@ module.exports = function(app) {
                 if (!ipAlreadyExists && !userViewExists) {
                     numViews = questionDoc.view_count;
                     let updateCountQuery = {$set: {view_count: numViews+1}};
+                    numViews++;
                     let updateViewsResult = await db.collection(COLLECTION_QUESTIONS).updateOne(questionQuery, updateCountQuery);
                 }
 
@@ -86,7 +87,7 @@ module.exports = function(app) {
                     searchSuccess = true;
                     question = {
                         id: questionDoc.questionId, user: { username: userDoc.username, reputation: userDoc.reputation },
-                        title: questionDoc.title, body: questionDoc.body, score: questionDoc.score, view_count: questionDoc.view_count,
+                        title: questionDoc.title, body: questionDoc.body, score: questionDoc.score, view_count: numViews,
                         answer_count: questionDoc.answer_count, timestamp: questionDoc.timestamp, media: questionDoc.media,
                         tags: questionDoc.tags, accepted_answer_id: questionDoc.accepted_answer_id
                     };

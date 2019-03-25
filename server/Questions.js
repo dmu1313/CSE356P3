@@ -32,7 +32,7 @@ module.exports = function(app) {
                     username = await mongoUtil.getUserForCookie(cookie);
                 }
 
-                var numViews;
+                var numViews = questionDoc.view_count;
                 var ipAlreadyExists = false;
                 var userViewExists = false;
                 if (username == null) {
@@ -67,7 +67,6 @@ module.exports = function(app) {
                 }
 
                 if (!ipAlreadyExists && !userViewExists) {
-                    numViews = questionDoc.view_count;
                     let updateCountQuery = {$set: {view_count: numViews+1}};
                     numViews++;
                     let updateViewsResult = await db.collection(COLLECTION_QUESTIONS).updateOne(questionQuery, updateCountQuery);

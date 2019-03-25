@@ -262,16 +262,12 @@ module.exports = function(app) {
 
             var answersQuery = { questionId: id };
 
-            var searchSuccess = false;
             var answers = [];
-            console.log("1");
 
             var db = mongoUtil.getDB();
 
             var cursor = await db.collection(COLLECTION_ANSWERS).find(answersQuery);
-            console.log("2");
             while (await cursor.hasNext()) {
-                console.log("3");
                 let answerDoc = await cursor.next();
                 let userDoc = await db.collection(COLLECTION_USERS).findOne({userId: answerDoc.userId});
                 let answer = {
@@ -279,7 +275,6 @@ module.exports = function(app) {
                                 is_accepted: answerDoc.accepted, timestamp: answerDoc.timestamp, media: answerDoc.media
                             };
                 answers.push(answer);
-                console.log("4");
             }
 
             res.json({status: "OK", answers: answers});
@@ -288,43 +283,6 @@ module.exports = function(app) {
             console.log("Error: " + error);
             res.json({status: "error", questions: null, error: "Failed to get answers for question with ID: " + id});
         }
-
-        // .forEach(function(answerDoc) {
-        //     var answerUserQuery = { userId: answerDoc.userId };
-
-        //     db.collection(COLLECTION_USERS).findOne(answerUserQuery)
-        //     .then(function(userDoc) {
-        //         if (userDoc == null) {
-        //             console.log("Could not find user with userId: " + answerDoc.userId + " for answer with id: " + answerDoc.answerId);
-        //             return;
-        //         }
-        //         var answer = {
-        //                         id: answerDoc.answerId, user: userDoc.username, body: answerDoc.body, score: answerDoc.score,
-        //                         is_accepted: answerDoc.accepted, timestamp: answerDoc.timestamp, media: answerDoc.media
-        //                     };
-        //         answers.push(answer);
-        //     })
-        //     .catch(function(error) {
-        //         console.log("Could not get user who posted the answer with id: " + answerDoc.answerId + ". Error: " + error);
-        //     })
-        // })
-        // .then(function(ret) {
-        //     console.log("Not sure what goes here. Might be nothing: " + ret);
-        //     searchSuccess = true;
-        // })
-        // .catch(function(error) {
-        //     console.log("Failed somewhere in the process of getting all answers to questionId: " + id + ". Error: " + error);
-        //     searchSuccess = false;
-        // })
-        // .finally(function() {
-        //     if (searchSuccess) {
-        //         res.json({status: "OK", answers: answers});
-        //     }
-        //     else {
-        //         res.json({status: "error", questions: null, error: "Failed to get answers for question with ID: " + id});
-        //     }
-        // });
-
     });
 
 };

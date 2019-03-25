@@ -8,40 +8,29 @@
       apt:
         update_cache: yes
   tasks:
-    - name: Install Nginx
-      apt:
-        name: nginx
-        update_cache: yes
-        state: latest
-    # - name: install apache
+    # - name: Install Nginx
     #   apt:
-    #     name: apache2
+    #     name: nginx
     #     update_cache: yes
     #     state: latest
-    # - name: set up mod proxy
-    #   shell: |
-    #     sudo a2enmod proxy
-    #     sudo a2enmod proxy_http
-    #     sudo a2enmod proxy_balancer
-    #     sudo a2enmod lbmethod_byrequests
-    #     sudo systemctl restart apache2
-    # - name: ensure apache is running
-    #   service:
-    #     name: apache2
-    #     state: started
-    - name: install git
-      apt:
-        name: git
+
+
+
+
+    # - name: install git
+    #   apt:
+    #     name: git
     - name: Delete /var/www/ for the git checkout
       shell: sudo rm -rf /var/www/
     - name: Get git checkout
       git:
         repo: 'https://github.com/dmu1313/CSE356P3.git'
         dest: /var/www/
-    # - name: Set up reverse proxy
-    #   shell: |
-    #     sudo mv /var/www/000-default.conf /etc/apache2/sites-available/000-default.conf
-    #     sudo systemctl restart apache2
+
+
+
+    
+
     - name: Set up reverse proxy load balancer Nginx
       shell: |
         sudo mv /var/www/rest_proxy.conf /etc/nginx/rest_proxy.conf
@@ -54,10 +43,10 @@
     # - name: Download npm
     #   apt:
     #     name: npm
-    - name: Download Nodejs 11.x
-      shell: |
-        sudo curl -sL https://deb.nodesource.com/setup_11.x | sudo -E bash -
-        sudo apt-get install -y nodejs
+    # - name: Download Nodejs 11.x
+    #   shell: |
+    #     sudo curl -sL https://deb.nodesource.com/setup_11.x | sudo -E bash -
+    #     sudo apt-get install -y nodejs
     - name: Init npm in project directory
       shell: |
         cd /var/www/server/
@@ -85,13 +74,18 @@
         name: mongodb
         global: no
         path: /var/www/server
-    - name: Install Postfix
-      apt:
-        name: postfix
-    - name: Configure Postfix
-      shell: |
-        sudo mv /var/www/main.cf /etc/postfix/main.cf
-        sudo systemctl restart postfix
+    # - name: Install Postfix
+    #   apt:
+    #     name: postfix
+    # - name: Configure Postfix
+    #   shell: |
+    #     sudo mv /var/www/main.cf /etc/postfix/main.cf
+    #     sudo systemctl restart postfix
+
+
+
+
+
     # - name: One time setup for MongoDB
     #   shell: |
     #     sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 9DA31620334BD75D9DCB49F368818C72E52529D4
@@ -103,6 +97,7 @@
     # - name: Start MongoDB
     #   shell: |
     #     sudo service mongod start
+    
     # - name: Start Express Server
     #   shell: |
     #     chmod 777 /var/www/start.sh
@@ -112,3 +107,31 @@
       #   executable: /bin/bash
       #   chdir: /var/www/server/
 
+
+
+
+    # - name: install apache
+    #   apt:
+    #     name: apache2
+    #     update_cache: yes
+    #     state: latest
+    # - name: set up mod proxy
+    #   shell: |
+    #     sudo a2enmod proxy
+    #     sudo a2enmod proxy_http
+    #     sudo a2enmod proxy_balancer
+    #     sudo a2enmod lbmethod_byrequests
+    #     sudo systemctl restart apache2
+    # - name: ensure apache is running
+    #   service:
+    #     name: apache2
+    #     state: started
+
+
+
+
+
+    # - name: Set up reverse proxy
+    #   shell: |
+    #     sudo mv /var/www/000-default.conf /etc/apache2/sites-available/000-default.conf
+    #     sudo systemctl restart apache2

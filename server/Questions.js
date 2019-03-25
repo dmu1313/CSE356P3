@@ -121,7 +121,7 @@ module.exports = function(app) {
             var cookie = req.cookies['SessionID'];
             const authErrorMessage = "User is not logged in. Must be logged in to add a question.";
 
-            var userId = await mongoUtils.getIdForCookie(cookie);
+            var userId = await mongoUtil.getIdForCookie(cookie);
             if (userId == null) {
                 // Not logged in. Fail.
                 console.log(authErrorMessage);
@@ -190,7 +190,7 @@ module.exports = function(app) {
         var cookie = req.cookies['SessionID'];
         const authErrorMessage = "User is not logged in. Must be logged in to add an answer.";
 
-        var userId = await mongoUtils.getIdForCookie(cookie);
+        var userId = await mongoUtil.getIdForCookie(cookie);
         if (userId == null) {
             // Not logged in. Fail.
             console.log(authErrorMessage);
@@ -217,7 +217,7 @@ module.exports = function(app) {
 
         let timestamp = getUnixTime();
         var answerQuery = {
-                    answerID:string, questionId: id, body: body, media: [], userID: userId, score: 0,
+                    answerID:answerId, questionId: id, body: body, media: [], userID: userId, score: 0,
                     accepted: false, timestamp: timestamp
                 };
 
@@ -249,10 +249,12 @@ module.exports = function(app) {
         var searchSuccess = false;
         var answers = [];
 
-        db.collection(COLLECTION_ANSWER).find(answersQuery)
+        var db = mongoUtil.getDB();
+
+        db.collection(COLLECTION_ANSWERS).find(answersQuery)
         .then(function(docs) {
             if (docs == null) {
-                console.log("Answers query returned a null cursor.";
+                console.log("Answers query returned a null cursor.");
                 return null;
             }
             return docs.forEach(function(answerDoc) {

@@ -43,6 +43,10 @@
     # - name: Download npm
     #   apt:
     #     name: npm
+    - name: Download Nodejs 11.x
+      shell: |
+        sudo curl -sL https://deb.nodesource.com/setup_11.x | sudo -E bash -
+        sudo apt-get install -y nodejs
     - name: Init npm in project directory
       shell: |
         cd /var/www/server/

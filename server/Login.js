@@ -27,9 +27,14 @@ module.exports = function(app) {
             }
         }
 
+        var userId;
+
         let loginQuery = {username: username, password: password, verified: true};
         var loginSuccess = await db.collection(COLLECTION_USERS).findOne(loginQuery)
         .then(function(doc) {
+            if (doc != null) {
+                userId = doc.userId;
+            }
             return doc != null;
         })
         .catch(function(error) {
@@ -45,7 +50,7 @@ module.exports = function(app) {
         let newCookie = username + Date.now();
         var cookieInsertSuccess = true;
 
-        let cookieQuery = { val: newCookie, username: username };
+        let cookieQuery = { val: newCookie, username: username, userId: userId };
         
         db.collection(COLLECTION_COOKIES).insertOne(cookieQuery)
         .then(function(ret) {

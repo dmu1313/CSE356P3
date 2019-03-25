@@ -8,11 +8,10 @@ const DATABASE = constants.DATABASE;
 const COLLECTION_USERS = constants.COLLECTION_USERS;
 const COLLECTION_COOKIES = constants.COLLECTION_COOKIES;
 const COLLECTION_QUESTIONS = constants.COLLECTION_QUESTIONS;
-const COLLECTION_ANSWERS = constants.COLLECTOIN_ANSWERS;
+const COLLECTION_ANSWERS = constants.COLLECTION_ANSWERS;
 
 var _db;
 var _realdb;
-
 
 function checkIfUserLoggedIn(cookieString) {
     var cookieQuery = { val: cookieString };
@@ -27,6 +26,43 @@ function checkIfUserLoggedIn(cookieString) {
     });
 }
 
+function getUserForCookie(cookieString) {
+    var cookieQuery = { val: cookieString };
+
+    return _db.collection(COLLECTION_COOKIES).findOne(cookieQuery)
+    .then(function(doc) {
+        if (doc != null) {
+            return doc.username;
+        }
+        else {
+            console.log("No such cookie is found.");
+            return null;
+        }
+    })
+    .catch(function(error) {
+        console.log("Could not complete query to find username for cookie. Error: " + error);
+        return null;
+    });
+}
+
+function getIdForCookie(cookieString) {
+    var cookieQuery = { val: cookieString };
+
+    return _db.collection(COLLECTION_COOKIES).findOne(cookieQuery)
+    .then(function(doc) {
+        if (doc != null) {
+            return doc.userId;
+        }
+        else {
+            console.log("No such cookie is found.");
+            return null;
+        }
+    })
+    .catch(function(error) {
+        console.log("Could not complete query to find userId for cookie. Error: " + error);
+        return null;
+    });
+}
 
 
 module.exports = {
@@ -45,5 +81,7 @@ module.exports = {
     getRealDB: function() {
         return _realdb;
     },
-    checkIfUserLoggedIn: checkIfUserLoggedIn
+    checkIfUserLoggedIn: checkIfUserLoggedIn,
+    getUserForCookie: getUserForCookie,
+    getIdForCookie: getIdForCookie
 };

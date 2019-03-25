@@ -21,11 +21,24 @@ var mongoUtil = require('./MongoUtils.js');
 mongoUtil.connect();
 
 require('./Login.js')(app);
-// require('./NewUser.js')(app);
+require('./NewUser.js')(app);
 // require('./Questions.js')(app);
-// require('./Search.js')(app);
+require('./Search.js')(app);
 require('./ConfigureDatabase.js')(app);
 
+app.post('/CheckLoginStatus', async function(req, res) {
+    // just sends cookie
+    var cookie = req.cookies['SessionID'];
+    
+    if (cookie != undefined) {
+        var isLoggedIn = await mongoUtil.checkIfUserLoggedIn(cookie);
+        if (isLoggedIn) {
+            res.json({ loggedIn: true });
+            return;
+        }
+    }
+    res.json({ loggedIn: false });
+});
 
 app.listen(port, function() {
 });

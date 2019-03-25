@@ -17,10 +17,39 @@ class Home extends React.Component {
         // Fetch request to post question
         this.props.history.push('/Home');
     }
+    
+    componentDidMount() {
+        var me = this;
+        this.props.getLoginStatus()
+        .then(function(status) {
+            if (status !== me.props.loggedIn) {
+                me.props.setLoginState(status);
+            }
+        })
+        .catch(function(error) {
+            console.log("Error getting login status: " + error);
+        });
+    }
 
     render() {
+
+        var skip = false;
+        if (this.props.location.state != null) {
+            skip = this.props.location.state.skipFirstRender;
+            this.props.location.state.skipFirstRender = false;
+            this.props.location.state = null;
+        }
+
+        if (skip) {
+            return(
+                <div></div>
+            );
+        }
+
+        var status = this.props.loggedIn;
         var message;
-        if (this.props.loggedIn) {
+        // if (this.props.loggedIn) {
+        if (status) {
             message = <p>Logged In</p>;
         }
         else {

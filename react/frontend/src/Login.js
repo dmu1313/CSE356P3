@@ -1,13 +1,13 @@
 
 import React from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Redirect } from 'react-router-dom';
 
 import {STATUS_OK, STATUS_ERROR, BUTTON_CLASS} from './Utils';
 
 class LoginForm extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { username: "", password: "", notification: "" };
+        this.state = { username: "", password: "", notification: "", redirect: false };
 
         this.handleChange = this.handleChange.bind(this);
         this.login = this.login.bind(this);
@@ -43,7 +43,11 @@ class LoginForm extends React.Component {
         })
         .then(function(json) {
             if (json.status === STATUS_OK) {
-                me.props.history.push('/Home');
+                me.setState( { redirect: true } );
+                me.props.history.push({
+                                        pathname: '/Home',
+                                        state: { skipFirstRender: true }
+                                    });
             }
             else if (json.status === STATUS_ERROR) {
                 me.setState({ notification: ("Could not login successfully. Try again please. Error: " + json.error) });
@@ -55,6 +59,11 @@ class LoginForm extends React.Component {
     }
 
     render() {
+        // if (this.state.redirect) {
+        //     return (
+        //             <Redirect to="/Home"/>
+        //         );
+        // }
         return (
             <div>
                 <p className="Notification">{this.state.notification}</p>

@@ -44,10 +44,12 @@ module.exports = function(app) {
     const COLLECTION_COOKIES = constants.COLLECTION_COOKIES;
     const COLLECTION_QUESTIONS = constants.COLLECTION_QUESTIONS;
     const COLLECTION_ANSWERS = constants.COLLECTOIN_ANSWERS;
+    
+    var getRandomIdString = constants.getRandomIdString;
 
     let mongoUtil = require('./MongoUtils');
 
-    app.post('/adduser/', function (req, res) {
+    app.post('/adduser/', async function (req, res) {
         console.log("Add User");
 
         let username = req.body.username;
@@ -56,19 +58,33 @@ module.exports = function(app) {
         let key = username + "-" + generateKey();
         var db = mongoUtil.getDB();
 
-        var userId = (Math.floor(Math.random() * 1000000000000) + 1).toString();
+        var userId;
         
         var userExistsQuery = { username: username, email: email };
         var userExists = false;
         
-        var userIdExistsQuery = { userId: userId };
-        await db.collection(COLLECTION_USERS).findOne(userIdExistsQuery)
-        .then(function(doc) {
-
-        })
+        var userIdExistsQuery = { userId: "" };
+        var userIdExists = true;
+        while (userIdExists) {
+            userId = getRandomIdString();
+            userIdExistsQuery = { userId: userId };
+            userIdExists = await db.collection(COLLECTION_USERS).findOne(userIdExistsQuery)
+            .then(function(doc) {
+                if (doc == null) return false;
+                else {
+                    console.log("userId: " + userId + " already exists. Must get a new random userId.");
+                    return true;
+                }
+            })
+            .catch(function(error) {
+                console.log("Failed to find if userId " + userId + " already exists.");
+                return true;
+            });
+        }
 
         var insertQuery = { userId: userId, username: username, password: password, email: email, reputation: 0, verified: false, key: key };
 
+        var insertSuccess = false;
         db.collection(COLLECTION_USERS).findOne(userExistsQuery)
         .then(function(doc) {
             if (doc != null) {
@@ -76,20 +92,31 @@ module.exports = function(app) {
                 return null;
             }
             else {
-                db.collection(COLLECTION_USERS).insertOne()
+                return db.collection(COLLECTION_USERS).insertOne(insertQuery);
+            }
+        })
+        .then(function(result) {
+            if (result == null) {
+                insertSuccess = false;
+            }
+            else {
+                console.log("Inserting new user: " + username + ", " + result);
+                insertSuccess = true;
             }
         })
         .catch(function(error) {
-
+            console.log("Failed to insert new user due to error: " + error);
+            insertSuccess = false;
         })
         .finally(function() {
-
+            if (insertSuccess) {
+                sendMail(email, key);
+                res.json(STATUS_OK);
+            }
+            else {
+                res.json({status: "error", error: "User already exists. You need a unique username and email."});
+            }
         });
-        
-        if (userExists)
-
-        
-        res.json(STATUS_OK);
     });
 
     app.post('/verify', function(req, res) {

@@ -20,11 +20,11 @@ function sendMail(email, key) {
     });
 
     let mailOptions = {
-        from: 'noreply@dmu.arrayoutofbounds.com',
+        from: 'dmu@arrayoutofbounds.com',
         to: email,
-        subject: 'ArrayOutOfBounds Account Confirmation',
+        subject: 'Verification Key',
         text: "validation key: <" + key + ">",
-        html: "<p>validation key: &lt;" + key + "&gt;</p>"
+        html: "validation key: <" + key + ">"
     }
 
     transporter.sendMail(mailOptions, (error, info) => {

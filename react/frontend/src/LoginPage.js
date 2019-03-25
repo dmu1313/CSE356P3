@@ -3,6 +3,7 @@ import React from 'react';
 
 import LoginForm from './Login';
 import CreateAccountForm from './Accounts';
+import VerifyForm from './Verify';
 
 import {STATUS_OK} from './Utils';
 
@@ -31,6 +32,10 @@ class LoginPage extends React.Component {
                 <br />
                 <hr />
                 <LoginForm action="/login" />
+                <br />
+                <br />
+                <hr />
+                <VerifyForm action="/verify" />
             </div>
         );
     }

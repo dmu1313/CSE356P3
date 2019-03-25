@@ -7,6 +7,8 @@ import {Home} from './Home';
 import {NavBar} from './Navigation';
 import {SuccessNewAccountPage} from './Accounts';
 import {LoginPage, LogoutPage} from './LoginPage';
+import {VerifyPage} from './Verify';
+import {QuestionsPage} from './Questions';
 
 class LoginStatus extends React.Component {
     constructor(props) {
@@ -96,7 +98,8 @@ class LoginStatus extends React.Component {
             <Route path="/NewAccount" render={ (props) => <SuccessNewAccountPage {...props} loggedIn={status} getLoginStatus={this.getLoginStatus} setLoginState={this.setLoginState} />} />
             <Route path="/Login" render={ (props) => <LoginPage {...props} loggedIn={status} getLoginStatus={this.getLoginStatus} setLoginState={this.setLoginState} /> } />
             <Route path="/Logout" render={ (props) => <LogoutPage {...props} action="/logout" notification={this.state.notification} loggedIn={status} getLoginStatus={this.getLoginStatus} setLoginState={this.setLoginState} /> } />
-            <Route path="/AddQuestion" />
+            <Route path="/Verified" component={VerifyPage} />
+            <Route path="/Questions" component={QuestionsPage} />
             <Route path="/Question/:id" />
         </React.Fragment>
         );

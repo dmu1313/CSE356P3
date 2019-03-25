@@ -1,17 +1,17 @@
 
+
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 
 import {STATUS_OK, STATUS_ERROR, BUTTON_CLASS} from './Utils';
 
-
-class CreateAccountForm extends React.Component {
+class VerifyForm extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { username: "", email: "", password: "", notification: "" };
+        this.state = { email: "", key: "", notification: "" };
 
         this.handleChange = this.handleChange.bind(this);
-        this.createAccount = this.createAccount.bind(this);
+        this.verifyAccount = this.verifyAccount.bind(this);
     }
 
     handleChange(event) {
@@ -20,13 +20,13 @@ class CreateAccountForm extends React.Component {
         this.setState({ [name]: value });
     }
 
-    createAccount(e) {
-        console.log("Create New Account");
+    verifyAccount(e) {
+        console.log("Verify Account");
         e.preventDefault();
 
         //fetch for creating account
 
-        var sendObj = { username: this.state.username, email: this.state.email, password: this.state.password };
+        var sendObj = { email: this.state.email, key: this.state.key };
 
         var me = this;
 
@@ -41,18 +41,17 @@ class CreateAccountForm extends React.Component {
             body: JSON.stringify(sendObj)
         })
         .then(function (response) {
-            console.log(response);
             return response.json();
         })
         .then(function(json) {
             if (json.status === STATUS_OK) {
                 me.props.history.push({
-                    pathname: '/NewAccount',
-                    state: { msg: "You have successfully created a new account." }
+                    pathname: '/Verify',
+                    state: { msg: "You have successfully verified a new account." }
                 });
             }
             else if (json.status === STATUS_ERROR) {
-                me.setState({ notification: ("Could not create an account successfully. Try again please. Error: " + json.error) });
+                me.setState({ notification: ("Could not verify an account successfully. Try again please. Error: " + json.error) });
             }
             else {
                 console.log("Unkown error: " + json.error);
@@ -66,28 +65,22 @@ class CreateAccountForm extends React.Component {
                 <p className="Notification">{this.state.notification}</p>
                 <form className="" onSubmit={this.createAccount}>
                     <label>
-                        Username:
-                        <input className={this.props.className} type="text" name="username" value={this.state.username} onChange={this.handleChange} />
-                    </label>
-                    <br />
-                    <label>
                         Email:
-                        <input className={this.props.className} type="email" name="email" value={this.state.email} onChange={this.handleChange} />
+                        <input className={this.props.className} type="text" name="email" value={this.state.email} onChange={this.handleChange} />
                     </label>
                     <br />
                     <label>
-                        Password:
-                        <input className={this.props.className} type="text" name="password" value={this.state.password} onChange={this.handleChange} />
+                        Key:
+                        <input className={this.props.className} type="text" name="key" value={this.state.key} onChange={this.handleChange} />
                     </label>
-                    <input className={BUTTON_CLASS} type="submit" value="Create Account" />
+                    <input className={BUTTON_CLASS} type="submit" value="Verify Account" />
                 </form>
             </div>
         );
     }
 }
 
-
-class SuccessNewAccountPage extends React.Component {
+class VerifyPage extends React.Component {
     render() {
         return (
             <div>
@@ -97,5 +90,6 @@ class SuccessNewAccountPage extends React.Component {
     }
 }
 
-export { SuccessNewAccountPage };
-export default withRouter(CreateAccountForm);
+
+export { VerifyPage };
+export default withRouter(VerifyForm);

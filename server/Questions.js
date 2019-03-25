@@ -61,7 +61,7 @@ module.exports = function(app) {
                         console.log(username + " already viewed questionId: " + id);
                     }
                     else {
-                        let insertUserViewResult = db.collection(COLLECTION_USER_VIEWS).insertOne(userQuery);
+                        let insertUserViewResult = await db.collection(COLLECTION_USER_VIEWS).insertOne(userQuery);
                         console.log("Insert user view result: " + insertUserViewResult);
                     }
                 }

@@ -267,40 +267,24 @@ module.exports = function(app) {
         var db = mongoUtil.getDB();
 
         db.collection(COLLECTION_ANSWERS).find(answersQuery)
-        .then(function(docs) {
-            if (docs == null) {
-                console.log("Answers query returned a null cursor.");
-                return null;
-            }
-            return docs.forEach(function(answerDoc) {
-                var answerUserQuery = { userId: answerDoc.userId };
+        .forEach(function(answerDoc) {
+            var answerUserQuery = { userId: answerDoc.userId };
 
-                db.collection(COLLECTION_USERS).findOne(answerUserQuery)
-                .then(function(userDoc) {
-                    if (userDoc == null) {
-                        console.log("Could not find user with userId: " + answerDoc.userId + " for answer with id: " + answerDoc.answerId);
-                        return;
-                    }
-                    var answer = {
-                                    id: answerDoc.answerId, user: userDoc.username, body: answerDoc.body, score: answerDoc.score,
-                                    is_accepted: answerDoc.accepted, timestamp: answerDoc.timestamp, media: answerDoc.media
-                                };
-                    answers.push(answer);
-                })
-                .catch(function(error) {
-                    console.log("Could not get user who posted the answer with id: " + answerDoc.answerId + ". Error: " + error);
-                })
-            });
-        })
-        .then(function(ret) {
-            if (ret == null) {
-                console.log("Search query for all answers to questionId: " + id + " failed.");
-                searchSuccess = false;
-            }
-            else {
-                console.log("Found all answers to questionId: " + id + ", " + ret);
-                searchSuccess = true;
-            }
+            db.collection(COLLECTION_USERS).findOne(answerUserQuery)
+            .then(function(userDoc) {
+                if (userDoc == null) {
+                    console.log("Could not find user with userId: " + answerDoc.userId + " for answer with id: " + answerDoc.answerId);
+                    return;
+                }
+                var answer = {
+                                id: answerDoc.answerId, user: userDoc.username, body: answerDoc.body, score: answerDoc.score,
+                                is_accepted: answerDoc.accepted, timestamp: answerDoc.timestamp, media: answerDoc.media
+                            };
+                answers.push(answer);
+            })
+            .catch(function(error) {
+                console.log("Could not get user who posted the answer with id: " + answerDoc.answerId + ". Error: " + error);
+            })
         })
         .catch(function(error) {
             console.log("Failed somewhere in the process of getting all answers to questionId: " + id + ". Error: " + error);

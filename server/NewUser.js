@@ -90,11 +90,11 @@ module.exports = function(app) {
 
         var isUsernameUnique = await db.collection(COLLECTION_USERS).findOne(usernameExistsQuery)
                                         .then(function(userDoc) {
-                                            return userDoc != null;
+                                            return userDoc == null;
                                         });
         var isEmailUnique = await db.collection(COLLECTION_USERS).findOne(emailExistsQuery)
                                         .then(function(userDoc) {
-                                            return userDoc != null;
+                                            return userDoc == null;
                                         });
 
         if (isUsernameUnique && isEmailUnique) {

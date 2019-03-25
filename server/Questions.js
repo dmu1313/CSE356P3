@@ -170,7 +170,8 @@ module.exports = function(app) {
             })
             .finally(function() {
                 if (insertSuccess) {
-                    res.json({status: "OK", id: questionId});
+                    console.log("Questionid: " + questionId);
+                    res.json({status: "OK", id: questionId, error:null});
                 }
                 else {
                     res.json({status: "error", error: "Failed to add question."});

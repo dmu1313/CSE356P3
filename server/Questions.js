@@ -264,12 +264,14 @@ module.exports = function(app) {
 
             var searchSuccess = false;
             var answers = [];
+            console.log("1");
 
             var db = mongoUtil.getDB();
 
             var cursor = await db.collection(COLLECTION_ANSWERS).find(answersQuery);
-
+            console.log("2");
             while (await cursor.hasNext()) {
+                console.log("3");
                 let answerDoc = await cursor.next();
                 let userDoc = await db.collection.findOne({userId: answerDoc.userId});
                 let answer = {
@@ -277,6 +279,7 @@ module.exports = function(app) {
                                 is_accepted: answerDoc.accepted, timestamp: answerDoc.timestamp, media: answerDoc.media
                             };
                 answers.push(answer);
+                console.log("4");
             }
 
             res.json({status: "OK", answers: answers});

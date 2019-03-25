@@ -22,7 +22,7 @@ mongoUtil.connect();
 
 require('./Login.js')(app);
 require('./NewUser.js')(app);
-// require('./Questions.js')(app);
+require('./Questions.js')(app);
 require('./Search.js')(app);
 require('./ConfigureDatabase.js')(app);
 

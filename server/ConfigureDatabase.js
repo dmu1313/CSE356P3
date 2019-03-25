@@ -113,7 +113,7 @@ module.exports = function(app) {
             console.log("IP_VIEW: " + error);
         });
 
-        db.collection(COLLECTION_USER_VIEWS).createIndex( { questionId: 1, userId: 1 } )
+        db.collection(COLLECTION_USER_VIEWS).createIndex( { questionId: 1, username: 1 } )
         .then(function(result) {
             console.log("User_View index: " + result);
         })

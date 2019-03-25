@@ -1,5 +1,5 @@
 ---
-- hosts: project2
+- hosts: final
   vars:
     script: /var/www/start.sh
   remote_user: ubuntu

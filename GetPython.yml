@@ -1,5 +1,5 @@
 ---
-- hosts: project2
+- hosts: final
   remote_user: ubuntu
   gather_facts: no
   become: yes

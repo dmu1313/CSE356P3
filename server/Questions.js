@@ -17,80 +17,98 @@ var getUnixTime = constants.getUnixTime;
 module.exports = function(app) {
 
     app.get('/questions/:id', async function(req, res) {
-        var id = req.params.id;
-        var ip = req.ip;
-        var db = mongoUtil.getDB();
+        try {
+            var id = req.params.id;
+            var ip = req.ip;
+            var db = mongoUtil.getDB();
+            
+            var questionQuery = { questionId: id };
+            var questionDoc = await db.collection(COLLECTION_QUESTIONS).findOne(questionQuery);
+            
+            if (questionDoc != null) {
+                var cookie = req.cookies['SessionID'];
+                var username;
+                if (cookie != undefined) {
+                    username = await mongoUtil.getUserForCookie(cookie);
+                }
 
-        
-        var cookie = req.cookies['SessionID'];
-        var username;
-        if (cookie != undefined) {
-            username = await mongoUtil.getUserForCookie(cookie);
-        }
+                var numViews;
+                var ipAlreadyExists = false;
+                var userViewExists = false;
+                if (username == null) {
+                    // If not logged in, check to increment view_count for ip.
+                    var ipQuery = { ip: ip, questionId: id };
+                    ipAlreadyExists = await db.collection(COLLECTION_IP_VIEWS).findOne(ipQuery)
+                                                    .then(function(ipDoc) {
+                                                        return ipDoc != null;
+                                                    });
+                    if (ipAlreadyExists) {
+                        console.log(ip + " already exists for questionId: " + id);
+                    }
+                    else {
+                        let insertIpResult = await db.collection(COLLECTION_IP_VIEWS).insertOne(ipQuery);
+                        console.log("Insert Ip Result: " + insertIpResult);
+                    }
+                }
+                else {
+                    // If logged in, check to increment view_count for user.
+                    var userQuery = { username: username, questionId: id };
+                    userViewExists = await db.collection(COLLECTION_USER_VIEWS).findOne(userQuery)
+                                                    .then(function(userViewDoc) {
+                                                        return userViewDoc != null;
+                                                    });
+                    if (userViewExists) {
+                        console.log(username + " already viewed questionId: " + id);
+                    }
+                    else {
+                        let insertUserViewResult = db.collection(COLLECTION_USER_VIEWS).insertOne(userQuery);
+                        console.log("Insert user view result: " + insertUserViewResult);
+                    }
+                }
 
-        if (username == null) {
-            // If not logged in, check to increment view_count for ip.
-        }
-        else {
-            // If logged in, check to increment view_count for user.
-            var userViewQuery = { userId: }
-            db.collection(COLLECTION_USER_VIEWS).find();
-        }
+                if (!ipAlreadyExists && !userViewExists) {
+                    numViews = questionDoc.view_count;
+                    let updateCountQuery = {$set: {view_count: numViews+1}};
+                    let updateViewsResult = await db.collection(COLLECTION_QUESTIONS).updateOne(questionQuery, updateCountQuery);
+                }
 
-        if(isLoggedIn) {
-            // If logged in, check to increment view_count for user.
-            db.collection(COLLECTION_USER_VIEWS).find();
-        }
-        else {
-            // If not logged in, check to increment view_count for ip.
-        }
-        
-        
+                let userIdPosterQuery = { userId: questionDoc.userId };
+                let userDoc = await db.collection(COLLECTION_USERS).findOne(userIdPosterQuery);
 
+                var searchSuccess = false;
+                var question;
 
+                if (userDoc == null) {
+                    console.log("Either the question with id: " + id + " does not exist or the user who posted it could not be found.");
+                    searchSuccess = false;
+                }
+                else {
+                    searchSuccess = true;
+                    question = {
+                        id: questionDoc.questionId, user: { username: userDoc.username, reputation: userDoc.reputation },
+                        title: questionDoc.title, body: questionDoc.body, score: questionDoc.score, view_count: questionDoc.view_count,
+                        answer_count: questionDoc.answer_count, timestamp: questionDoc.timestamp, media: questionDoc.media,
+                        tags: questionDoc.tags, accepted_answer_id: questionDoc.accepted_answer_id
+                    };
+                }
 
-        var searchQuery = { questionId: id };
-
-        var questionDoc;
-        var question;
-        var searchSuccess = false;
-        db.collection(COLLECTION_QUESTIONS).findOne(searchQuery)
-        .then(function(doc) {
-            if (doc == null) {
-                console.log("No question with id: " + id);
-                return null;
-            }
-            questionDoc = doc;
-            var userPosterQuery = { userId: doc.userId };
-            return db.collection(COLLECTION_USERS).findOne(userPosterQuery)
-        })
-        .then(function(userDoc) {
-            if (userDoc == null) {
-                console.log("Either the question with id: " + id + " does not exist or the user who posted it could not be found.");
-                searchSuccess = false;
-                return;
-            }
-            searchSuccess = true;
-            question = {
-                id: questionDoc.questionId, user: { username: userDoc.username, reputation: userDoc.reputation },
-                title: questionDoc.title, body: questionDoc.body, score: questionDoc.score, view_count: questionDoc.view_count,
-                answer_count: questionDoc.answer_count, timestamp: questionDoc.timestamp, media: questionDoc.media,
-                tags: questionDoc.tags, accepted_answer_id: questionDoc.accepted_answer_id
-            };
-
-        })
-        .catch(function(error) {
-            console.log("Failed somewhere in the process of getting question " + id + ". Error: " + error);
-            searchSuccess = false;
-        })
-        .finally(function() {
-            if (searchSuccess) {
-                res.json({status: "OK", question: question});
+                if (searchSuccess) {
+                    res.json({status: "OK", question: question});
+                }
+                else {
+                    res.json({status: "error", questions: null, error: "Failed to get question with ID: " + id});
+                }
             }
             else {
-                res.json({status: "error", questions: null, error: "Failed to get question with ID: " + id});
+                // Question doesn't exist.
+                console.log("No question with id: " + id);
+                res.json({status: "error", error: "No question with id: " + id});
             }
-        });
+        }
+        catch (error) {
+            console.log("async/await error in /questions/:id. Error: " + error);
+            res.json({status: "error", error: "Unable to get question."});
+        }
     });
 
     app.post('/questions/add', async function(req, res) {
@@ -165,9 +183,62 @@ module.exports = function(app) {
         }
     });
 
-    app.post('/questions/:id/answers/add', function(req, res) {
+    app.post('/questions/:id/answers/add', async function(req, res) {
         var id = req.params.id;
+        var body = req.body.body;
 
+        var cookie = req.cookies['SessionID'];
+        const authErrorMessage = "User is not logged in. Must be logged in to add an answer.";
+
+        var userId = await mongoUtils.getIdForCookie(cookie);
+        if (userId == null) {
+            // Not logged in. Fail.
+            console.log(authErrorMessage);
+            res.json({status: "error", error: authErrorMessage});
+            return;
+        }
+
+        var answerId;
+        var answerIdExists = true;
+        var db = mongoUtil.getDB();
+
+        while (answerIdExists) {    
+            answerId = getRandomIdString();
+            var answerIdQuery = { answerId: answerId };
+            answerIdExists = await db.collection(COLLECTION_ANSWERS).findOne(answerIdQuery)
+                                .then(function(answerDoc) {
+                                    return answerDoc != null;
+                                })
+                                .catch(function(error) {
+                                    console.log("Unable to check to see if we already have an answer with the potentially new Id.");
+                                    return true;
+                                });
+        }
+
+        let timestamp = getUnixTime();
+        var answerQuery = {
+                    answerID:string, questionId: id, body: body, media: [], userID: userId, score: 0,
+                    accepted: false, timestamp: timestamp
+                };
+
+        var addSuccess = false;
+        db.collection(COLLECTION_ANSWERS).insertOne(answerQuery)
+        .then(function(ret) {
+            console.log("Add answer result: " + ret);
+            addSuccess = true;
+        })
+        .catch(function(error) {
+            console.log("Failed to add answer. Error: " + error);
+            addSuccess = false;
+        })
+        .finally(function() {
+            if (addSuccess) {
+                res.json({status: "OK", id: answerId});
+            }
+            else {
+                res.json({status: "error", error: "Failed to add answer."});
+            }
+        });
     });
 
     app.get('/questions/:id/answers', function(req, res) {

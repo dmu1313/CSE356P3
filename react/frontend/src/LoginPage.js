@@ -3,7 +3,7 @@ import React from 'react';
 
 import LoginForm from './Login';
 import CreateAccountForm from './Accounts';
-import VerifyForm from './Verify';
+import {verifyForm as VerifyForm} from './Verify';
 
 import {STATUS_OK} from './Utils';
 

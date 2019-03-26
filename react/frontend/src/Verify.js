@@ -82,6 +82,7 @@ class VerifyForm extends React.Component {
 
 class VerifyPage extends React.Component {
     render() {
+        console.log("Hi");
         return (
             <div>
                 <p className="Notification">{this.props.location.state.msg}</p>
@@ -90,6 +91,7 @@ class VerifyPage extends React.Component {
     }
 }
 
+const verifyForm = withRouter(VerifyForm);
 
-export { VerifyPage };
-export default withRouter(VerifyForm);
+export { VerifyPage, verifyForm };
+// export default withRouter(VerifyForm);

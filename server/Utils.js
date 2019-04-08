@@ -18,6 +18,7 @@ module.exports = {
     COLLECTION_ANSWERS: "Answers",
     COLLECTION_IP_VIEWS: "Ip_Views",
     COLLECTION_USER_VIEWS: "User_Views",
+    COLLECTION_MEDIA_TEST: "Media_Test",
 
     getRandomIdString: getRandomIdString,
     getUnixTime: getUnixTime

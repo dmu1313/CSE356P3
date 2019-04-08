@@ -1,4 +1,6 @@
 
+const util = require('util');
+
 var mongoUtil = require('./MongoUtils.js');
 
 let constants = require('./Utils.js');
@@ -89,6 +91,7 @@ module.exports = function(app) {
             let deleteQuery = { val: cookie }; 
             mongoUtil.getDB().collection(COLLECTION_COOKIES).deleteOne(deleteQuery)
             .then(function(ret) {
+                console.log("COOKIE DELETE RETURN: " + util.inspect(ret, {showHidden: false, depth: null}));
                 console.log("Deleted: " + ret);
             })
             .catch(function(error) {

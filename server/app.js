@@ -25,6 +25,8 @@ require('./NewUser.js')(app);
 require('./Questions.js')(app);
 require('./Search.js')(app);
 require('./ConfigureDatabase.js')(app);
+// require('./MediaTest.js')(app);
+require('./Users.js/')(app);
 
 app.post('/CheckLoginStatus', async function(req, res) {
     // just sends cookie

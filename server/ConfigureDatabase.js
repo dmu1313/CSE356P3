@@ -11,6 +11,7 @@ const COLLECTION_QUESTIONS = constants.COLLECTION_QUESTIONS;
 const COLLECTION_ANSWERS = constants.COLLECTION_ANSWERS;
 const COLLECTION_IP_VIEWS = constants.COLLECTION_IP_VIEWS;
 const COLLECTION_USER_VIEWS = constants.COLLECTION_USER_VIEWS;
+const COLLECTION_MEDIA_TEST = constants.COLLECTION_MEDIA_TEST;
 
 // cookie: { _id, val:string, username:string, userId:string }
 // user: { _id, userID:string, username:string, password:string, email:string, reputation:int, verified:boolean, key:"string" }
@@ -77,7 +78,8 @@ module.exports = function(app) {
         db.collection(COLLECTION_QUESTIONS).createIndexes([
                                                             { key: {questionId: 1} },
                                                             { key: {accepted: 1, timestamp: 1} },
-                                                            { key: {timestamp: 1} }
+                                                            { key: {timestamp: 1} },
+                                                            { key: {userId: 1} }
                                                         ])
         .then(function(result) {
             console.log("Questions Index: " + result);
@@ -119,6 +121,14 @@ module.exports = function(app) {
         })
         .catch(function(error) {
             console.log("USER_VIEW: " + error);
+        });
+
+        db.collection(COLLECTION_MEDIA_TEST).createIndex( { meidaId: 1} )
+        .then(function(result) {
+            console.log("Media_Test index: " + result);
+        }
+        .catch(function(error) {
+            console.log("MEDIA_TEST: " + error);
         });
 
         res.json(STATUS_OK);

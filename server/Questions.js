@@ -1,3 +1,4 @@
+const util = require('util');
 
 var mongoUtil = require('./MongoUtils.js');
 
@@ -284,5 +285,58 @@ module.exports = function(app) {
             res.json({status: "error", questions: null, error: "Failed to get answers for question with ID: " + id});
         }
     });
+/*
+    app.delete('/questions/:id', async function(req, res) {
+        var qid = req.params.id;
+        try {
+            var cookie = req.cookies['SessionID'];
+            const errorMessage = "You are not logged in as the proper user to delete question: " + qid + ".";
+            var db = mongoUtil.getDB();
+
+            if (cookie == undefined) {
+                res.status(401).json({status: "error", error: errorMessage})
+                return;
+            }
+            
+            var userId = await mongoUtil.getIdForCookie(cookie);
+            if (!userId) {
+                res.status(401).json({status: "error", error: errorMessage})
+            }
+            else {
+                // Check to make sure the user who posted the question is the same as the one currently deleting it.
+                let sameUserQuery = { questionId: qid, userId: userId };
+                
+                var isCorrectUser = await db.collection(COLLECTION_QUESTIONS).findOne(sameUserQuery)
+                .then(function(questionDoc) {
+                    return questionDoc != null;
+                })
+                .catch(function(error) {
+                    console.log("Unable to check to see if we already have a question with the potentially new Id.");
+                    return true;
+                });
+
+                await db.collection(COLLECTION_QUESTIONS).deleteOne(deleteQuery);
+                
+                let deleteQuery = { questionId: qid }; 
+                mongoUtil.getDB().collection(COLLECTION_COOKIES).deleteOne(deleteQuery)
+                .then(function(ret) {
+                    console.log("Deleted: " + ret);
+                })
+                .catch(function(error) {
+                    console.log("Delete cookie error: " + error);
+                    res.json({ status: "error", error: "Failed to delete cookie." });
+                })
+                .finally(function() {
+                    res.clearCookie('SessionID');
+                    res.json(STATUS_OK);
+                });
+            }
+        }
+        catch (error) {
+            console.log("Error: " + error);
+            res.status(401).json({status: "error", rror: "Failed to delete question with ID: " + qid});
+        }
+    });
+    */
 
 };

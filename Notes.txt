@@ -1,0 +1,13 @@
+
+Elastic Search
+- at least 8 GB RAM
+- prefer to use more cores rather than increase clock speed but both are good
+
+Cassandra
+- Increase RAM and cores
+
+MongoDB
+- Single threaded
+
+
+- Measure resource usage by node/express app

@@ -86,7 +86,7 @@ module.exports = function(app) {
         var usernameExistsQuery = {username: username};
         var emailExistsQuery = {email: email};
 
-        var insertQuery = { userId: userId, username: username, password: password, email: email, reputation: 0, verified: false, key: key };
+        var insertQuery = { userId: userId, username: username, password: password, email: email, reputation: 1, verified: false, key: key };
 
         var isUsernameUnique = await db.collection(COLLECTION_USERS).findOne(usernameExistsQuery)
                                         .then(function(userDoc) {

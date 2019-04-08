@@ -74,6 +74,11 @@
         name: mongodb
         global: no
         path: /var/www/server
+    - name: Install util npm package
+      npm:
+        name: util
+        global: no
+        path: /var/www/server
     # - name: Install Postfix
     #   apt:
     #     name: postfix

@@ -123,13 +123,13 @@ module.exports = function(app) {
             console.log("USER_VIEW: " + error);
         });
 
-        db.collection(COLLECTION_MEDIA_TEST).createIndex( { meidaId: 1} )
-        .then(function(result) {
-            console.log("Media_Test index: " + result);
-        }
-        .catch(function(error) {
-            console.log("MEDIA_TEST: " + error);
-        });
+        // db.collection(COLLECTION_MEDIA_TEST).createIndex( { meidaId: 1} )
+        // .then(function(result) {
+        //     console.log("Media_Test index: " + result);
+        // }
+        // .catch(function(error) {
+        //     console.log("MEDIA_TEST: " + error);
+        // });
 
         res.json(STATUS_OK);
     });

@@ -81,7 +81,7 @@
         path: /var/www/server
     - name: Install ElasticSearch npm package
       npm:
-        name: @elastic/elasticsearch
+        name: "@elastic/elasticsearch"
         global: no
         path: /var/www/server
     # - name: Install Postfix

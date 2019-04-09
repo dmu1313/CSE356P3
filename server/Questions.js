@@ -313,6 +313,7 @@ module.exports = function(app) {
     });
 
     app.delete('/questions/:id', async function(req, res) {
+        var db = mongoUtil.getDB();
         var qid = req.params.id;
         try {
             var cookie = req.cookies['SessionID'];
@@ -331,9 +332,10 @@ module.exports = function(app) {
             else {
                 let deleteQuery = { questionId: qid, userId: userId };
                 let ret = await db.collection(COLLECTION_QUESTIONS).deleteOne(deleteQuery);
-                console.log("Deleted question: n=" + ret.n + ", ok=" + ret.ok);
+                let result = ret.result;
+                console.log("Deleted question: n=" + result.n + ", ok=" + result.ok);
 
-                if (ret.n != 1 && ret.ok != 1) {
+                if (result.n != 1 || result.ok != 1) {
                     res.status(401).json({status: "error", error: errorMessage})
                 }
                 else {

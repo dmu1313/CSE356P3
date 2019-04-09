@@ -19,16 +19,17 @@ class Home extends React.Component {
     }
     
     componentDidMount() {
-        var me = this;
-        this.props.getLoginStatus()
-        .then(function(status) {
-            if (status !== me.props.loggedIn) {
-                me.props.setLoginState(status);
-            }
-        })
-        .catch(function(error) {
-            console.log("Error getting login status: " + error);
-        });
+        console.log("DID MOUNT IN HOME");
+        // var me = this;
+        // this.props.getLoginStatus()
+        // .then(function(status) {
+        //     if (status !== me.props.loggedIn) {
+        //         me.props.setLoginState(status);
+        //     }
+        // })
+        // .catch(function(error) {
+        //     console.log("Error getting login status: " + error);
+        // });
     }
 
     render() {

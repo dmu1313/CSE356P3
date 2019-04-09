@@ -6,6 +6,11 @@ import './App.css';
 
 
 class App extends Component {
+
+  componentDidMount() {
+    console.log("DID MOUNT IN APP");
+  }
+
   render() {
     console.log("APP");
     return (

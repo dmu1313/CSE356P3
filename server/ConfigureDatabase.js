@@ -1,6 +1,7 @@
 
 
 var mongoUtil = require('./MongoUtils.js');
+var elasticClient = require('./ElasticUtils.js');
 
 let constants = require('./Utils.js');
 const STATUS_OK = constants.STATUS_OK;
@@ -15,8 +16,8 @@ const COLLECTION_MEDIA_TEST = constants.COLLECTION_MEDIA_TEST;
 
 // cookie: { _id, val:string, username:string, userId:string }
 // user: { _id, userID:string, username:string, password:string, email:string, reputation:int, verified:boolean, key:"string" }
-// questions: { _id, questionID:string, userID, title, body, score, view_count, answer_count, timestamp, tags, media, accepted_answer_id, accepted:boolean }
-// answers: { _id, answerID:string, questionId, body, media, userID, score:int, accepted:boolean, timestamp }
+// questions: { _id, questionID:string, userID, title, body, score, view_count, answer_count, timestamp, tags, media, accepted_answer_id, accepted:boolean, username }
+// answers: { _id, answerID:string, questionId, body, media, userID, score:int, accepted:boolean, timestamp, username }
 // ip_views: { _id, ip:string, questionID:string }
 // user_views: { _id, username:string, questionId:string }
 
@@ -33,6 +34,17 @@ const COLLECTION_MEDIA_TEST = constants.COLLECTION_MEDIA_TEST;
 module.exports = function(app) {
 
     app.get('/DropDatabase', function(req, res) {
+        var client = elasticClient.getElasticClient();
+        client.indices.delete({
+            index: 'questions'
+        })
+        .then(function(ret) {
+            console.log("Dropped ElasticSearch index: Questions. ret: " + ret);
+        })
+        .catch(function(error) {
+            console.log("ElasticSearch failed to delete index: Questions. Error: " + error);
+        });
+
         var db = mongoUtil.getDB();
         db.dropDatabase(function(error, result) {
             if (error) console.log("Error: " + error);
@@ -61,6 +73,19 @@ module.exports = function(app) {
     });
 
     app.get('/ConfigureDatabase', function(req, res) {
+        var client = elasticClient.getElasticClient();
+        client.indices.create({
+            index: 'questions'
+        })
+        .then(function(ret) {
+            console.log("Created ElasticSearch index: Questions. ret: " + ret);
+        })
+        .catch(function(error) {
+            console.log("ElasticSearch failed to create index: Questions. Error: " + error);
+        });
+        
+        
+        
         var db = mongoUtil.getDB();
 
         db.collection(COLLECTION_USERS).createIndexes([
@@ -77,9 +102,11 @@ module.exports = function(app) {
         
         db.collection(COLLECTION_QUESTIONS).createIndexes([
                                                             { key: {questionId: 1} },
+                                                            { key: {timestamp: 1, questionId: 1} },
                                                             { key: {accepted: 1, timestamp: 1} },
                                                             { key: {timestamp: 1} },
-                                                            { key: {userId: 1} }
+                                                            { key: {userId: 1} },
+                                                            { key: {username: 1} }
                                                         ])
         .then(function(result) {
             console.log("Questions Index: " + result);
@@ -90,7 +117,8 @@ module.exports = function(app) {
         
         db.collection(COLLECTION_ANSWERS).createIndexes([
                                                             { key: {answerId: 1} },
-                                                            { key: {questionId: 1} }
+                                                            { key: {questionId: 1} },
+                                                            { key: {username: 1}}
                                                         ])
         .then(function(result) {
             console.log("Answers Index: " + result);

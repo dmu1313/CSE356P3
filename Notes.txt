@@ -1,4 +1,12 @@
 
+React
+
+- React Router mounts different webpages upon new route. If route is the same but with different parameters, it will
+only change props. Not mount again.
+
+
+
+
 Elastic Search
 - at least 8 GB RAM
 - prefer to use more cores rather than increase clock speed but both are good
@@ -11,3 +19,5 @@ MongoDB
 
 
 - Measure resource usage by node/express app
+
+Look into deep linking with /Question/:id

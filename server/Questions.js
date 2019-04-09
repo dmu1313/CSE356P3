@@ -1,5 +1,7 @@
-const util = require('util');
 
+var elasticUtils = require('./ElasticUtils.js');
+
+const util = require('util');
 var mongoUtil = require('./MongoUtils.js');
 
 let constants = require('./Utils.js');
@@ -113,6 +115,7 @@ module.exports = function(app) {
     });
 
     app.post('/questions/add', async function(req, res) {
+        var elasticClient = elasticUtils.getElasticClient();
         try {
             console.log("/questions/add");
             var title = req.body.title;
@@ -130,8 +133,11 @@ module.exports = function(app) {
             console.log("media: " + media);
             console.log("cookie: " + cookie);
 
-            var userId = await mongoUtil.getIdForCookie(cookie);
-            if (userId == null) {
+            var user = await mongoUtil.getUserAndIdForCookie(cookie);
+            var userId = user.userId;
+            var username = user.username;
+            // var userId = await mongoUtil.getIdForCookie(cookie);
+            if (user == null) {
                 // Not logged in. Fail.
                 console.log(authErrorMessage);
                 res.json({status: "error", error: authErrorMessage});
@@ -163,11 +169,28 @@ module.exports = function(app) {
 
             var timestamp = getUnixTime();
 
+            console.log("Inserting question into ElasticSearch.");
+            elasticClient.index({
+                index: 'questions',
+                refresh: true,
+                body: {
+                    title: title,
+                    body: body,
+                    id: questionId
+                }
+            })
+            .then(function(ret) {
+                console.log("Return value of inserting question " + questionId + " into ElasticSearch: " + ret);
+            })
+            .catch(function(error) {
+                console.log("Failed to insert question " + questionId + " into ElasticSearch. Error: " + error);
+            })
+
             var insertSuccess = false;
             var insertQuestionQuery = {
                                         questionId: questionId, userId: userId, title: title, body: body, score: 0,
                                         view_count: 0, answer_count: 0, timestamp: timestamp, tags: tags, media: media,
-                                        accepted_answer_id: null, accepted: false
+                                        accepted_answer_id: null, accepted: false, username: username
                                      };
             db.collection(COLLECTION_QUESTIONS).insertOne(insertQuestionQuery)
             .then(function(ret) {
@@ -206,8 +229,11 @@ module.exports = function(app) {
         var cookie = req.cookies['SessionID'];
         const authErrorMessage = "User is not logged in. Must be logged in to add an answer.";
 
-        var userId = await mongoUtil.getIdForCookie(cookie);
-        if (userId == null) {
+        var user = await mongoUtil.getUserAndIdForCookie(cookie);
+        var userId = user.userId;
+        var username = user.username;
+        // var userId = await mongoUtil.getIdForCookie(cookie);
+        if (user == null) {
             // Not logged in. Fail.
             console.log(authErrorMessage);
             res.json({status: "error", error: authErrorMessage});
@@ -234,7 +260,7 @@ module.exports = function(app) {
         let timestamp = getUnixTime();
         var answerQuery = {
                     answerId:answerId, questionId: id, body: body, media: [], userId: userId, score: 0,
-                    accepted: false, timestamp: timestamp
+                    accepted: false, timestamp: timestamp, username: username
                 };
 
         var addSuccess = false;
@@ -285,7 +311,7 @@ module.exports = function(app) {
             res.json({status: "error", questions: null, error: "Failed to get answers for question with ID: " + id});
         }
     });
-/*
+
     app.delete('/questions/:id', async function(req, res) {
         var qid = req.params.id;
         try {
@@ -303,33 +329,16 @@ module.exports = function(app) {
                 res.status(401).json({status: "error", error: errorMessage})
             }
             else {
-                // Check to make sure the user who posted the question is the same as the one currently deleting it.
-                let sameUserQuery = { questionId: qid, userId: userId };
-                
-                var isCorrectUser = await db.collection(COLLECTION_QUESTIONS).findOne(sameUserQuery)
-                .then(function(questionDoc) {
-                    return questionDoc != null;
-                })
-                .catch(function(error) {
-                    console.log("Unable to check to see if we already have a question with the potentially new Id.");
-                    return true;
-                });
+                let deleteQuery = { questionId: qid, userId: userId };
+                let ret = await db.collection(COLLECTION_QUESTIONS).deleteOne(deleteQuery);
+                console.log("Deleted question: n=" + ret.n + ", ok=" + ret.ok);
 
-                await db.collection(COLLECTION_QUESTIONS).deleteOne(deleteQuery);
-                
-                let deleteQuery = { questionId: qid }; 
-                mongoUtil.getDB().collection(COLLECTION_COOKIES).deleteOne(deleteQuery)
-                .then(function(ret) {
-                    console.log("Deleted: " + ret);
-                })
-                .catch(function(error) {
-                    console.log("Delete cookie error: " + error);
-                    res.json({ status: "error", error: "Failed to delete cookie." });
-                })
-                .finally(function() {
-                    res.clearCookie('SessionID');
-                    res.json(STATUS_OK);
-                });
+                if (ret.n != 1 && ret.ok != 1) {
+                    res.status(401).json({status: "error", error: errorMessage})
+                }
+                else {
+                    res.status(200).json({status: "OK"});
+                }
             }
         }
         catch (error) {
@@ -337,6 +346,6 @@ module.exports = function(app) {
             res.status(401).json({status: "error", rror: "Failed to delete question with ID: " + qid});
         }
     });
-    */
+    
 
 };

@@ -64,6 +64,25 @@ function getIdForCookie(cookieString) {
     });
 }
 
+function getUserAndIdForCookie(cookieString) {
+    var cookieQuery = { val: cookieString };
+
+    return _db.collection(COLLECTION_COOKIES).findOne(cookieQuery)
+    .then(function(doc) {
+        if (doc != null) {
+            return {userId: doc.userId, username: doc.username};
+        }
+        else {
+            console.log("No such cookie is found.");
+            return null;
+        }
+    })
+    .catch(function(error) {
+        console.log("Could not complete query to find userId for cookie. Error: " + error);
+        return null;
+    });
+}
+
 
 module.exports = {
     connect: function() {
@@ -83,5 +102,6 @@ module.exports = {
     },
     checkIfUserLoggedIn: checkIfUserLoggedIn,
     getUserForCookie: getUserForCookie,
-    getIdForCookie: getIdForCookie
+    getIdForCookie: getIdForCookie,
+    getUserAndIdForCookie: getUserAndIdForCookie
 };

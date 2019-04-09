@@ -113,6 +113,7 @@ class QuestionPage extends React.Component {
     }
 
     answerAdded() {
+        console.log("QuestionPage: An answer was added.");
         this.setState(this.state);
     }
 
@@ -207,6 +208,7 @@ class Answers extends React.Component {
     }
 
     componentDidMount() {
+        console.log("DID MOUNT IN Answers COMPONENT.");
         var success = false;
         var answers;
         var me = this;

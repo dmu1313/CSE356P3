@@ -1,8 +1,14 @@
 
+
+const util = require('util');
+
+var elasticUtils = require('./ElasticUtils.js');
 var mongoUtil = require('./MongoUtils.js');
 
 let constants = require('./Utils.js');
 const STATUS_OK = constants.STATUS_OK;
+
+var getUnixTime = constants.getUnixTime;
 
 const COLLECTION_USERS = constants.COLLECTION_USERS;
 const COLLECTION_COOKIES = constants.COLLECTION_COOKIES;
@@ -12,21 +18,61 @@ const COLLECTION_IP = constants.COLLECTION_IP;
 
 module.exports = function(app) {
     app.post('/search', async function(req, res) {
+        var client = elasticUtils.getElasticClient();
+        var db = mongoUtil.getDB();
+
         try {
             var timestamp = req.body.timestamp;
             var limit = req.body.limit;
+            var q = req.body.q;
 
             console.log("search");
             console.log("Timestamp: " + timestamp);
             console.log("Limit: " + limit);
+            console.log("q: " + q);
 
-            var db = mongoUtil.getDB();
+            if (q != null && q != "") {
+                // Perform elastic search
+                const { body } = await client.search({
+                    index: 'questions',
+                    body: {
+                        query: {
+                            multi_match: {
+                                query: q,
+                                fields: ["title", "body"]
+                            }
+                        }
+                    }
+                });
+                console.log(util.inspect(body, {showHidden: false, depth: null}));
+                console.log("body: " +  body);
+                var matches = body.hits.hits;
+            }
+
+            var stringMatchedIds = [];
+            if (matches != null) {
+                for (let i = 0; i < matches.length; i++) {
+                    stringMatchedIds.push(matches[i]._source.id);
+                    console.log("Available ID: " + matches[i]._source.id);
+                }
+            }
 
             var searchQuery = {};
             if (timestamp != null) {
                 timestamp = Math.floor(timestamp);
                 searchQuery = { timestamp: {$lte: timestamp} }
             }
+            // else {
+            //     timestamp = getUnixTime();
+            // }
+
+            if (stringMatchedIds.length > 0) {
+                searchQuery.questionId = {$in: stringMatchedIds};
+                // searchQuery = {timestamp: {$lte: timestamp}, questionId: { $in: stringMatchedIds } }
+            }
+
+            
+
             
             if (limit == null) {
                 limit = 25;

@@ -36,6 +36,7 @@ module.exports = function(app) {
                 const { body } = await client.search({
                     index: 'questions',
                     body: {
+                        size: 1000,
                         query: {
                             multi_match: {
                                 query: q,

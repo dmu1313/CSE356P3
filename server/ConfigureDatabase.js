@@ -108,7 +108,7 @@ module.exports = function(app) {
         var createKeyspaceQuery = "CREATE KEYSPACE IF NOT EXISTS " + cassandraKeyspace +
                                     " WITH replication = {'class': 'SimpleStrategy', 'replication_factor': '1' }";
         var createTableQuery = "CREATE TABLE IF NOT EXISTS " + cassandraFullName +
-                                " (id text, filename text, contents blob, PRIMARY KEY(id))";
+                                " (id text, filename text, contents blob, PRIMARY KEY(id)) WITH gc_grace_seconds=180";
     
         cassandraClient.execute(createKeyspaceQuery)
         .then(function(result) {

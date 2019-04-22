@@ -3,9 +3,14 @@ var elasticUtils = require('./ElasticUtils.js');
 
 const util = require('util');
 var mongoUtil = require('./MongoUtils.js');
+var cassandraUtils = require('./CassandraUtils.js');
+var cassandraKeyspace = cassandraUtils.cassandraKeyspace;
+var cassandraTable = cassandraUtils.cassandraTable;
+var cassandraFullName = cassandraUtils.cassandraFullName;
 
 let constants = require('./Utils.js');
 const STATUS_OK = constants.STATUS_OK;
+const STATUS_ERROR = constants.STATUS_ERROR;
 
 const COLLECTION_USERS = constants.COLLECTION_USERS;
 const COLLECTION_COOKIES = constants.COLLECTION_COOKIES;
@@ -70,7 +75,8 @@ module.exports = function(app) {
                 }
 
                 if (!ipAlreadyExists && !userViewExists) {
-                    let updateCountQuery = {$set: {view_count: numViews+1}};
+                    // let updateCountQuery = {$set: {view_count: numViews+1}};
+                    let updateCountQuery = { $inc: {view_count: 1} };
                     numViews++;
                     let updateViewsResult = await db.collection(COLLECTION_QUESTIONS).updateOne(questionQuery, updateCountQuery);
                 }
@@ -150,24 +156,36 @@ module.exports = function(app) {
                 return;
             }
 
-            var questionId;
+            var questionId = getRandomIdString();
             var questionIdExists = true;
             var db = mongoUtil.getDB();
 
-            while (questionIdExists) {    
-                questionId = getRandomIdString();
-                var questionIdQuery = { questionId: questionId };
-                questionIdExists = await db.collection(COLLECTION_QUESTIONS).findOne(questionIdQuery)
-                                        .then(function(questionDoc) {
-                                            return questionDoc != null;
-                                        })
-                                        .catch(function(error) {
-                                            console.log("Unable to check to see if we already have a question with the potentially new Id.");
-                                            return true;
-                                        });
-            }
+            // while (questionIdExists) {    
+            //     questionId = getRandomIdString();
+            //     var questionIdQuery = { questionId: questionId };
+            //     questionIdExists = await db.collection(COLLECTION_QUESTIONS).findOne(questionIdQuery)
+            //                             .then(function(questionDoc) {
+            //                                 return questionDoc != null;
+            //                             })
+            //                             .catch(function(error) {
+            //                                 console.log("Unable to check to see if we already have a question with the potentially new Id.");
+            //                                 return true;
+            //                             });
+            // }
 
             var timestamp = getUnixTime();
+
+            // {
+            //     "id": "17",
+            //     "title" : "question",
+            //     "body" : "questing",
+            //     "tags": "bob the builder"
+            //     }
+
+            var tagString;
+            if (tags != null) {
+                tagString = tags.join(" ");
+            }
 
             console.log("Inserting question into ElasticSearch.");
             elasticClient.index({
@@ -176,7 +194,8 @@ module.exports = function(app) {
                 body: {
                     title: title,
                     body: body,
-                    id: questionId
+                    id: questionId,
+                    tags: tagString
                 }
             })
             .then(function(ret) {
@@ -186,11 +205,12 @@ module.exports = function(app) {
                 console.log("Failed to insert question " + questionId + " into ElasticSearch. Error: " + error);
             })
 
+            var has_media = (media != null);
             var insertSuccess = false;
             var insertQuestionQuery = {
                                         questionId: questionId, userId: userId, title: title, body: body, score: 0,
                                         view_count: 0, answer_count: 0, timestamp: timestamp, tags: tags, media: media,
-                                        accepted_answer_id: null, accepted: false, username: username
+                                        has_media: has_media, accepted_answer_id: null, accepted: false, username: username
                                      };
             db.collection(COLLECTION_QUESTIONS).insertOne(insertQuestionQuery)
             .then(function(ret) {
@@ -225,6 +245,7 @@ module.exports = function(app) {
     app.post('/questions/:id/answers/add', async function(req, res) {
         var id = req.params.id;
         var body = req.body.body;
+        var media = req.body.media;
 
         var cookie = req.cookies['SessionID'];
         const authErrorMessage = "User is not logged in. Must be logged in to add an answer.";
@@ -244,24 +265,30 @@ module.exports = function(app) {
         var answerIdExists = true;
         var db = mongoUtil.getDB();
 
-        while (answerIdExists) {    
-            answerId = getRandomIdString();
-            var answerIdQuery = { answerId: answerId };
-            answerIdExists = await db.collection(COLLECTION_ANSWERS).findOne(answerIdQuery)
-                                .then(function(answerDoc) {
-                                    return answerDoc != null;
-                                })
-                                .catch(function(error) {
-                                    console.log("Unable to check to see if we already have an answer with the potentially new Id.");
-                                    return true;
-                                });
-        }
+        answerId = getRandomIdString();
+        // while (answerIdExists) {    
+        //     answerId = getRandomIdString();
+        //     var answerIdQuery = { answerId: answerId };
+        //     answerIdExists = await db.collection(COLLECTION_ANSWERS).findOne(answerIdQuery)
+        //                         .then(function(answerDoc) {
+        //                             return answerDoc != null;
+        //                         })
+        //                         .catch(function(error) {
+        //                             console.log("Unable to check to see if we already have an answer with the potentially new Id.");
+        //                             return true;
+        //                         });
+        // }
 
         let timestamp = getUnixTime();
         var answerQuery = {
-                    answerId:answerId, questionId: id, body: body, media: [], userId: userId, score: 0,
+                    answerId:answerId, questionId: id, body: body, media: media, userId: userId, score: 0,
                     accepted: false, timestamp: timestamp, username: username
                 };
+
+        
+        let updateQuestionsQuery = {questionId: id};
+        let incrementAnswerCountQuery = { $inc: { answer_count: 1 } };
+        db.collection(COLLECTION_QUESTIONS).updateOne(updateQuestionsQuery, incrementAnswerCountQuery);
 
         var addSuccess = false;
         db.collection(COLLECTION_ANSWERS).insertOne(answerQuery)
@@ -314,11 +341,13 @@ module.exports = function(app) {
 
     app.delete('/questions/:id', async function(req, res) {
         var db = mongoUtil.getDB();
+        var cassandraClient = cassandraUtils.getCassandraClient();
         var qid = req.params.id;
+        console.log("-------------------------------");
+        console.log("/questions/" + qid);
         try {
             var cookie = req.cookies['SessionID'];
             const errorMessage = "You are not logged in as the proper user to delete question: " + qid + ".";
-            var db = mongoUtil.getDB();
 
             if (cookie == undefined) {
                 res.status(401).json({status: "error", error: errorMessage})
@@ -330,17 +359,62 @@ module.exports = function(app) {
                 res.status(401).json({status: "error", error: errorMessage})
             }
             else {
-                let deleteQuery = { questionId: qid, userId: userId };
-                let ret = await db.collection(COLLECTION_QUESTIONS).deleteOne(deleteQuery);
-                let result = ret.result;
-                console.log("Deleted question: n=" + result.n + ", ok=" + result.ok);
+                var query = "DELETE FROM " + cassandraFullName + " WHERE id=? IF EXISTS";
+                let questionIdQuery = { questionId: qid };
 
-                if (result.n != 1 || result.ok != 1) {
-                    res.status(401).json({status: "error", error: errorMessage})
+                db.collection(COLLECTION_QUESTIONS).findOne(questionIdQuery)
+                .then(function(questionDoc) {
+                    if (questionDoc == null) return;
+                    questionDoc.media.forEach(function(mediaId) {
+                        cassandraClient.execute(query, [mediaId], {prepare: true})
+                        .then(function(result) {
+                            console.log("Deleting question media file id: " + mediaId + ", result: " + result);
+                        })
+                        .catch(function(error) {
+                            console.log("Error deleting question media: " + error);
+                        });
+                    });
+
+                    return db.collection(COLLECTION_QUESTIONS).deleteOne(questionIdQuery);
+                })
+                .then(function(ret) {
+                    if (ret == null) return;
+                    let result = ret.result;
+                    console.log("Deleted question: n=" + result.n + ", ok=" + result.ok);
+    
+                    if (result.n != 1 || result.ok != 1) {
+                        res.status(401).json({status: "error", error: "Failed to delete the question."});
+                    }
+                    else {
+                        res.status(200).json(STATUS_OK);
+                    }
+                })
+                .catch(function(error) {
+                    console.log("Failed to delete media associated with question and question. Error: " + error);
+                });
+
+                let cursor = await db.collection(COLLECTION_ANSWERS).find(questionIdQuery);
+
+                while (await cursor.hasNext()) {
+                    let answerDoc = await cursor.next();
+                    answerDoc.media.forEach(function(mediaId) {
+                        cassandraClient.execute(query, [mediaId], {prepare: true})
+                        .then(function(result) {
+                            console.log("Deleting answer media file id: " + mediaId + ", result: " + result);
+                        })
+                        .catch(function(error) {
+                            console.log("Error deleting answer media: " + error);
+                        });
+                    });
                 }
-                else {
-                    res.status(200).json({status: "OK"});
-                }
+
+                db.collection(COLLECTION_ANSWERS).deleteMany(questionIdQuery)
+                .then(function(result) {
+                    console.log("Deleted " + result.result.n + " documents.");
+                })
+                .catch(function(error) {
+                    console.log("Failed to delete answers associated with questionId: " + qid + ", Error: " + error);
+                });
             }
         }
         catch (error) {
@@ -348,6 +422,74 @@ module.exports = function(app) {
             res.status(401).json({status: "error", rror: "Failed to delete question with ID: " + qid});
         }
     });
-    
+
+    app.post('/answers/:id/accept', async function(req, res) {
+        var id = req.params.id;
+        console.log("/answers/" + id + "/accept");
+        
+        var cookie = req.cookies['SessionID'];
+        const authErrorMessage = "Must be logged in to accept an answer.";
+
+        // Check to see if logged in first.
+        var user = await mongoUtil.getUserAndIdForCookie(cookie);
+        if (user == null) {
+            // Not logged in. Fail.
+            console.log(authErrorMessage);
+            res.status(401).json(STATUS_ERROR);
+            return;
+        }
+
+        var db = mongoUtil.getDB();
+
+        let answerQuery = { answerId: id };
+        let answerDoc = await db.collection(COLLECTION_ANSWERS).findOne(answerQuery);
+        if (answerDoc == null) {
+            console.log("Answer with ID: " + id + " does not exist");
+            res.status(400).json(STATUS_ERROR);
+            return;
+        }
+
+        let questionQuery = {questionId: answerDoc.questionId};
+        let questionDoc = await db.collection(COLLECTION_QUESTIONS).findOne(questionQuery);
+        if (questionDoc == null) {
+            console.log("Question " + answerDoc.questionId + " associated with answer " + id + " could not be found.");
+            res.status(400).json(STATUS_ERROR);
+            return;
+        }
+
+        if (questionDoc.userId != user.userId) {
+            console.log("You can only accept an answer if you posted the question.");
+            res.status(401).json(STATUS_ERROR);
+            return;
+        }
+
+        if (questionDoc.accepted === true) {
+            console.log("Question already has an accepted answer with ID: " + questionDoc.accepted_answer_id);
+            res.status(400).json(STATUS_ERROR);
+            return;
+        }
+        
+        // All checks done. Now accept the answer.
+        let updateAnswerQuery = {$set: {accepted: true}};
+        let updateQuestionQuery = {$set: {accepted: true, accepted_answer_id: id}};
+
+        db.collection(COLLECTION_QUESTIONS).updateOne(questionQuery, updateQuestionQuery)
+        .then(function(result) {
+            console.log("Question updated with accepted status: n: " + result.result.n + ", nModified: " + result.result.nModified);
+        })
+        .catch(function(error) {
+            console.log("Failed to update question with accepted status: " + error);
+        });
+
+        db.collection(COLLECTION_ANSWERS).updateOne(answerQuery, updateAnswerQuery)
+        .then(function(result) {
+            console.log("Answer updated with accepted status: n: " + result.result.n + ", nModified: " + result.result.nModified);
+        })
+        .catch(function(error) {
+            console.log("Failed to update answer with accepted status: " + error);
+        });
+
+        res.json(STATUS_OK);
+    });
 
 };

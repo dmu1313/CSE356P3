@@ -58,53 +58,61 @@ module.exports = function(app) {
         let key = username + "-" + generateKey();
         var db = mongoUtil.getDB();
 
-        var userId;
+        var userId = getRandomIdString();
         
         var userExistsQuery = { username: username, email: email };
         var userExists = false;
         
-        var userIdExistsQuery = { userId: "" };
-        var userIdExists = true;
-        while (userIdExists) {
-            userId = getRandomIdString();
-            userIdExistsQuery = { userId: userId };
-            userIdExists = await db.collection(COLLECTION_USERS).findOne(userIdExistsQuery)
-            .then(function(doc) {
-                if (doc == null) return false;
-                else {
-                    console.log("userId: " + userId + " already exists. Must get a new random userId.");
-                    return true;
-                }
-            })
-            .catch(function(error) {
-                console.log("Failed to find if userId " + userId + " already exists.");
-                return true;
-            });
-        }
+        // var userIdExistsQuery = { userId: "" };
+        // var userIdExists = true;
+        // while (userIdExists) {
+        //     userId = getRandomIdString();
+        //     userIdExistsQuery = { userId: userId };
+        //     userIdExists = await db.collection(COLLECTION_USERS).findOne(userIdExistsQuery)
+        //     .then(function(doc) {
+        //         if (doc == null) return false;
+        //         else {
+        //             console.log("userId: " + userId + " already exists. Must get a new random userId.");
+        //             return true;
+        //         }
+        //     })
+        //     .catch(function(error) {
+        //         console.log("Failed to find if userId " + userId + " already exists.");
+        //         return true;
+        //     });
+        // }
 
 
         var usernameExistsQuery = {username: username};
         var emailExistsQuery = {email: email};
+        var userExistsQuery = { $or: [ { email: email },
+                                    { username: username }
+                                ]
+                            };
 
         var insertQuery = { userId: userId, username: username, password: password, email: email, reputation: 1, verified: false, key: key };
 
-        var isUsernameUnique = await db.collection(COLLECTION_USERS).findOne(usernameExistsQuery)
-                                        .then(function(userDoc) {
-                                            return userDoc == null;
-                                        });
-        var isEmailUnique = await db.collection(COLLECTION_USERS).findOne(emailExistsQuery)
-                                        .then(function(userDoc) {
-                                            return userDoc == null;
-                                        });
+        var isUserUnique = await db.collection(COLLECTION_USERS).findOne(userExistsQuery)
+        .then(function(userDoc) {
+            return userDoc == null;
+        });
+        // var isUsernameUnique = await db.collection(COLLECTION_USERS).findOne(usernameExistsQuery)
+        //                                 .then(function(userDoc) {
+        //                                     return userDoc == null;
+        //                                 });
+        // var isEmailUnique = await db.collection(COLLECTION_USERS).findOne(emailExistsQuery)
+        //                                 .then(function(userDoc) {
+        //                                     return userDoc == null;
+        //                                 });
 
-        if (isUsernameUnique && isEmailUnique) {
+        if (isUserUnique) {
             let result = await db.collection(COLLECTION_USERS).insertOne(insertQuery);
             console.log("Add user result: " + result);
             sendMail(email, key);
             res.json(STATUS_OK);
         }
         else {
-            res.json({status: "error", error: "User already exists. You need a unique username and email."});
+            res.status(400).json({status: "error", error: "User already exists. You need a unique username and email."});
         }
 
     });
@@ -150,7 +158,7 @@ module.exports = function(app) {
                 res.json(STATUS_OK);
             }
             else {
-                res.json({status: "error", error: "Could not verify account."});
+                res.status(400).json({status: "error", error: "Could not verify account."});
             }
         });        
     });

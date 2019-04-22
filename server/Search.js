@@ -18,6 +18,8 @@ const COLLECTION_IP = constants.COLLECTION_IP;
 
 module.exports = function(app) {
     app.post('/search', async function(req, res) {
+        console.log("/////////////////////////////////////");
+        consol.log("/search");
         var client = elasticUtils.getElasticClient();
         var db = mongoUtil.getDB();
 
@@ -25,29 +27,99 @@ module.exports = function(app) {
             var timestamp = req.body.timestamp;
             var limit = req.body.limit;
             var q = req.body.q;
+            var sort_by = req.body.sort_by;
+            var tagsArray = req.body.tags;
+            var has_media = req.body.has_media;
+            var accepted = req.body.accepted;
+
+            if (sort_by != "timestamp") sort_by = "score";
+            if (has_media == null) has_media = false;
+            if (accepted == null) accepted = false;
+
+            var tags = "";
+            if (tagsArray != null) {
+                tags = tagsArray.join(" ");
+            }
 
             console.log("search");
             console.log("Timestamp: " + timestamp);
             console.log("Limit: " + limit);
             console.log("q: " + q);
+            console.log("sort_by: " + sort_by);
+            console.log("tags: " + tags);
+            console.log("has_media: " + has_media);
+            console.log("accepted: " + accepted);
 
+            var matches;
             if (q != null && q != "") {
                 // Perform elastic search
+                if (tags == "") {
+                    const { body } = await client.search({
+                        index: 'questions',
+                        body: {
+                            size: 1000,
+                            query: {
+                                multi_match: {
+                                    query: q,
+                                    fields: ["title", "body"]
+                                }
+                            }
+                        }
+                    });
+
+                    matches = body.hits.hits;
+                }
+                else {
+                    const { body } = await client.search({
+                        index: 'questions',
+                        body: {
+                            size: 10000,
+                            query: {
+                                bool: {
+                                    must: [
+                                        {
+                                            multi_match: {
+                                                query: q,
+                                                fields: ["title", "body"]
+                                            }
+                                        },
+                                        {
+                                            match: {
+                                                tags: {
+                                                    query: tags,
+                                                    operator: "and"
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    });
+
+                    matches = body.hits.hits;
+                }
+                // console.log(util.inspect(body, {showHidden: false, depth: null}));
+                // console.log("body: " +  body);
+                
+            }
+            else if (tags != "") {
                 const { body } = await client.search({
                     index: 'questions',
                     body: {
-                        size: 1000,
+                        size: 10000,
                         query: {
-                            multi_match: {
-                                query: q,
-                                fields: ["title", "body"]
+                            match: {
+                                tags: {
+                                    query: tags,
+                                    operator: "and"
+                                }
                             }
                         }
                     }
                 });
-                console.log(util.inspect(body, {showHidden: false, depth: null}));
-                console.log("body: " +  body);
-                var matches = body.hits.hits;
+
+                matches = body.hits.hits;
             }
 
             var stringMatchedIds = [];
@@ -72,9 +144,13 @@ module.exports = function(app) {
                 // searchQuery = {timestamp: {$lte: timestamp}, questionId: { $in: stringMatchedIds } }
             }
 
-            
+            if (has_media) {
+                searchQuery.has_media = has_media;
+            }
+            if (accepted) {
+                searchQuery.accepted = accepted;
+            }
 
-            
             if (limit == null) {
                 limit = 25;
             }
@@ -83,7 +159,14 @@ module.exports = function(app) {
 
             var questionsArray = [];
 
-            var cursor = await db.collection(COLLECTION_QUESTIONS).find(searchQuery).sort({ timestamp: -1 }).limit(limit);
+            var cursor;
+            if (sort_by == "timestamp") {
+                cursor = await db.collection(COLLECTION_QUESTIONS).find(searchQuery).sort({ timestamp: -1 }).limit(limit);
+            }
+            else {
+                cursor = await db.collection(COLLECTION_QUESTIONS).find(searchQuery).sort({ score: -1 }).limit(limit);
+            }
+
             console.log("1");
             while (await cursor.hasNext()) {
                 console.log("2");
@@ -107,7 +190,7 @@ module.exports = function(app) {
         }
         catch(error) {
             console.log("Failed to do search. Error: " + error);
-            res.json({status: "error", error: "Failed to do the search query."});
+            res.status(400).json({status: "error", error: "Failed to do the search query."});
         }
     });
 }

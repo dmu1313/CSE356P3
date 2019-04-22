@@ -28,6 +28,8 @@ require('./Search.js')(app);
 require('./ConfigureDatabase.js')(app);
 // require('./MediaTest.js')(app);
 require('./Users.js')(app);
+require('./Media.js')(app);
+require('./Upvote.js')(app);
 
 app.post('/CheckLoginStatus', async function(req, res) {
     // just sends cookie

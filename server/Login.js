@@ -24,7 +24,7 @@ module.exports = function(app) {
         if (cookie != undefined) {
             var isLoggedIn = await mongoUtil.checkIfUserLoggedIn(cookie);
             if (isLoggedIn) {
-                res.json({status: "error", error: errorMessage});
+                res.status(400).json({status: "error", error: errorMessage});
                 return;
             }
         }
@@ -45,7 +45,7 @@ module.exports = function(app) {
         });
 
         if (!loginSuccess) {
-            res.json({status: "error", error: "The username and password combination was not valid."});
+            res.status(401).json({status: "error", error: "The username and password combination was not valid."});
             return;
         }
 
@@ -69,7 +69,7 @@ module.exports = function(app) {
                 res.json(STATUS_OK);
             }
             else {
-                res.json({status: "error", error: "Failed to insert cookie."});
+                res.status(401).json({status: "error", error: "Failed to insert cookie."});
             }
         });
     });
@@ -79,13 +79,13 @@ module.exports = function(app) {
         const errorMessage = "You are not logged in. You can't log out.";
 
         if (cookie == undefined) {
-            res.json({ status: "error", error: errorMessage });
+            res.status(400).json({ status: "error", error: errorMessage });
             return;
         }
 
         var isLoggedIn = await mongoUtil.checkIfUserLoggedIn(cookie);
         if (!isLoggedIn) {
-            res.json({ status: "error", error: errorMessage });
+            res.status(400).json({ status: "error", error: errorMessage });
         }
         else {
             let deleteQuery = { val: cookie }; 
@@ -95,7 +95,7 @@ module.exports = function(app) {
             })
             .catch(function(error) {
                 console.log("Delete cookie error: " + error);
-                res.json({ status: "error", error: "Failed to delete cookie." });
+                res.status(400).json({ status: "error", error: "Failed to delete cookie." });
             })
             .finally(function() {
                 res.clearCookie('SessionID');

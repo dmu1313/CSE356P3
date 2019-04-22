@@ -38,14 +38,14 @@ module.exports = function(app) {
             else {
                 console.log("Failed to get user profile.");
                 console.log("--------------------------------------");
-                res.json({status: "error"});
+                res.status(400).json({status: "error"});
             }
 
         }
         catch (error) {
             console.log("Failed to get user profile. Error: " + error);
             console.log("--------------------------------------");
-            res.json({status: "error"});
+            res.status(400).json({status: "error"});
         }
     });
 
@@ -70,7 +70,7 @@ module.exports = function(app) {
         catch (error) {
             console.log("Error getting questions for username: " + username);
             console.log("-------------------------------------------");
-            res.json({status: "error"});
+            res.status(400).json({status: "error"});
         }
     });
 
@@ -95,7 +95,7 @@ module.exports = function(app) {
         catch (error) {
             console.log("Error getting questions for username: " + username);
             console.log("-------------------------------------------");
-            res.json({status: "error"});
+            res.status(400).json({status: "error"});
         }
     });
 

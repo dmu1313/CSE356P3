@@ -65,6 +65,7 @@ function getIdForCookie(cookieString) {
 }
 
 function getUserAndIdForCookie(cookieString) {
+    if (cookieString == null) return null;
     var cookieQuery = { val: cookieString };
 
     return _db.collection(COLLECTION_COOKIES).findOne(cookieQuery)
@@ -85,14 +86,16 @@ function getUserAndIdForCookie(cookieString) {
 
 
 module.exports = {
-    connect: function() {
-        mongo.connect(url, function(error, db) {
+    connect: async function() {
+        try {
+            var db = await mongo.connect(url);
             _realdb = db;
             _db = db.db(DATABASE);
-            if (error) {
-                console.log("Error connecting to MongoDB: " + error);
-            }
-        });
+            console.log("CONNECTED");
+        }
+        catch (error) {
+            console.log("Error connecting to MongoDB: " + error);
+        }
     },
     getDB: function() {
         return _db;

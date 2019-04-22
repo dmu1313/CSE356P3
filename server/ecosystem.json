@@ -1,0 +1,16 @@
+{  
+  "apps" : [{
+    "name": "API",
+    "script": "app.js"
+  }],
+
+  "deploy" : {
+    "production" : {
+      "user" : "node",
+      "host" : "127.0.0.1",
+      "ref"  : "origin/master",
+      "repo" : "git@github.com:dmu1313/CSE356P3.git",
+      "path" : "C:/Users/Mu/Desktop/Dan's School Files Stony Brook/Year 3/Semester 2/CSE 356/Final Project/CSE356P3/server"
+    }
+  }
+}

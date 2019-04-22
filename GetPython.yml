@@ -1,5 +1,5 @@
 ---
-- hosts: final
+- hosts: final-python
   remote_user: ubuntu
   gather_facts: no
   become: yes

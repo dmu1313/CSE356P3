@@ -10,14 +10,14 @@
         update_cache: yes
   tasks:
 ######    Nginx and Git    #######
-    # - name: Install Nginx
-    #   apt:
-    #     name: nginx
-    #     update_cache: yes
-    #     state: latest
-    # - name: install git
-    #   apt:
-    #     name: git
+    - name: Install Nginx
+      apt:
+        name: nginx
+        update_cache: yes
+        state: latest
+    - name: install git
+      apt:
+        name: git
     - name: Delete /var/www/ for the git checkout
       shell: sudo rm -rf /var/www/
     - name: Get git checkout
@@ -30,10 +30,10 @@
         sudo mv /var/www/nginx.conf /etc/nginx/nginx.conf
         sudo systemctl restart nginx
 #############    Node    ##############
-    # - name: Download Nodejs 11.x
-    #   shell: |
-    #     sudo curl -sL https://deb.nodesource.com/setup_11.x | sudo -E bash -
-    #     sudo apt-get install -y nodejs
+    - name: Download Nodejs 11.x
+      shell: |
+        sudo curl -sL https://deb.nodesource.com/setup_11.x | sudo -E bash -
+        sudo apt-get install -y nodejs
 #############    npm packages    ##############
     - name: Init npm in project directory
       shell: |
@@ -87,13 +87,13 @@
         global: no
         path: /var/www/server
 ######    Postfix Email Server    ########
-    # - name: Install Postfix
-    #   apt:
-    #     name: postfix
-    # - name: Configure Postfix
-    #   shell: |
-    #     sudo mv /var/www/main.cf /etc/postfix/main.cf
-    #     sudo systemctl restart postfix
+    - name: Install Postfix
+      apt:
+        name: postfix
+    - name: Configure Postfix
+      shell: |
+        sudo mv /var/www/main.cf /etc/postfix/main.cf
+        sudo systemctl restart postfix
 
 
 

@@ -37,7 +37,9 @@ module.exports = function(app) {
                 var cookie = req.cookies['SessionID'];
                 var username;
                 if (cookie != undefined) {
-                    username = await mongoUtil.getUserForCookie(cookie);
+                    // username = await mongoUtil.getUserForCookie(cookie);
+                    let temp = await mongoUtil.getUserAndIdForCookie(cookie);
+                    username = temp.username;
                 }
 
                 var numViews = questionDoc.view_count;
@@ -105,18 +107,18 @@ module.exports = function(app) {
                     res.json({status: "OK", question: question});
                 }
                 else {
-                    res.json({status: "error", questions: null, error: "Failed to get question with ID: " + id});
+                    res.status(400).json({status: "error", questions: null, error: "Failed to get question with ID: " + id});
                 }
             }
             else {
                 // Question doesn't exist.
                 console.log("No question with id: " + id);
-                res.json({status: "error", error: "No question with id: " + id});
+                res.status(400).json({status: "error", error: "No question with id: " + id});
             }
         }
         catch (error) {
             console.log("async/await error in /questions/:id. Error: " + error);
-            res.json({status: "error", error: "Unable to get question."});
+            res.status(400).json({status: "error", error: "Unable to get question."});
         }
     });
 
@@ -146,13 +148,13 @@ module.exports = function(app) {
             if (user == null) {
                 // Not logged in. Fail.
                 console.log(authErrorMessage);
-                res.json({status: "error", error: authErrorMessage});
+                res.status(401).json({status: "error", error: authErrorMessage});
                 return;
             }
             if (title == null || body == null || tags == null) {
                 let validValuesMsg = "Title, body, and tags must all have valid values for /questions/add.";
                 console.log(validValuesMsg);
-                res.json({status: "error", error: validValuesMsg});
+                res.status(400).json({status: "error", error: validValuesMsg});
                 return;
             }
 
@@ -232,13 +234,13 @@ module.exports = function(app) {
                     res.json({status: "OK", id: questionId, error:null});
                 }
                 else {
-                    res.json({status: "error", error: "Failed to add question."});
+                    res.status(400).json({status: "error", error: "Failed to add question."});
                 }
             });
         }
         catch (error) {
             console.log("Error in /questions/add async/await: " + error);
-            res.json({status: "error", error: "async/await error. Failed to add question."});
+            res.status(400).json({status: "error", error: "async/await error. Failed to add question."});
         }
     });
 
@@ -257,7 +259,7 @@ module.exports = function(app) {
         if (user == null) {
             // Not logged in. Fail.
             console.log(authErrorMessage);
-            res.json({status: "error", error: authErrorMessage});
+            res.status(401).json({status: "error", error: authErrorMessage});
             return;
         }
 
@@ -305,7 +307,7 @@ module.exports = function(app) {
                 res.json({status: "OK", id: answerId});
             }
             else {
-                res.json({status: "error", error: "Failed to add answer."});
+                res.status(400).json({status: "error", error: "Failed to add answer."});
             }
         });
     });
@@ -335,7 +337,7 @@ module.exports = function(app) {
         }
         catch (error) {
             console.log("Error: " + error);
-            res.json({status: "error", questions: null, error: "Failed to get answers for question with ID: " + id});
+            res.status(400).json({status: "error", questions: null, error: "Failed to get answers for question with ID: " + id});
         }
     });
 
@@ -354,7 +356,8 @@ module.exports = function(app) {
                 return;
             }
             
-            var userId = await mongoUtil.getIdForCookie(cookie);
+            
+            var userId = (await mongoUtil.getUserAndIdForCookie(cookie)).userId;
             if (!userId) {
                 res.status(401).json({status: "error", error: errorMessage})
             }

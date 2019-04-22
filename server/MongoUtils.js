@@ -28,6 +28,7 @@ function checkIfUserLoggedIn(cookieString) {
     });
 }
 
+/*
 async function getUserForCookie(cookieString) {
     var cookieQuery = { val: cookieString };
 
@@ -56,7 +57,9 @@ async function getUserForCookie(cookieString) {
     //     return null;
     // });
 }
+*/
 
+/*
 async function getIdForCookie(cookieString) {
     var cookieQuery = { val: cookieString };
 
@@ -85,6 +88,7 @@ async function getIdForCookie(cookieString) {
     //     return null;
     // });
 }
+*/
 
 function getUserAndIdForCookie(cookieString) {
     if (cookieString == null) return null;
@@ -92,36 +96,41 @@ function getUserAndIdForCookie(cookieString) {
 
     var memcached = memcachedUtils.memcached;
 
-    memcached.get(cookieString, function(err, data) {
-        if (err) {
-            console.log("Error getting data from memcached: " + err);
-        }
+    return new Promise(function(resolve, reject) {
+        memcached.get(cookieString, function(err, data) {
+            if (err) {
+                console.log("Error getting data from memcached: " + err);
+                return;
+            }
 
-        if (data) {
-            return {userId: data.userId, username: data.username};
-        }
-        else {
-            return _db.collection(COLLECTION_COOKIES).findOne(cookieQuery)
-            .then(function(doc) {
-                if (doc != null) {
-                    let memCookieObj = {userId: doc.userId, username: doc.username};
-                    memcached.set(cookieString, memCookieObj, 86400, function(err) {
-                        if (err) {
-                            console.log("Error setting object in memcached: " + err);
-                        }
-                    });
-                    return memCookieObj;
-                }
-                else {
-                    console.log("No such cookie is found.");
-                    return null;
-                }
-            })
-            .catch(function(error) {
-                console.log("Could not complete query to find userId for cookie. Error: " + error);
-            });
-        }
-
+            if (data) {
+                console.log("Cookie: " + cookieString + " was in memcached.");
+                resolve({userId: data.userId, username: data.username});
+            }
+            else {
+                console.log("Cookie: " + cookieString + " was not in memcached");
+                return _db.collection(COLLECTION_COOKIES).findOne(cookieQuery)
+                .then(function(doc) {
+                    if (doc != null) {
+                        let memCookieObj = {userId: doc.userId, username: doc.username};
+                        memcached.set(cookieString, memCookieObj, 86400, function(err) {
+                            if (err) {
+                                console.log("Error setting object in memcached: " + err);
+                            }
+                        });
+                        resolve(memCookieObj);
+                    }
+                    else {
+                        console.log("No such cookie is found.");
+                        resolve(null);
+                    }
+                })
+                .catch(function(error) {
+                    console.log("Could not complete query to find userId for cookie. Error: " + error);
+                    reject(error);
+                });
+            }
+        });
     });
 
     // return _db.collection(COLLECTION_COOKIES).findOne(cookieQuery)
@@ -160,7 +169,7 @@ module.exports = {
         return _realdb;
     },
     checkIfUserLoggedIn: checkIfUserLoggedIn,
-    getUserForCookie: getUserForCookie,
-    getIdForCookie: getIdForCookie,
+    // getUserForCookie: getUserForCookie,
+    // getIdForCookie: getIdForCookie,
     getUserAndIdForCookie: getUserAndIdForCookie
 };

@@ -87,6 +87,101 @@ module.exports = function(app) {
         res.json(STATUS_OK);
     });
 
+    app.get("/DeleteDatabase", function(req, res) {
+        var cassandraClient = cassandraUtils.getCassandraClient();
+        var cassandraKeyspace = cassandraUtils.cassandraKeyspace;
+
+        var deleteKeyspaceQuery = "DROP KEYSPACE " + cassandraKeyspace;
+    
+        cassandraClient.execute(deleteKeyspaceQuery)
+        .then(function(result) {
+            console.log("Deleted keyspace: " + result);
+        })
+        .catch(function(error) {
+            console.log("Error dropping cassandra keyspace: " + error);
+        });
+
+        var client = elasticClient.getElasticClient();
+        client.indices.delete({
+            index: 'questions'
+        })
+        .then(function(ret) {
+            console.log("Dropped ElasticSearch index: Questions. ret: " + ret);
+        })
+        .catch(function(error) {
+            console.log("ElasticSearch failed to delete index: Questions. Error: " + error);
+        });
+
+        var db = mongoUtil.getDB();
+        
+        db.collection(COLLECTION_COOKIES).deleteMany({})
+        .then(function(result) {
+            console.log(result.result.n + " deleted from COLLECTION_COOKIES");
+        })
+        .catch(function(error) {
+            console.log("Error deleting from COLLECTION_COOKIES: " + error);
+        });
+
+        db.collection(COLLECTION_ANSWERS).deleteMany({})
+        .then(function(result) {
+            console.log(result.result.n + " deleted from COLLECTION_ANSWERS");
+        })
+        .catch(function(error) {
+            console.log("Error deleting from COLLECTION_ANSWERS: " + error);
+        });
+
+        db.collection(COLLECTION_USERS).deleteMany({})
+        .then(function(result) {
+            console.log(result.result.n + " deleted from COLLECTION_USERS");
+        })
+        .catch(function(error) {
+            console.log("Error deleting from COLLECTION_USERS: " + error);
+        });
+
+        db.collection(COLLECTION_QUESTIONS).deleteMany({})
+        .then(function(result) {
+            console.log(result.result.n + " deleted from COLLECTION_QUESTIONS");
+        })
+        .catch(function(error) {
+            console.log("Error deleting from COLLECTION_QUESTIONS: " + error);
+        });
+
+        db.collection(COLLECTION_IP_VIEWS).deleteMany({})
+        .then(function(result) {
+            console.log(result.result.n + " deleted from COLLECTION_IP_VIEWS");
+        })
+        .catch(function(error) {
+            console.log("Error deleting from COLLECTION_IP_VIEWS: " + error);
+        });
+
+        db.collection(COLLECTION_USER_VIEWS).deleteMany({})
+        .then(function(result) {
+            console.log(result.result.n + " deleted from COLLECTION_USER_VIEWS");
+        })
+        .catch(function(error) {
+            console.log("Error deleting from COLLECTION_USER_VIEWS: " + error);
+        });
+
+        db.collection(COLLECTION_ANSWER_UPVOTE).deleteMany({})
+        .then(function(result) {
+            console.log(result.result.n + " deleted from COLLECTION_ANSWER_UPVOTE");
+        })
+        .catch(function(error) {
+            console.log("Error deleting from COLLECTION_ANSWER_UPVOTE: " + error);
+        });
+
+        db.collection(COLLECTION_QUESTION_UPVOTE).deleteMany({})
+        .then(function(result) {
+            console.log(result.result.n + " deleted from COLLECTION_QUESTION_UPVOTE");
+        })
+        .catch(function(error) {
+            console.log("Error deleting from COLLECTION_QUESTION_UPVOTE: " + error);
+        });
+
+
+        res.json(STATUS_OK);
+    });
+
     app.get('/init', function(req, res) {
         var db = mongoUtil.getDB();
 

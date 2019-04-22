@@ -135,11 +135,11 @@ module.exports = function(app) {
             const authErrorMessage = "User is not logged in. Must be logged in to add a question.";
 
             console.log("/////////////////////////////");
-            console.log("title: " + title);
-            console.log("body: " + body);
-            console.log("tags: " + tags);
-            console.log("media: " + media);
-            console.log("cookie: " + cookie);
+            // console.log("title: " + title);
+            // console.log("body: " + body);
+            // console.log("tags: " + tags);
+            // console.log("media: " + media);
+            // console.log("cookie: " + cookie);
 
             var user = await mongoUtil.getUserAndIdForCookie(cookie);
             var userId = user.userId;
@@ -176,13 +176,6 @@ module.exports = function(app) {
             // }
 
             var timestamp = getUnixTime();
-
-            // {
-            //     "id": "17",
-            //     "title" : "question",
-            //     "body" : "questing",
-            //     "tags": "bob the builder"
-            //     }
 
             var tagString;
             if (tags != null) {

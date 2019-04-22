@@ -13,4 +13,7 @@
       apt:
         name: memcached
         update_cache: yes
+    - name: Copy over memcached configuration file
+      shell: |
+        sudo mv /var/www/memcached.conf /etc/memcached.conf
     # memcached configuration file stored at /etc/memcached.conf

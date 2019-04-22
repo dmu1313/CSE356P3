@@ -40,3 +40,5 @@
       shell: |
         sudo mv /var/www/elasticsearch.yml /etc/elasticsearch/elasticsearch.yml
         sudo systemctl restart elasticsearch
+        sudo chmod 777 /etc/elasticsearch
+        sudo chmod 777 /var/log/elasticsearch

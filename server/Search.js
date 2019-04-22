@@ -19,7 +19,7 @@ const COLLECTION_IP = constants.COLLECTION_IP;
 module.exports = function(app) {
     app.post('/search', async function(req, res) {
         console.log("/////////////////////////////////////");
-        consol.log("/search");
+        console.log("/search");
         var client = elasticUtils.getElasticClient();
         var db = mongoUtil.getDB();
 

@@ -6,7 +6,7 @@ var cassandraTable = "imgs";
 var cassandraFullName = cassandraKeyspace + "." + cassandraTable;
 
 const client = new cassandra.Client({
-    contactPoints: ['127.0.0.1:9042', '192.168.122.17'],
+    contactPoints: ['192.168.122.14', '192.168.122.17'],
     localDataCenter: 'test_dc'
     // keyspace: cassandraKeyspace
 });

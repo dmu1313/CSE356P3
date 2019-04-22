@@ -1,6 +1,8 @@
 
 var mongo = require('mongodb').MongoClient;
-const url = "mongodb://localhost:27017";
+const url = "mongodb://192.168.122.13:27017";
+
+var memcachedUtils = require('./MemcachedUtils.js');
 
 let constants = require('./Utils.js');
 const DATABASE = constants.DATABASE;
@@ -26,62 +28,116 @@ function checkIfUserLoggedIn(cookieString) {
     });
 }
 
-function getUserForCookie(cookieString) {
+async function getUserForCookie(cookieString) {
     var cookieQuery = { val: cookieString };
 
-    return _db.collection(COLLECTION_COOKIES).findOne(cookieQuery)
-    .then(function(doc) {
-        if (doc != null) {
-            return doc.username;
-        }
-        else {
-            console.log("No such cookie is found.");
-            return null;
-        }
-    })
-    .catch(function(error) {
-        console.log("Could not complete query to find username for cookie. Error: " + error);
+    var doc = await getUserAndIdForCookie(cookieString);
+
+    if (doc != null) {
+        return doc.username;
+    }
+    else {
+        console.log("No such cookie is found.");
         return null;
-    });
+    }
+
+    // return _db.collection(COLLECTION_COOKIES).findOne(cookieQuery)
+    // .then(function(doc) {
+    //     if (doc != null) {
+    //         return doc.username;
+    //     }
+    //     else {
+    //         console.log("No such cookie is found.");
+    //         return null;
+    //     }
+    // })
+    // .catch(function(error) {
+    //     console.log("Could not complete query to find username for cookie. Error: " + error);
+    //     return null;
+    // });
 }
 
-function getIdForCookie(cookieString) {
+async function getIdForCookie(cookieString) {
     var cookieQuery = { val: cookieString };
 
-    return _db.collection(COLLECTION_COOKIES).findOne(cookieQuery)
-    .then(function(doc) {
-        if (doc != null) {
-            return doc.userId;
-        }
-        else {
-            console.log("No such cookie is found.");
-            return null;
-        }
-    })
-    .catch(function(error) {
-        console.log("Could not complete query to find userId for cookie. Error: " + error);
+    var doc = await getUserAndIdForCookie(cookieString);
+
+    if (doc != null) {
+        return doc.userId;
+    }
+    else {
+        console.log("No such cookie is found.");
         return null;
-    });
+    }
+
+    // return _db.collection(COLLECTION_COOKIES).findOne(cookieQuery)
+    // .then(function(doc) {
+    //     if (doc != null) {
+    //         return doc.userId;
+    //     }
+    //     else {
+    //         console.log("No such cookie is found.");
+    //         return null;
+    //     }
+    // })
+    // .catch(function(error) {
+    //     console.log("Could not complete query to find userId for cookie. Error: " + error);
+    //     return null;
+    // });
 }
 
 function getUserAndIdForCookie(cookieString) {
     if (cookieString == null) return null;
     var cookieQuery = { val: cookieString };
 
-    return _db.collection(COLLECTION_COOKIES).findOne(cookieQuery)
-    .then(function(doc) {
-        if (doc != null) {
-            return {userId: doc.userId, username: doc.username};
+    var memcached = memcachedUtils.memcached;
+
+    memcached.get(cookieString, function(err, data) {
+        if (err) {
+            console.log("Error getting data from memcached: " + err);
+        }
+
+        if (data) {
+            return {userId: data.userId, username: data.username};
         }
         else {
-            console.log("No such cookie is found.");
-            return null;
+            return _db.collection(COLLECTION_COOKIES).findOne(cookieQuery)
+            .then(function(doc) {
+                if (doc != null) {
+                    let memCookieObj = {userId: doc.userId, username: doc.username};
+                    memcached.set(cookieString, memCookieObj, 86400, function(err) {
+                        if (err) {
+                            console.log("Error setting object in memcached: " + err);
+                        }
+                    });
+                    return memCookieObj;
+                }
+                else {
+                    console.log("No such cookie is found.");
+                    return null;
+                }
+            })
+            .catch(function(error) {
+                console.log("Could not complete query to find userId for cookie. Error: " + error);
+            });
         }
-    })
-    .catch(function(error) {
-        console.log("Could not complete query to find userId for cookie. Error: " + error);
-        return null;
+
     });
+
+    // return _db.collection(COLLECTION_COOKIES).findOne(cookieQuery)
+    // .then(function(doc) {
+    //     if (doc != null) {
+    //         return {userId: doc.userId, username: doc.username};
+    //     }
+    //     else {
+    //         console.log("No such cookie is found.");
+    //         return null;
+    //     }
+    // })
+    // .catch(function(error) {
+    //     console.log("Could not complete query to find userId for cookie. Error: " + error);
+    //     return null;
+    // });
 }
 
 

@@ -3,6 +3,8 @@ const util = require('util');
 
 var mongoUtil = require('./MongoUtils.js');
 
+var memcachedUtils = require('./MemcachedUtils.js');
+
 let constants = require('./Utils.js');
 const STATUS_OK = constants.STATUS_OK;
 
@@ -18,6 +20,7 @@ module.exports = function(app) {
         var username = req.body.username;
         var password = req.body.password;
         var db = mongoUtil.getDB();
+        var memcached = memcachedUtils.memcached;
 
         const errorMessage = "You are already logged in. You can't log in again.";
 
@@ -53,7 +56,15 @@ module.exports = function(app) {
         var cookieInsertSuccess = true;
 
         let cookieQuery = { val: newCookie, username: username, userId: userId };
-        
+
+        // Insert cookie into memcached
+        let memCookieObj = {userId: userId, username: username};
+        memcached.set(newCookie, memCookieObj, 86400, function(err) {
+            if (err) {
+                console.log("Error setting object in memcached: " + err);
+            }
+        });
+
         db.collection(COLLECTION_COOKIES).insertOne(cookieQuery)
         .then(function(ret) {
             console.log("New Cookie added: " + newCookie + "\nMongoDB Message: " + ret);
@@ -77,6 +88,7 @@ module.exports = function(app) {
     app.post('/logout', async function(req, res) {
         var cookie = req.cookies['SessionID'];
         const errorMessage = "You are not logged in. You can't log out.";
+        var memcached = memcachedUtils.memcached;
 
         if (cookie == undefined) {
             res.status(400).json({ status: "error", error: errorMessage });
@@ -89,6 +101,12 @@ module.exports = function(app) {
         }
         else {
             let deleteQuery = { val: cookie }; 
+
+            // Delete cookie from memcached.
+            memcached.del(cookie, function(err) {
+                console.log("Error deleting cookie " + cookie + " from memcached: " + err);
+            });
+
             mongoUtil.getDB().collection(COLLECTION_COOKIES).deleteOne(deleteQuery)
             .then(function(ret) {
                 console.log("Deleted: " + ret);

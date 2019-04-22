@@ -1,0 +1,54 @@
+# For Cassandra Servers
+---
+- hosts: final_cassandra
+  remote_user: ubuntu
+  gather_facts: no
+  become: yes
+  pre_tasks:
+    - name: update
+      apt:
+        update_cache: yes
+  tasks:
+    - name: Configuration for Cassandra Installation
+      shell: |
+        sudo echo "deb http://www.apache.org/dist/cassandra/debian 311x main" | sudo tee -a /etc/apt/sources.list.d/cassandra.sources.list
+        curl https://www.apache.org/dist/cassandra/KEYS | sudo apt-key add -
+    - name: Install Cassandra
+      apt:
+        name: cassandra
+        update_cache: yes
+        
+# concurrent_reads: 16 # (16 * drives)
+# concurrent_writes: 16 # (8 * cores)
+# concurrent_counter_writes: 16 (16 * drives)
+
+
+
+# cluster_name: 'Test Cluster'
+# num_tokens: 256
+# seed_provider:
+#   - class_name: org.apache.cassandra.locator.SimpleSeedProvider
+#     parameters:
+#          - seeds: "192.168.122.14"
+# listen_address: 192.168.122.17
+# rpc_address: localhost
+# endpoint_snitch: GossipingPropertyFileSnitch
+
+# dc=test_dc
+# rack=rack2
+
+
+
+
+# cluster_name: 'Test Cluster'
+# num_tokens: 256
+# seed_provider:
+#   - class_name: org.apache.cassandra.locator.SimpleSeedProvider
+#     parameters:
+#          - seeds: "192.168.122.14"
+# listen_address: 192.168.122.14
+# rpc_address: localhost
+# endpoint_snitch: GossipingPropertyFileSnitch
+
+# dc=test_dc
+# rack=rack1

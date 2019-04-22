@@ -1,6 +1,6 @@
-# For API backend servers
+# For main server (load balancer)
 ---
-- hosts: final_api
+- hosts: final_main
   remote_user: ubuntu
   gather_facts: no
   become: yes
@@ -9,21 +9,31 @@
       apt:
         update_cache: yes
   tasks:
-######    Git    #######
-    - name: install git
-      apt:
-        name: git
+######    Nginx and Git    #######
+    # - name: Install Nginx
+    # apt:
+    #   name: nginx
+    #   update_cache: yes
+    #   state: latest
+    # - name: install git
+    #   apt:
+    #     name: git
     - name: Delete /var/www/ for the git checkout
       shell: sudo rm -rf /var/www/
     - name: Get git checkout
       git:
         repo: 'https://github.com/dmu1313/CSE356P3.git'
         dest: /var/www/
-#############    Node    ##############
-    - name: Download Nodejs 11.x
+    - name: Set up reverse proxy load balancer Nginx
       shell: |
-        sudo curl -sL https://deb.nodesource.com/setup_11.x | sudo -E bash -
-        sudo apt-get install -y nodejs
+        sudo mv /var/www/rest_proxy.conf /etc/nginx/rest_proxy.conf
+        sudo mv /var/www/nginx.conf /etc/nginx/nginx.conf
+        sudo systemctl restart nginx
+#############    Node    ##############
+    # - name: Download Nodejs 11.x
+    #   shell: |
+    #     sudo curl -sL https://deb.nodesource.com/setup_11.x | sudo -E bash -
+    #     sudo apt-get install -y nodejs
 #############    npm packages    ##############
     - name: Init npm in project directory
       shell: |
@@ -77,27 +87,10 @@
         global: no
         path: /var/www/server
 ######    Postfix Email Server    ########
-    - name: Install Postfix
-      apt:
-        name: postfix
-    - name: Configure Postfix
-      shell: |
-        sudo mv /var/www/main.cf /etc/postfix/main.cf
-        sudo systemctl restart postfix
-
-
-
-
-
-    # - name: One time setup for MongoDB
-    #   shell: |
-    #     sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 9DA31620334BD75D9DCB49F368818C72E52529D4
-    #     echo "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.0.list
-    #     sudo apt-get update
-    # - name: One time install for MongoDB
+    # - name: Install Postfix
     #   apt:
-    #     name: mongodb-org
-    # - name: Start MongoDB
+    #     name: postfix
+    # - name: Configure Postfix
     #   shell: |
-    #     sudo service mongod start
-
+    #     sudo mv /var/www/main.cf /etc/postfix/main.cf
+    #     sudo systemctl restart postfix

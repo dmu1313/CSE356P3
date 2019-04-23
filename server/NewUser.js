@@ -33,6 +33,9 @@ function sendMail(email, key) {
     }
 
     transporter.sendMail(mailOptions, (error, info) => {
+
+        logger.debug("Sending email: Info: " + info);
+
         if (error) {
             return logger.debug(error);
         }

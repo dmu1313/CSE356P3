@@ -65,7 +65,7 @@ module.exports = function(app) {
         let username = req.body.username;
         let password = req.body.password;
         let email = req.body.email;
-        let key = username + "-" + generateKey();
+        let key = username + generateKey();
         var db = mongoUtil.getDB();
 
         var userId = getRandomIdString();
@@ -175,7 +175,7 @@ module.exports = function(app) {
                 res.json(STATUS_OK);
             }
             else {
-                res.status(400).json({status: "error", error: "Could not verify account."});
+                res.json({status: "error", error: "Could not verify account."});
             }
         });        
     });

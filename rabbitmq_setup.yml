@@ -38,4 +38,8 @@
     - name: Get RabbitMQ
       apt:
         name: rabbitmq-server
+    - name: Adjust security of RabbitMQ
+      shell: |
+        sudo mv /var/www/rabbitmq.conf /etc/rabbitmq/rabbitmq.conf
+        sudo systemctl restart rabbitmq-server
 

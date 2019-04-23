@@ -190,8 +190,8 @@ module.exports = function(app) {
             var msg = {t: RABBITMQ_ADD_QUESTIONS, title: title, body: body, questionId: questionId, tags: tags,
                         userId: userId, timestamp: timestamp, media: media, username: username};
         
-            rabbitChannel.sendToQueue(QUEUE_NAME, new Buffer(JSON.stringify(msg))/*, {persistent: true}*/);
-            
+            rabbitChannel.sendToQueue(QUEUE_NAME, Buffer.from(JSON.stringify(msg))/*, {persistent: true}*/);
+
             // rabbitChannel.assertQueue(QUEUE_NAME, {durable: true})
             // .then(function(result) {
             //     rabbitChannel.sendToQueue(q, new Buffer(JSON.stringify(msg))/*, {persistent: true}*/);
@@ -288,7 +288,7 @@ module.exports = function(app) {
         var msg = {t: RABBITMQ_ADD_ANSWERS, answerId: answerId, questionId: id, body: body, media: media, userId: userId,
                     timestamp: timestamp, username: username};
     
-        rabbitChannel.sendToQueue(QUEUE_NAME, new Buffer(JSON.stringify(msg))/*, {persistent: true}*/);
+        rabbitChannel.sendToQueue(QUEUE_NAME, Buffer.from(JSON.stringify(msg))/*, {persistent: true}*/);
 
         // rabbitChannel.assertQueue(QUEUE_NAME, {durable: true})
         // .then(function(result) {

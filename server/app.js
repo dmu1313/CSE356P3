@@ -5,7 +5,7 @@ const cookieParser = require('cookie-parser');
 const app = express();
 const port = 3001;
 
-app.use(express.json());
+app.use(express.json({limit: '50mb'}));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/static"));
 // app.use(cookieParser('cse356-cookie-secret'));

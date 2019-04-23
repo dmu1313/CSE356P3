@@ -18,6 +18,9 @@ const COLLECTION_USERS = constants.COLLECTION_USERS;
 const COLLECTION_COOKIES = constants.COLLECTION_COOKIES;
 const COLLECTION_QUESTIONS = constants.COLLECTION_QUESTIONS;
 const COLLECTION_ANSWERS = constants.COLLECTION_ANSWERS;
+const COLLECTION_QMEDIA = constants.COLLECTION_QMEDIA;
+const COLLECTION_AMEDIA = constants.COLLECTION_AMEDIA;
+const COLLECTION_MEDIA = constants.COLLECTION_MEDIA;
 
 var RABBITMQ_ADD_QUESTIONS = rabbitUtils.RABBITMQ_ADD_QUESTIONS;
 var RABBITMQ_ADD_ANSWERS = rabbitUtils.RABBITMQ_ADD_ANSWERS;
@@ -34,6 +37,7 @@ async function startConsumer() {
         await ch.prefetch(15);
         ch.consume(QUEUE_NAME, function(msg) {
             var obj = JSON.parse(msg.content);
+            console.log("obj.t: " + obj.t);
             var elasticClient = elasticUtils.getElasticClient();
 
             if (obj.t == RABBITMQ_ADD_QUESTIONS) {
@@ -78,6 +82,23 @@ async function startConsumer() {
                     // }
                 });
 
+                // media inserts
+                var qMediaDocs = [];
+                if (media != null) {
+                    media.forEach(function(mediaId) {
+                        qMediaDocs.push({_id: questionId, mediaId: mediaId}); 
+                    });
+                }
+
+                if (qMediaDocs.length > 0) {
+                    db.collection(COLLECTION_MEDIA).insertMany(qMediaDocs, {ordered: false})
+                    .then(function(ret) {
+                        console.log("Insert many Q media IDs: " + ret);
+                    })
+                    .catch(function(error) {
+                        console.log("Error inserting Q media IDs: " + error);
+                    });
+                }
 
                 var has_media = (media != null);
                 var insertQuestionQuery = {
@@ -115,6 +136,23 @@ async function startConsumer() {
                 let timestamp = obj.timestamp;
                 let username = obj.username;
 
+                var aMediaDocs = [];
+                if (media != null) {
+                    media.forEach(function(mediaId) {
+                        aMediaDocs.push({_id: answerId, mediaId: mediaId}); 
+                    });
+                }
+
+                if (aMediaDocs.length > 0) {
+                    db.collection(COLLECTION_MEDIA).insertMany(aMediaDocs, {ordered: false})
+                    .then(function(ret) {
+                        console.log("Insert many A media IDs: " + ret);
+                    })
+                    .catch(function(error) {
+                        console.log("Error inserting A media IDs: " + error);
+                    });
+                }
+
                 var answerQuery = {
                     answerId:answerId, questionId: questionId, body: body, media: media, userId: userId, score: 0,
                     accepted: false, timestamp: timestamp, username: username
@@ -144,12 +182,13 @@ async function startConsumer() {
                 var file = obj.content;
                 var id = obj.id;
     
+                console.log("Cassandra Insert");
                 cassandraClient.execute(query, [id, filename, file], {prepare: true})
                 .then(function(result) {
-                    logger.debug("Inserting file id: " + id + ", filename: " + filename + ", result: " + result);
+                    console.log("Inserting file id: " + id + ", filename: " + filename + ", result: " + result);
                 })
                 .catch(function(error) {
-                    logger.debug("Error inserting: " + error);
+                    console.log("Error inserting: " + error);
                 })
                 .finally(function() {
                     ch.ack(msg);

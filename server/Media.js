@@ -68,9 +68,10 @@ module.exports = function(app) {
 
             var rabbitChannel = rabbitUtils.getChannel();
 
-            logger.debug("Sending /addmedia to RabbitMQ");
+            console.log("Sending /addmedia to RabbitMQ");
+            console.log("Filename: " + filename);
             var msg = {t: RABBITMQ_ADD_MEDIA, content: file, filename: filename, id: id};
-            
+
             rabbitChannel.sendToQueue(QUEUE_NAME, Buffer.from(JSON.stringify(msg))/*, {persistent: true}*/);
     
 

@@ -15,7 +15,7 @@ var getUnixTime = constants.getUnixTime;
 const COLLECTION_USERS = constants.COLLECTION_USERS;
 const COLLECTION_COOKIES = constants.COLLECTION_COOKIES;
 const COLLECTION_QUESTIONS = constants.COLLECTION_QUESTIONS;
-const COLLECTION_ANSWERS = constants.COLLECTOIN_ANSWERS;
+const COLLECTION_ANSWERS = constants.COLLECTION_ANSWERS;
 const COLLECTION_IP = constants.COLLECTION_IP;
 
 module.exports = function(app) {
@@ -169,13 +169,9 @@ module.exports = function(app) {
                 cursor = await db.collection(COLLECTION_QUESTIONS).find(searchQuery).sort({ score: -1 }).limit(limit);
             }
 
-            logger.debug("1");
             while (await cursor.hasNext()) {
-                logger.debug("2");
                 let questionDoc = await cursor.next();
-                logger.debug("3");
                 let userDoc = await db.collection(COLLECTION_USERS).findOne({userId: questionDoc.userId});
-                logger.debug("4");
                 var question = {
                     id: questionDoc.questionId, user: { username: userDoc.username, reputation: userDoc.reputation },
                     title: questionDoc.title, body: questionDoc.body, score: questionDoc.score, view_count: questionDoc.view_count,
@@ -187,7 +183,6 @@ module.exports = function(app) {
             for (var i = 0; i < questionsArray.length; i++) {
                 logger.debug(questionsArray[i]);
             }
-            logger.debug("5");
             res.json({status: "OK", questions: questionsArray});
         }
         catch(error) {

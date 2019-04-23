@@ -14,6 +14,9 @@ const COLLECTION_ANSWERS = constants.COLLECTION_ANSWERS;
 const COLLECTION_IP_VIEWS = constants.COLLECTION_IP_VIEWS;
 const COLLECTION_USER_VIEWS = constants.COLLECTION_USER_VIEWS;
 const COLLECTION_MEDIA_TEST = constants.COLLECTION_MEDIA_TEST;
+const COLLECTION_QMEDIA = constants.COLLECTION_QMEDIA;
+const COLLECTION_AMEDIA = constants.COLLECTION_AMEDIA;
+const COLLECTION_MEDIA = constants.COLLECTION_MEDIA;
 
 const COLLECTION_ANSWER_UPVOTE = constants.COLLECTION_ANSWER_UPVOTE;
 const COLLECTION_QUESTION_UPVOTE = constants.COLLECTION_QUESTION_UPVOTE;
@@ -302,7 +305,31 @@ module.exports = function(app) {
 
         // q_media: { _id=questionId, mediaId }
         // a_media: { _id=answerId, mediaId }
+        // media: { _id=questionId/answerId, mediaId }
 
+        db.collection(COLLECTION_MEDIA).createIndex( { mediaId: 1  })
+        .then(function(result) {
+            console.log("media index: " + result);
+        })
+        .catch(function(error) {
+            console.log("MEDIA ERROR: " + error);
+        });
+
+        // db.collection(COLLECTION_QMEDIA).createIndex( { mediaId: 1 } )
+        // .then(function(result) {
+        //     console.log("qmedia index: " + result);
+        // })
+        // .catch(function(error) {
+        //     console.log("QMEDIA ERROR: " + error);
+        // });
+
+        // db.collection(COLLECTION_AMEDIA).createIndex( { mediaId: 1 } )
+        // .then(function(result) {
+        //     console.log("amedia index: " + result);
+        // })
+        // .catch(function(error) {
+        //     console.log("AMEDIA ERROR: " + error);
+        // });
 
 
         // q_upvote: {_id=userId, qid=questionId, val:boolean, waived:boolean}

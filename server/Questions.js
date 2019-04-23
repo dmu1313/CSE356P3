@@ -26,6 +26,7 @@ const COLLECTION_QUESTIONS = constants.COLLECTION_QUESTIONS;
 const COLLECTION_ANSWERS = constants.COLLECTION_ANSWERS;
 const COLLECTION_IP_VIEWS = constants.COLLECTION_IP_VIEWS;
 const COLLECTION_USER_VIEWS = constants.COLLECTION_USER_VIEWS;
+const COLLECTION_MEDIA = constants.COLLECTION_MEDIA;
 
 var getRandomIdString = constants.getRandomIdString;
 var getUnixTime = constants.getUnixTime;
@@ -168,6 +169,16 @@ module.exports = function(app) {
                 return;
             }
 
+            if (media != null) {
+                for (let i = 0; i < media.length; i++) {
+                    let mediaIdQuery = {mediaId: media[i]};
+                    let result = await db.collection(COLLECTION_MEDIA).findOne(mediaIdQuery);
+                    if (result != null) {
+                        res.status(400).json({status: "error", error: "A question can't use media from other Q/A's."});
+                    }
+                }
+            }
+
             var questionId = getRandomIdString();
             var questionIdExists = true;
             var db = mongoUtil.getDB();
@@ -280,6 +291,16 @@ module.exports = function(app) {
             return;
         }
 
+        if (media != null) {
+            for (let i = 0; i < media.length; i++) {
+                let mediaIdQuery = {mediaId: media[i]};
+                let result = await db.collection(COLLECTION_MEDIA).findOne(mediaIdQuery);
+                if (result != null) {
+                    res.status(400).json({status: "error", error: "An answer can't use media from other Q/A's."});
+                }
+            }
+        }
+
         var answerId;
         var db = mongoUtil.getDB();
 
@@ -390,7 +411,11 @@ module.exports = function(app) {
                 db.collection(COLLECTION_QUESTIONS).findOne(questionIdQuery)
                 .then(function(questionDoc) {
                     if (questionDoc == null) return;
+
                     questionDoc.media.forEach(function(mediaId) {
+                        let deleteMediaQuery = {mediaId: mediaId};
+                        db.collection(COLLECTION_MEDIA).deleteMany(deleteMediaQuery);
+
                         cassandraClient.execute(query, [mediaId], {prepare: true})
                         .then(function(result) {
                             logger.debug("Deleting question media file id: " + mediaId + ", result: " + result);
@@ -423,6 +448,9 @@ module.exports = function(app) {
                 while (await cursor.hasNext()) {
                     let answerDoc = await cursor.next();
                     answerDoc.media.forEach(function(mediaId) {
+                        let deleteMediaQuery = {mediaId: mediaId};
+                        db.collection(COLLECTION_MEDIA).deleteMany(deleteMediaQuery);
+
                         cassandraClient.execute(query, [mediaId], {prepare: true})
                         .then(function(result) {
                             logger.debug("Deleting answer media file id: " + mediaId + ", result: " + result);

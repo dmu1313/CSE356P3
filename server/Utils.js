@@ -22,6 +22,9 @@ module.exports = {
     COLLECTION_MEDIA_TEST: "Media_Test",
     COLLECTION_ANSWER_UPVOTE: "A_upvote",
     COLLECTION_QUESTION_UPVOTE: "Q_upvote",
+    COLLECTION_QMEDIA: "QMEDIA",
+    COLLECTION_AMEDIA: "AMEDIA",
+    COLLECTION_MEDIA: "MEDIA",
     
 
     getRandomIdString: getRandomIdString,

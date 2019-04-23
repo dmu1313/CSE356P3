@@ -2,7 +2,7 @@
 const log4js = require('log4js');
 log4js.configure({
     appenders: {
-        appLog: { type: 'file', filename: 'app.log' },
+        appLog: { type: 'file', filename: 'app.txt' },
         writeLog: { type: 'file', filename: 'Write.txt' }
     },
     categories: {

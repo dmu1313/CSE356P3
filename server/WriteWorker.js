@@ -26,7 +26,7 @@ async function startConsumer() {
         var ch = await connection.createChannel();
 
         var ok = await ch.assertQueue(QUEUE_NAME, {durable: true});
-        await ch.prefetch(30);
+        await ch.prefetch(15);
         ch.consume(QUEUE_NAME, function(msg) {
             var obj = JSON.parse(msg.content);
             var elasticClient = elasticUtils.getElasticClient();
@@ -66,7 +66,7 @@ async function startConsumer() {
                 })
                 .finally(function() {
                     // if (doneInserting) {
-                    //     ch.ack(msg);
+                        ch.ack(msg);
                     // }
                     // else {
                     //     doneInserting = true;
@@ -92,7 +92,7 @@ async function startConsumer() {
                     logger.debug("Unable to add question. Error: " + error);
                 })
                 .finally(function() {
-                    ch.ack(msg);
+                    // ch.ack(msg);
                     // if (doneInserting) {
                     //     ch.ack(msg);
                     // }

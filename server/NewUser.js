@@ -1,6 +1,7 @@
 
 var loggerUtils = require('./LoggerUtils.js');
 var logger = loggerUtils.getAppLogger();
+var util = require(util);
 
 function generateKey() {
     var key = "", possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -27,14 +28,15 @@ function sendMail(email, key) {
         to: email,
         subject: 'Verification Key',
         text: "validation key: <" + key + ">",
-        html: "validation key: <" + key + ">"
-        // html: "<p>validation key: &lt;" + key + "&gt;</p>"
+        // html: "validation key: <" + key + ">"
+        html: "<p>validation key: &lt;" + key + "&gt;</p>"
 
     }
 
     transporter.sendMail(mailOptions, (error, info) => {
-
-        logger.debug("Sending email: Info: " + info);
+        logger.debug("Sending email");
+        logger.debug(util.inspect(info, {showHidden: false, depth: 4}));
+        
 
         if (error) {
             return logger.debug(error);

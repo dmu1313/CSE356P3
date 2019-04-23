@@ -76,6 +76,11 @@
         name: memcached
         global: no
         path: /var/www/server
+    - name: Install amqplib
+      npm:
+        name: amqplib
+        global: no
+        path: /var/www/server/
 ######    Postfix Email Server    ########
     - name: Install Postfix
       apt:

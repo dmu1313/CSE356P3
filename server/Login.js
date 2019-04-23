@@ -61,7 +61,7 @@ module.exports = function(app) {
         let memCookieObj = {userId: userId, username: username};
         memcached.set(newCookie, memCookieObj, 86400, function(err) {
             if (err) {
-                console.log("Error setting object in memcached: " + err);
+                console.log("Login: Error setting object in memcached: " + err);
             }
         });
 

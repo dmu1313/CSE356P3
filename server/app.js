@@ -19,7 +19,10 @@ const STATUS_ERROR = constants.STATUS_ERROR;
 
 
 var mongoUtil = require('./MongoUtils.js');
+var rabbitUtils = require('./RabbitmqUtils.js');
+
 mongoUtil.connect();
+rabbitUtils.connect();
 
 require('./Login.js')(app);
 require('./NewUser.js')(app);

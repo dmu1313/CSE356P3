@@ -1,5 +1,10 @@
 
 var elasticUtils = require('./ElasticUtils.js');
+var rabbitUtils = require('./RabbitmqUtils.js');
+
+var RABBITMQ_ADD_QUESTIONS = rabbitUtils.RABBITMQ_ADD_QUESTIONS;
+var RABBITMQ_ADD_ANSWERS = rabbitUtils.RABBITMQ_ADD_ANSWERS;
+var QUEUE_NAME = rabbitUtils.QUEUE_NAME;
 
 const util = require('util');
 var mongoUtil = require('./MongoUtils.js');
@@ -124,6 +129,8 @@ module.exports = function(app) {
 
     app.post('/questions/add', async function(req, res) {
         var elasticClient = elasticUtils.getElasticClient();
+        var rabbitConnection = rabbitUtils.getConnection();
+        var rabbitChannel = rabbitUtils.getChannel();
         try {
             console.log("/questions/add");
             var title = req.body.title;
@@ -177,59 +184,70 @@ module.exports = function(app) {
 
             var timestamp = getUnixTime();
 
-            var tagString;
-            if (tags != null) {
-                tagString = tags.join(" ");
-            }
+            // console.log("Inserting question into ElasticSearch.");
+            // Rabbit MQ Message
+            console.log("Sending /questions/add to RabbitMQ: questionId: " + questionId);
+            var msg = {t: RABBITMQ_ADD_QUESTIONS, title: title, body: body, questionId: questionId, tags: tags,
+                        userId: userId, timestamp: timestamp, media: media, username: username};
+        
+            rabbitChannel.sendToQueue(QUEUE_NAME, new Buffer(JSON.stringify(msg))/*, {persistent: true}*/);
+            
+            // rabbitChannel.assertQueue(QUEUE_NAME, {durable: true})
+            // .then(function(result) {
+            //     rabbitChannel.sendToQueue(q, new Buffer(JSON.stringify(msg))/*, {persistent: true}*/);
+            // })
+            // .catch(function(err) {
+            //     console.log("Error sending /add/question message to RabbitMQ: " + err);
+            // });
+            
+            // elasticClient.index({
+            //     index: 'questions',
+            //     refresh: true,
+            //     body: {
+            //         title: title,
+            //         body: body,
+            //         id: questionId,
+            //         tags: tagString
+            //     }
+            // })
+            // .then(function(ret) {
+            //     console.log("Return value of inserting question " + questionId + " into ElasticSearch: " + ret);
+            // })
+            // .catch(function(error) {
+            //     console.log("Failed to insert question " + questionId + " into ElasticSearch. Error: " + error);
+            // });
 
-            console.log("Inserting question into ElasticSearch.");
-            elasticClient.index({
-                index: 'questions',
-                refresh: true,
-                body: {
-                    title: title,
-                    body: body,
-                    id: questionId,
-                    tags: tagString
-                }
-            })
-            .then(function(ret) {
-                console.log("Return value of inserting question " + questionId + " into ElasticSearch: " + ret);
-            })
-            .catch(function(error) {
-                console.log("Failed to insert question " + questionId + " into ElasticSearch. Error: " + error);
-            })
-
-            var has_media = (media != null);
-            var insertSuccess = false;
-            var insertQuestionQuery = {
-                                        questionId: questionId, userId: userId, title: title, body: body, score: 0,
-                                        view_count: 0, answer_count: 0, timestamp: timestamp, tags: tags, media: media,
-                                        has_media: has_media, accepted_answer_id: null, accepted: false, username: username
-                                     };
-            db.collection(COLLECTION_QUESTIONS).insertOne(insertQuestionQuery)
-            .then(function(ret) {
-                if (ret == null) {
-                    console.log("Add question returned null value.");
-                    insertSuccess = false;
-                    return;
-                }
-                console.log("Add question result: " + ret);
-                insertSuccess = true;
-            })
-            .catch(function(error) {
-                console.log("Unable to add question. Error: " + error);
-                insertSuccess = false;
-            })
-            .finally(function() {
-                if (insertSuccess) {
-                    console.log("Questionid: " + questionId);
-                    res.json({status: "OK", id: questionId, error:null});
-                }
-                else {
-                    res.status(400).json({status: "error", error: "Failed to add question."});
-                }
-            });
+            // var has_media = (media != null);
+            // var insertSuccess = false;
+            // var insertQuestionQuery = {
+            //                             questionId: questionId, userId: userId, title: title, body: body, score: 0,
+            //                             view_count: 0, answer_count: 0, timestamp: timestamp, tags: tags, media: media,
+            //                             has_media: has_media, accepted_answer_id: null, accepted: false, username: username
+            //                          };
+            // db.collection(COLLECTION_QUESTIONS).insertOne(insertQuestionQuery)
+            // .then(function(ret) {
+            //     if (ret == null) {
+            //         console.log("Add question returned null value.");
+            //         insertSuccess = false;
+            //         return;
+            //     }
+            //     console.log("Add question result: " + ret);
+            //     insertSuccess = true;
+            // })
+            // .catch(function(error) {
+            //     console.log("Unable to add question. Error: " + error);
+            //     insertSuccess = false;
+            // })
+            // .finally(function() {
+            //     if (insertSuccess) {
+            //         console.log("Questionid: " + questionId);
+            //         res.json({status: "OK", id: questionId, error:null});
+            //     }
+            //     else {
+            //         res.status(400).json({status: "error", error: "Failed to add question."});
+            //     }
+            // });
+            res.json({status: "OK", id: questionId, error: null});
         }
         catch (error) {
             console.log("Error in /questions/add async/await: " + error);
@@ -238,6 +256,9 @@ module.exports = function(app) {
     });
 
     app.post('/questions/:id/answers/add', async function(req, res) {
+        var rabbitConnection = rabbitUtils.getConnection();
+        var rabbitChannel = rabbitUtils.getChannel();
+
         var id = req.params.id;
         var body = req.body.body;
         var media = req.body.media;
@@ -257,52 +278,57 @@ module.exports = function(app) {
         }
 
         var answerId;
-        var answerIdExists = true;
         var db = mongoUtil.getDB();
 
         answerId = getRandomIdString();
-        // while (answerIdExists) {    
-        //     answerId = getRandomIdString();
-        //     var answerIdQuery = { answerId: answerId };
-        //     answerIdExists = await db.collection(COLLECTION_ANSWERS).findOne(answerIdQuery)
-        //                         .then(function(answerDoc) {
-        //                             return answerDoc != null;
-        //                         })
-        //                         .catch(function(error) {
-        //                             console.log("Unable to check to see if we already have an answer with the potentially new Id.");
-        //                             return true;
-        //                         });
-        // }
-
         let timestamp = getUnixTime();
-        var answerQuery = {
-                    answerId:answerId, questionId: id, body: body, media: media, userId: userId, score: 0,
-                    accepted: false, timestamp: timestamp, username: username
-                };
+
+        // Send RabbitMQ message
+        console.log("Sending /answers/add to RabbitMQ: questionId: " + answerId);
+        var msg = {t: RABBITMQ_ADD_ANSWERS, answerId: answerId, questionId: id, body: body, media: media, userId: userId,
+                    timestamp: timestamp, username: username};
+    
+        rabbitChannel.sendToQueue(QUEUE_NAME, new Buffer(JSON.stringify(msg))/*, {persistent: true}*/);
+
+        // rabbitChannel.assertQueue(QUEUE_NAME, {durable: true})
+        // .then(function(result) {
+        //     rabbitChannel.sendToQueue(QUEUE_NAME, new Buffer(JSON.stringify(msg))/*, {persistent: true}*/);
+        // })
+        // .catch(function(err) {
+        //     console.log("Error sending /add/question message to RabbitMQ: " + err);
+        // });
+
+        res.json({status: "OK", id: answerId});
+
+
+        // var answerQuery = {
+        //             answerId:answerId, questionId: id, body: body, media: media, userId: userId, score: 0,
+        //             accepted: false, timestamp: timestamp, username: username
+        //         };
 
         
-        let updateQuestionsQuery = {questionId: id};
-        let incrementAnswerCountQuery = { $inc: { answer_count: 1 } };
-        db.collection(COLLECTION_QUESTIONS).updateOne(updateQuestionsQuery, incrementAnswerCountQuery);
+        // let updateQuestionsQuery = {questionId: id};
+        // let incrementAnswerCountQuery = { $inc: { answer_count: 1 } };
+        // db.collection(COLLECTION_QUESTIONS).updateOne(updateQuestionsQuery, incrementAnswerCountQuery);
 
-        var addSuccess = false;
-        db.collection(COLLECTION_ANSWERS).insertOne(answerQuery)
-        .then(function(ret) {
-            console.log("Add answer result: " + ret);
-            addSuccess = true;
-        })
-        .catch(function(error) {
-            console.log("Failed to add answer. Error: " + error);
-            addSuccess = false;
-        })
-        .finally(function() {
-            if (addSuccess) {
-                res.json({status: "OK", id: answerId});
-            }
-            else {
-                res.status(400).json({status: "error", error: "Failed to add answer."});
-            }
-        });
+        // var addSuccess = false;
+        // db.collection(COLLECTION_ANSWERS).insertOne(answerQuery)
+        // .then(function(ret) {
+        //     console.log("Add answer result: " + ret);
+        //     addSuccess = true;
+        // })
+        // .catch(function(error) {
+        //     console.log("Failed to add answer. Error: " + error);
+        //     addSuccess = false;
+        // })
+        // .finally(function() {
+        //     if (addSuccess) {
+        //         res.json({status: "OK", id: answerId});
+        //     }
+        //     else {
+        //         res.status(400).json({status: "error", error: "Failed to add answer."});
+        //     }
+        // });
     });
 
     app.get('/questions/:id/answers', async function(req, res) {

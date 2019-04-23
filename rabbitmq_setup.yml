@@ -1,0 +1,28 @@
+# For RabbitMQ servers
+---
+- hosts: final_rabbitmq
+  remote_user: ubuntu
+  gather_facts: no
+  become: yes
+  pre_tasks:
+    - name: update
+      apt:
+        update_cache: yes
+  tasks:
+    - name: Get signing keys for RabbitMQ repos and set up repo file
+      shell: |
+        wget -O - "https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc" | sudo apt-key add -
+        sudo mv /var/www/bintray.erlang.list /etc/apt/sources.list.d/bintray.erlang.list
+    - name: Install apt-transport
+      apt:
+        name: apt-transport-https
+    - name: apt-get update for RabbitMQ repos
+      apt:
+        update_cache: yes
+    - name: Get erlang
+      apt:
+        name: erlang-nox
+    - name: Get RabbitMQ
+      apt:
+        name: rabbitmq-server
+

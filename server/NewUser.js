@@ -1,7 +1,7 @@
 
 var loggerUtils = require('./LoggerUtils.js');
 var logger = loggerUtils.getAppLogger();
-var util = require(util);
+var util = require('util');
 
 function generateKey() {
     var key = "", possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";

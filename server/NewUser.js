@@ -28,8 +28,8 @@ function sendMail(email, key) {
         to: email,
         subject: 'Verification Key',
         text: "validation key: <" + key + ">",
-        // html: "validation key: <" + key + ">"
-        html: "<p>validation key: &lt;" + key + "&gt;</p>"
+        html: "validation key: <" + key + ">"
+        // html: "<p>validation key: &lt;" + key + "&gt;</p>"
 
     }
 
@@ -157,6 +157,8 @@ module.exports = function(app) {
                 verifySuccess = false;
                 return null;
             }
+            logger.debug("verify username: " + doc.username);
+            logger.debug("verify userid: " + doc.userId);
             return db.collection(COLLECTION_USERS).updateOne(verifyQuery, update);
         })
         .then(function(ret) {

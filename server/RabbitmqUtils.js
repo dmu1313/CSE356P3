@@ -48,6 +48,7 @@ module.exports = {
     },
     RABBITMQ_ADD_QUESTIONS: "/questions/add",
     RABBITMQ_ADD_ANSWERS: "/answers/add",
+    RABBITMQ_ADD_MEDIA: "/addmedia",
     QUEUE_NAME: QUEUE_NAME
 
 };

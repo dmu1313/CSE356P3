@@ -37,7 +37,6 @@ function sendMail(email, key) {
         logger.debug("Sending email");
         logger.debug(util.inspect(info, {showHidden: false, depth: 4}));
         
-
         if (error) {
             return logger.debug(error);
         }

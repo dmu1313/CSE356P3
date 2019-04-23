@@ -136,7 +136,7 @@ function promiseWrapSet(cookieString, memcached) {
 }
 
 async function getUserAndIdForCookie(cookieString) {
-    logger.debug("Get user and ID for cookie");
+    // logger.debug("Get user and ID for cookie");
     if (cookieString == null) return null;
     var cookieQuery = { val: cookieString };
 
@@ -150,6 +150,9 @@ async function getUserAndIdForCookie(cookieString) {
         });
     }
     
+    // return new Promise(function(resolve, reject) {
+    //     resolve(promiseWrapSet(cookieString, memcached));
+    // });
     return promiseWrapSet(cookieString, memcached);
 
 /*

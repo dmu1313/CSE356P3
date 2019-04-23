@@ -10,6 +10,10 @@ const util = require('util');
 
 let constants = require('./Utils.js');
 
+
+var cassandraUtils = require('./CassandraUtils.js');
+var cassandraFullName = cassandraUtils.cassandraFullName;
+
 const COLLECTION_USERS = constants.COLLECTION_USERS;
 const COLLECTION_COOKIES = constants.COLLECTION_COOKIES;
 const COLLECTION_QUESTIONS = constants.COLLECTION_QUESTIONS;
@@ -17,6 +21,7 @@ const COLLECTION_ANSWERS = constants.COLLECTION_ANSWERS;
 
 var RABBITMQ_ADD_QUESTIONS = rabbitUtils.RABBITMQ_ADD_QUESTIONS;
 var RABBITMQ_ADD_ANSWERS = rabbitUtils.RABBITMQ_ADD_ANSWERS;
+var RABBITMQ_ADD_MEDIA = rabbitUtils.RABBITMQ_ADD_MEDIA;
 var QUEUE_NAME = rabbitUtils.QUEUE_NAME;
 
 async function startConsumer() {
@@ -130,6 +135,25 @@ async function startConsumer() {
                     ch.ack(msg);
                 });
                 
+            }
+            else if (obj.t == RABBITMQ_ADD_MEDIA) {
+                var cassandraClient = cassandraUtils.getCassandraClient();
+                var query = "INSERT INTO " + cassandraFullName + " (id, filename, contents) VALUES (?, ?, ?)";
+
+                var filename = obj.filename;
+                var file = obj.content;
+                var id = obj.id;
+    
+                cassandraClient.execute(query, [id, filename, file], {prepare: true})
+                .then(function(result) {
+                    logger.debug("Inserting file id: " + id + ", filename: " + filename + ", result: " + result);
+                })
+                .catch(function(error) {
+                    logger.debug("Error inserting: " + error);
+                })
+                .finally(function() {
+                    ch.ack(msg);
+                });
             }
 
         }, {noAck: false});

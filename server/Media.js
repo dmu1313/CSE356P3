@@ -2,6 +2,11 @@
 var loggerUtils = require('./LoggerUtils.js');
 var logger = loggerUtils.getAppLogger();
 
+var rabbitUtils = require('./RabbitmqUtils.js');
+
+var RABBITMQ_ADD_MEDIA = rabbitUtils.RABBITMQ_ADD_QUESTIONS;
+var QUEUE_NAME = rabbitUtils.QUEUE_NAME;
+
 const formidable = require('formidable');
 var cassandraUtils = require('./CassandraUtils.js');
 var mongoUtil = require('./MongoUtils.js');
@@ -24,15 +29,13 @@ module.exports = function(app) {
 
         // Check to see if logged in first.
         var user = await mongoUtil.getUserAndIdForCookie(cookie);
+        console.log("addmedia: user: " + user);
         if (user == null) {
             // Not logged in. Fail.
             logger.debug(authErrorMessage);
             res.status(401).json({status: "error", error: authErrorMessage});
             return;
         }
-        
-        var cassandraClient = cassandraUtils.getCassandraClient();
-        var query = "INSERT INTO " + cassandraFullName + " (id, filename, contents) VALUES (?, ?, ?)";
 
         var id = getRandomIdString();
 
@@ -63,13 +66,21 @@ module.exports = function(app) {
             var file = Buffer.concat(chunks);
             var filename = fields.filename;
 
-            cassandraClient.execute(query, [id, filename, file], {prepare: true})
-            .then(function(result) {
-                logger.debug("Inserting file id: " + id + ", filename: " + filename + ", result: " + result);
-            })
-            .catch(function(error) {
-                logger.debug("Error inserting: " + error);
-            });
+            var rabbitChannel = rabbitUtils.getChannel();
+
+            logger.debug("Sending /addmedia to RabbitMQ");
+            var msg = {t: RABBITMQ_ADD_MEDIA, content: file, filename: filename, id: id};
+            
+            rabbitChannel.sendToQueue(QUEUE_NAME, Buffer.from(JSON.stringify(msg))/*, {persistent: true}*/);
+    
+
+            // cassandraClient.execute(query, [id, filename, file], {prepare: true})
+            // .then(function(result) {
+            //     logger.debug("Inserting file id: " + id + ", filename: " + filename + ", result: " + result);
+            // })
+            // .catch(function(error) {
+            //     logger.debug("Error inserting: " + error);
+            // });
         });
 
         res.json({status: "OK", id: id});
@@ -78,8 +89,9 @@ module.exports = function(app) {
     app.get('/media/:id', function(req, res) {
         var id = req.params.id;
         logger.debug("GET /media/" + id);
-        
-        var query = "SELECT id, filename, contents FROM imgs WHERE filename = ?";
+        var cassandraClient = cassandraUtils.getCassandraClient();
+
+        var query = "SELECT id, filename, contents FROM " + cassandraFullName + " WHERE id = ?";
         cassandraClient.execute(query, [id], {prepare: true})
         .then(function(result) {
             if (result == null || result.first() == null) {
@@ -88,7 +100,7 @@ module.exports = function(app) {
                 return;
             }
             var row = result.first();
-            res.type(row['filename']);
+            // res.type(row['filename']);
             res.send(row['contents']);
         })
         .catch(function(error) {

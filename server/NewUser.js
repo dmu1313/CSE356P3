@@ -5,7 +5,7 @@ var util = require('util');
 
 function generateKey() {
     var key = "", possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    for (var i = 0; i < 32; i++) {
+    for (var i = 0; i < 8; i++) {
         key += possible.charAt(Math.floor(Math.random() * possible.length));
     }
     return key;
@@ -175,7 +175,7 @@ module.exports = function(app) {
                 res.json(STATUS_OK);
             }
             else {
-                res.json({status: "error", error: "Could not verify account."});
+                res.status(400).json({status: "error", error: "Could not verify account."});
             }
         });        
     });

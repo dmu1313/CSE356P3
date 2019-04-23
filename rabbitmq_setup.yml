@@ -9,10 +9,20 @@
       apt:
         update_cache: yes
   tasks:
+    - name: install git
+      apt:
+        name: git
+    - name: Delete /var/www/ for the git checkout
+      shell: sudo rm -rf /var/www/
+    - name: Get git checkout
+      git:
+        repo: 'https://github.com/dmu1313/CSE356P3.git'
+        dest: /var/www/
     - name: Get signing keys for RabbitMQ repos and set up repo file
       shell: |
         wget -O - "https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc" | sudo apt-key add -
-        sudo mv /var/www/bintray.erlang.list /etc/apt/sources.list.d/bintray.erlang.list
+        sudo mv /var/www/bintray.erlang.list /etc/apt/sources.list.d/bintray.rabbitmq.list
+          # sudo mv /var/www/bintray.erlang.list /etc/apt/sources.list.d/bintray.erlang.list
     - name: Install apt-transport
       apt:
         name: apt-transport-https
@@ -20,6 +30,9 @@
       apt:
         update_cache: yes
     - name: Get erlang
+      apt:
+        name: erlang
+    - name: Get erlang-nox
       apt:
         name: erlang-nox
     - name: Get RabbitMQ

@@ -1,6 +1,7 @@
 
 var amqp = require('amqplib');
-var url = 'amqp://localhost';
+// var url = 'amqp://localhost';
+var url = 'amqp://192.168.122.29';
 var QUEUE_NAME = 'final_queue';
 
 var _connection;

@@ -1,4 +1,7 @@
 
+var loggerUtils = require('./LoggerUtils.js');
+var logger = loggerUtils.getAppLogger();
+
 const util = require('util');
 var mongoUtil = require('./MongoUtils.js');
 
@@ -19,8 +22,8 @@ module.exports = function(app) {
         if (upvote == null) {
             upvote = true;
         }
-        console.log("--------------------------------");
-        console.log("/questions/" + id + "/upvote, upvote: " + upvote);
+        logger.debug("--------------------------------");
+        logger.debug("/questions/" + id + "/upvote, upvote: " + upvote);
 
         var cookie = req.cookies['SessionID'];
         const authErrorMessage = "Must be logged in to upvote/downvote a question.";
@@ -29,7 +32,7 @@ module.exports = function(app) {
         var user = await mongoUtil.getUserAndIdForCookie(cookie);
         if (user == null) {
             // Not logged in. Fail.
-            console.log(authErrorMessage);
+            logger.debug(authErrorMessage);
             res.status(401).json(STATUS_ERROR);
             return;
         }
@@ -39,7 +42,7 @@ module.exports = function(app) {
         let questionQuery = {questionId: id};
         let questionDoc = await db.collection(COLLECTION_QUESTIONS).findOne(questionQuery);
         if (questionDoc == null) {
-            console.log("Question with ID: " + id + " does not exist. Can't upvote/downvote");
+            logger.debug("Question with ID: " + id + " does not exist. Can't upvote/downvote");
             res.status(400).json(STATUS_ERROR);
             return;
         }
@@ -47,7 +50,7 @@ module.exports = function(app) {
         let posterQuery = {userId: questionDoc.userId};
         let posterDoc = await db.collection(COLLECTION_USERS).findOne(posterQuery);
         if (posterDoc == null) {
-            console.log("Could not find the original poster of the question.");
+            logger.debug("Could not find the original poster of the question.");
             res.status(400).json(STATUS_ERROR);
             return;
         }
@@ -55,7 +58,7 @@ module.exports = function(app) {
         let upvoteQuery = {_id: user.userId, qid: id};
         let upvoteDoc = await db.collection(COLLECTION_QUESTION_UPVOTE).findOne(upvoteQuery);
         if (upvoteDoc == null) {
-            console.log("No previous upvote/downvote for this question and user. Inserting now.");
+            logger.debug("No previous upvote/downvote for this question and user. Inserting now.");
             let insertUpvoteQuery;
             if (upvote == false) {
                 if (posterDoc.reputation <= 1) {
@@ -168,8 +171,8 @@ module.exports = function(app) {
         if (upvote == null) {
             upvote = true;
         }
-        console.log("--------------------------------");
-        console.log("/answers/" + id + "/upvote, upvote: " + upvote);
+        logger.debug("--------------------------------");
+        logger.debug("/answers/" + id + "/upvote, upvote: " + upvote);
 
         var cookie = req.cookies['SessionID'];
         const authErrorMessage = "Must be logged in to upvote/downvote an answer.";
@@ -178,7 +181,7 @@ module.exports = function(app) {
         var user = await mongoUtil.getUserAndIdForCookie(cookie);
         if (user == null) {
             // Not logged in. Fail.
-            console.log(authErrorMessage);
+            logger.debug(authErrorMessage);
             res.status(401).json(STATUS_ERROR);
             return;
         }
@@ -188,7 +191,7 @@ module.exports = function(app) {
         let answerQuery = {answerId: id};
         let answerDoc = await db.collection(COLLECTION_ANSWERS).findOne(answerQuery);
         if (answerDoc == null) {
-            console.log("Answer with ID: " + id + " does not exist. Can't upvote/downvote");
+            logger.debug("Answer with ID: " + id + " does not exist. Can't upvote/downvote");
             res.status(400).json(STATUS_ERROR);
             return;
         }
@@ -196,7 +199,7 @@ module.exports = function(app) {
         let posterQuery = {userId: answerDoc.userId};
         let posterDoc = await db.collection(COLLECTION_USERS).findOne(posterQuery);
         if (posterDoc == null) {
-            console.log("Could not find the original poster of the answer.");
+            logger.debug("Could not find the original poster of the answer.");
             res.status(400).json(STATUS_ERROR);
             return;
         }
@@ -204,7 +207,7 @@ module.exports = function(app) {
         let upvoteQuery = {_id: user.userId, aid: id};
         let upvoteDoc = await db.collection(COLLECTION_ANSWER_UPVOTE).findOne(upvoteQuery);
         if (upvoteDoc == null) {
-            console.log("No previous upvote/downvote for this answer and user. Inserting now.");
+            logger.debug("No previous upvote/downvote for this answer and user. Inserting now.");
             let insertUpvoteQuery;
             if (upvote == false) {
                 if (posterDoc.reputation <= 1) {

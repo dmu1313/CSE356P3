@@ -91,6 +91,14 @@
         name: amqplib
         global: no
         path: /var/www/server/
+    - name: Install log4js
+      npm:
+        name: log4js
+        global: no
+        path: /var/www/server
+    - name: Change permissions
+      shell: |
+        sudo chmod 777 /var/www/server
 ######    Postfix Email Server    ########
     # - name: Install Postfix
     #   apt:

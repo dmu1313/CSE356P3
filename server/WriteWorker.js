@@ -1,4 +1,6 @@
 
+var loggerUtils = require('./LoggerUtils.js');
+var logger = loggerUtils.getWriteLogger();
 
 var mongoUtil = require('./MongoUtils.js');
 // var cassandraUtils = require('./CassandraUtils.js');
@@ -24,7 +26,7 @@ async function startConsumer() {
         var ch = await connection.createChannel();
 
         var ok = await ch.assertQueue(QUEUE_NAME, {durable: true});
-        await ch.prefetch(5);
+        await ch.prefetch(30);
         ch.consume(QUEUE_NAME, function(msg) {
             var obj = JSON.parse(msg.content);
             var elasticClient = elasticUtils.getElasticClient();
@@ -57,18 +59,18 @@ async function startConsumer() {
                     }
                 })
                 .then(function(ret) {
-                    console.log("Return value of inserting question " + questionId + " into ElasticSearch: " + ret);
+                    logger.debug("Return value of inserting question " + questionId + " into ElasticSearch: " + ret);
                 })
                 .catch(function(error) {
-                    console.log("Failed to insert question " + questionId + " into ElasticSearch. Error: " + error);
+                    logger.debug("Failed to insert question " + questionId + " into ElasticSearch. Error: " + error);
                 })
                 .finally(function() {
-                    if (doneInserting) {
-                        ch.ack(msg);
-                    }
-                    else {
-                        doneInserting = true;
-                    }
+                    // if (doneInserting) {
+                    //     ch.ack(msg);
+                    // }
+                    // else {
+                    //     doneInserting = true;
+                    // }
                 });
 
 
@@ -81,21 +83,22 @@ async function startConsumer() {
                 db.collection(COLLECTION_QUESTIONS).insertOne(insertQuestionQuery)
                 .then(function(ret) {
                     if (ret == null) {
-                        console.log("Add question returned null value.");
+                        logger.debug("Add question returned null value.");
                         return;
                     }
-                    console.log("Add question result: " + ret);
+                    logger.debug("Add question result: " + ret);
                 })
                 .catch(function(error) {
-                    console.log("Unable to add question. Error: " + error);
+                    logger.debug("Unable to add question. Error: " + error);
                 })
                 .finally(function() {
-                    if (doneInserting) {
-                        ch.ack(msg);
-                    }
-                    else {
-                        doneInserting = true;
-                    }
+                    ch.ack(msg);
+                    // if (doneInserting) {
+                    //     ch.ack(msg);
+                    // }
+                    // else {
+                    //     doneInserting = true;
+                    // }
                 });
             }
             else if (obj.t == RABBITMQ_ADD_ANSWERS) {
@@ -118,10 +121,10 @@ async function startConsumer() {
 
                 db.collection(COLLECTION_ANSWERS).insertOne(answerQuery)
                 .then(function(ret) {
-                    console.log("Add answer result: " + ret);
+                    logger.debug("Add answer result: " + ret);
                 })
                 .catch(function(error) {
-                    console.log("Failed to add answer. Error: " + error);
+                    logger.debug("Failed to add answer. Error: " + error);
                 })
                 .finally(function() {
                     ch.ack(msg);
@@ -131,10 +134,10 @@ async function startConsumer() {
 
         }, {noAck: false});
 
-        console.log("Waiting for messages.");
+        logger.debug("Waiting for messages.");
     }
     catch (err) {
-        console.log("Error starting consumer.");
+        logger.debug("Error starting consumer.");
     }
 }
 
@@ -147,27 +150,27 @@ amqp.connect('amqp://localhost', function(err, conn) {
 
     ch.assertQueue(q, {durable: true});
     ch.prefetch(1);
-    console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", q);
+    logger.debug(" [*] Waiting for messages in %s. To exit press CTRL+C", q);
     ch.consume(q, function(msg) {
     //   var secs = msg.content.toString().split('.').length - 1;
     var secs = 0;
-    console.log("Message: " + msg.content);
-    console.log("type: " + msg.content.type);
-    console.log("userId: " + msg.content.userId);
-    console.log("body: " + msg.content.body);
-    console.log(util.inspect(msg, {showHidden: false, depth: null}));
-    console.log(util.inspect(msg.content, {showHidden: false, depth: 4}));
+    logger.debug("Message: " + msg.content);
+    logger.debug("type: " + msg.content.type);
+    logger.debug("userId: " + msg.content.userId);
+    logger.debug("body: " + msg.content.body);
+    logger.debug(util.inspect(msg, {showHidden: false, depth: null}));
+    logger.debug(util.inspect(msg.content, {showHidden: false, depth: 4}));
 
 
     var json = JSON.parse(msg.content);
-    console.log("type: " + json.type);
-    console.log("userId: " + json.userId);
-    console.log("body: " + json.body);
+    logger.debug("type: " + json.type);
+    logger.debug("userId: " + json.userId);
+    logger.debug("body: " + json.body);
     
 
-    //   console.log(" [x] Received %s", msg.content.toString());
+    //   logger.debug(" [x] Received %s", msg.content.toString());
       setTimeout(function() {
-        console.log(" [x] Done");
+        logger.debug(" [x] Done");
         ch.ack(msg) ;
       }, secs * 1000);
     }, {noAck: false});

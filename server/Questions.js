@@ -1,4 +1,7 @@
 
+var loggerUtils = require('./LoggerUtils.js');
+var logger = loggerUtils.getAppLogger();
+
 var elasticUtils = require('./ElasticUtils.js');
 var rabbitUtils = require('./RabbitmqUtils.js');
 
@@ -58,11 +61,11 @@ module.exports = function(app) {
                                                         return ipDoc != null;
                                                     });
                     if (ipAlreadyExists) {
-                        console.log(ip + " already exists for questionId: " + id);
+                        logger.debug(ip + " already exists for questionId: " + id);
                     }
                     else {
                         let insertIpResult = await db.collection(COLLECTION_IP_VIEWS).insertOne(ipQuery);
-                        console.log("Insert Ip Result: " + insertIpResult);
+                        logger.debug("Insert Ip Result: " + insertIpResult);
                     }
                 }
                 else {
@@ -73,11 +76,11 @@ module.exports = function(app) {
                                                         return userViewDoc != null;
                                                     });
                     if (userViewExists) {
-                        console.log(username + " already viewed questionId: " + id);
+                        logger.debug(username + " already viewed questionId: " + id);
                     }
                     else {
                         let insertUserViewResult = await db.collection(COLLECTION_USER_VIEWS).insertOne(userQuery);
-                        console.log("Insert user view result: " + insertUserViewResult);
+                        logger.debug("Insert user view result: " + insertUserViewResult);
                     }
                 }
 
@@ -95,7 +98,7 @@ module.exports = function(app) {
                 var question;
 
                 if (userDoc == null) {
-                    console.log("Either the question with id: " + id + " does not exist or the user who posted it could not be found.");
+                    logger.debug("Either the question with id: " + id + " does not exist or the user who posted it could not be found.");
                     searchSuccess = false;
                 }
                 else {
@@ -117,12 +120,12 @@ module.exports = function(app) {
             }
             else {
                 // Question doesn't exist.
-                console.log("No question with id: " + id);
+                logger.debug("No question with id: " + id);
                 res.status(400).json({status: "error", error: "No question with id: " + id});
             }
         }
         catch (error) {
-            console.log("async/await error in /questions/:id. Error: " + error);
+            logger.debug("async/await error in /questions/:id. Error: " + error);
             res.status(400).json({status: "error", error: "Unable to get question."});
         }
     });
@@ -132,7 +135,7 @@ module.exports = function(app) {
         var rabbitConnection = rabbitUtils.getConnection();
         var rabbitChannel = rabbitUtils.getChannel();
         try {
-            console.log("/questions/add");
+            logger.debug("/questions/add");
             var title = req.body.title;
             var body = req.body.body;
             var tags = req.body.tags; // Array of tags (strings)
@@ -141,12 +144,12 @@ module.exports = function(app) {
             var cookie = req.cookies['SessionID'];
             const authErrorMessage = "User is not logged in. Must be logged in to add a question.";
 
-            console.log("/////////////////////////////");
-            // console.log("title: " + title);
-            // console.log("body: " + body);
-            // console.log("tags: " + tags);
-            // console.log("media: " + media);
-            // console.log("cookie: " + cookie);
+            logger.debug("/////////////////////////////");
+            // logger.debug("title: " + title);
+            // logger.debug("body: " + body);
+            // logger.debug("tags: " + tags);
+            // logger.debug("media: " + media);
+            // logger.debug("cookie: " + cookie);
 
             var user = await mongoUtil.getUserAndIdForCookie(cookie);
             var userId = user.userId;
@@ -154,13 +157,13 @@ module.exports = function(app) {
             // var userId = await mongoUtil.getIdForCookie(cookie);
             if (user == null) {
                 // Not logged in. Fail.
-                console.log(authErrorMessage);
+                logger.debug(authErrorMessage);
                 res.status(401).json({status: "error", error: authErrorMessage});
                 return;
             }
             if (title == null || body == null || tags == null) {
                 let validValuesMsg = "Title, body, and tags must all have valid values for /questions/add.";
-                console.log(validValuesMsg);
+                logger.debug(validValuesMsg);
                 res.status(400).json({status: "error", error: validValuesMsg});
                 return;
             }
@@ -177,16 +180,16 @@ module.exports = function(app) {
             //                                 return questionDoc != null;
             //                             })
             //                             .catch(function(error) {
-            //                                 console.log("Unable to check to see if we already have a question with the potentially new Id.");
+            //                                 logger.debug("Unable to check to see if we already have a question with the potentially new Id.");
             //                                 return true;
             //                             });
             // }
 
             var timestamp = getUnixTime();
 
-            // console.log("Inserting question into ElasticSearch.");
+            // logger.debug("Inserting question into ElasticSearch.");
             // Rabbit MQ Message
-            console.log("Sending /questions/add to RabbitMQ: questionId: " + questionId);
+            logger.debug("Sending /questions/add to RabbitMQ: questionId: " + questionId);
             var msg = {t: RABBITMQ_ADD_QUESTIONS, title: title, body: body, questionId: questionId, tags: tags,
                         userId: userId, timestamp: timestamp, media: media, username: username};
         
@@ -197,7 +200,7 @@ module.exports = function(app) {
             //     rabbitChannel.sendToQueue(q, new Buffer(JSON.stringify(msg))/*, {persistent: true}*/);
             // })
             // .catch(function(err) {
-            //     console.log("Error sending /add/question message to RabbitMQ: " + err);
+            //     logger.debug("Error sending /add/question message to RabbitMQ: " + err);
             // });
             
             // elasticClient.index({
@@ -211,10 +214,10 @@ module.exports = function(app) {
             //     }
             // })
             // .then(function(ret) {
-            //     console.log("Return value of inserting question " + questionId + " into ElasticSearch: " + ret);
+            //     logger.debug("Return value of inserting question " + questionId + " into ElasticSearch: " + ret);
             // })
             // .catch(function(error) {
-            //     console.log("Failed to insert question " + questionId + " into ElasticSearch. Error: " + error);
+            //     logger.debug("Failed to insert question " + questionId + " into ElasticSearch. Error: " + error);
             // });
 
             // var has_media = (media != null);
@@ -227,20 +230,20 @@ module.exports = function(app) {
             // db.collection(COLLECTION_QUESTIONS).insertOne(insertQuestionQuery)
             // .then(function(ret) {
             //     if (ret == null) {
-            //         console.log("Add question returned null value.");
+            //         logger.debug("Add question returned null value.");
             //         insertSuccess = false;
             //         return;
             //     }
-            //     console.log("Add question result: " + ret);
+            //     logger.debug("Add question result: " + ret);
             //     insertSuccess = true;
             // })
             // .catch(function(error) {
-            //     console.log("Unable to add question. Error: " + error);
+            //     logger.debug("Unable to add question. Error: " + error);
             //     insertSuccess = false;
             // })
             // .finally(function() {
             //     if (insertSuccess) {
-            //         console.log("Questionid: " + questionId);
+            //         logger.debug("Questionid: " + questionId);
             //         res.json({status: "OK", id: questionId, error:null});
             //     }
             //     else {
@@ -250,7 +253,7 @@ module.exports = function(app) {
             res.json({status: "OK", id: questionId, error: null});
         }
         catch (error) {
-            console.log("Error in /questions/add async/await: " + error);
+            logger.debug("Error in /questions/add async/await: " + error);
             res.status(400).json({status: "error", error: "async/await error. Failed to add question."});
         }
     });
@@ -272,7 +275,7 @@ module.exports = function(app) {
         // var userId = await mongoUtil.getIdForCookie(cookie);
         if (user == null) {
             // Not logged in. Fail.
-            console.log(authErrorMessage);
+            logger.debug(authErrorMessage);
             res.status(401).json({status: "error", error: authErrorMessage});
             return;
         }
@@ -284,7 +287,7 @@ module.exports = function(app) {
         let timestamp = getUnixTime();
 
         // Send RabbitMQ message
-        console.log("Sending /answers/add to RabbitMQ: questionId: " + answerId);
+        logger.debug("Sending /answers/add to RabbitMQ: questionId: " + answerId);
         var msg = {t: RABBITMQ_ADD_ANSWERS, answerId: answerId, questionId: id, body: body, media: media, userId: userId,
                     timestamp: timestamp, username: username};
     
@@ -295,7 +298,7 @@ module.exports = function(app) {
         //     rabbitChannel.sendToQueue(QUEUE_NAME, new Buffer(JSON.stringify(msg))/*, {persistent: true}*/);
         // })
         // .catch(function(err) {
-        //     console.log("Error sending /add/question message to RabbitMQ: " + err);
+        //     logger.debug("Error sending /add/question message to RabbitMQ: " + err);
         // });
 
         res.json({status: "OK", id: answerId});
@@ -314,11 +317,11 @@ module.exports = function(app) {
         // var addSuccess = false;
         // db.collection(COLLECTION_ANSWERS).insertOne(answerQuery)
         // .then(function(ret) {
-        //     console.log("Add answer result: " + ret);
+        //     logger.debug("Add answer result: " + ret);
         //     addSuccess = true;
         // })
         // .catch(function(error) {
-        //     console.log("Failed to add answer. Error: " + error);
+        //     logger.debug("Failed to add answer. Error: " + error);
         //     addSuccess = false;
         // })
         // .finally(function() {
@@ -355,7 +358,7 @@ module.exports = function(app) {
             res.json({status: "OK", answers: answers});
         }
         catch (error) {
-            console.log("Error: " + error);
+            logger.debug("Error: " + error);
             res.status(400).json({status: "error", questions: null, error: "Failed to get answers for question with ID: " + id});
         }
     });
@@ -364,8 +367,8 @@ module.exports = function(app) {
         var db = mongoUtil.getDB();
         var cassandraClient = cassandraUtils.getCassandraClient();
         var qid = req.params.id;
-        console.log("-------------------------------");
-        console.log("/questions/" + qid);
+        logger.debug("-------------------------------");
+        logger.debug("/questions/" + qid);
         try {
             var cookie = req.cookies['SessionID'];
             const errorMessage = "You are not logged in as the proper user to delete question: " + qid + ".";
@@ -390,10 +393,10 @@ module.exports = function(app) {
                     questionDoc.media.forEach(function(mediaId) {
                         cassandraClient.execute(query, [mediaId], {prepare: true})
                         .then(function(result) {
-                            console.log("Deleting question media file id: " + mediaId + ", result: " + result);
+                            logger.debug("Deleting question media file id: " + mediaId + ", result: " + result);
                         })
                         .catch(function(error) {
-                            console.log("Error deleting question media: " + error);
+                            logger.debug("Error deleting question media: " + error);
                         });
                     });
 
@@ -402,7 +405,7 @@ module.exports = function(app) {
                 .then(function(ret) {
                     if (ret == null) return;
                     let result = ret.result;
-                    console.log("Deleted question: n=" + result.n + ", ok=" + result.ok);
+                    logger.debug("Deleted question: n=" + result.n + ", ok=" + result.ok);
     
                     if (result.n != 1 || result.ok != 1) {
                         res.status(401).json({status: "error", error: "Failed to delete the question."});
@@ -412,7 +415,7 @@ module.exports = function(app) {
                     }
                 })
                 .catch(function(error) {
-                    console.log("Failed to delete media associated with question and question. Error: " + error);
+                    logger.debug("Failed to delete media associated with question and question. Error: " + error);
                 });
 
                 let cursor = await db.collection(COLLECTION_ANSWERS).find(questionIdQuery);
@@ -422,32 +425,32 @@ module.exports = function(app) {
                     answerDoc.media.forEach(function(mediaId) {
                         cassandraClient.execute(query, [mediaId], {prepare: true})
                         .then(function(result) {
-                            console.log("Deleting answer media file id: " + mediaId + ", result: " + result);
+                            logger.debug("Deleting answer media file id: " + mediaId + ", result: " + result);
                         })
                         .catch(function(error) {
-                            console.log("Error deleting answer media: " + error);
+                            logger.debug("Error deleting answer media: " + error);
                         });
                     });
                 }
 
                 db.collection(COLLECTION_ANSWERS).deleteMany(questionIdQuery)
                 .then(function(result) {
-                    console.log("Deleted " + result.result.n + " documents.");
+                    logger.debug("Deleted " + result.result.n + " documents.");
                 })
                 .catch(function(error) {
-                    console.log("Failed to delete answers associated with questionId: " + qid + ", Error: " + error);
+                    logger.debug("Failed to delete answers associated with questionId: " + qid + ", Error: " + error);
                 });
             }
         }
         catch (error) {
-            console.log("Error: " + error);
+            logger.debug("Error: " + error);
             res.status(401).json({status: "error", rror: "Failed to delete question with ID: " + qid});
         }
     });
 
     app.post('/answers/:id/accept', async function(req, res) {
         var id = req.params.id;
-        console.log("/answers/" + id + "/accept");
+        logger.debug("/answers/" + id + "/accept");
         
         var cookie = req.cookies['SessionID'];
         const authErrorMessage = "Must be logged in to accept an answer.";
@@ -456,7 +459,7 @@ module.exports = function(app) {
         var user = await mongoUtil.getUserAndIdForCookie(cookie);
         if (user == null) {
             // Not logged in. Fail.
-            console.log(authErrorMessage);
+            logger.debug(authErrorMessage);
             res.status(401).json(STATUS_ERROR);
             return;
         }
@@ -466,7 +469,7 @@ module.exports = function(app) {
         let answerQuery = { answerId: id };
         let answerDoc = await db.collection(COLLECTION_ANSWERS).findOne(answerQuery);
         if (answerDoc == null) {
-            console.log("Answer with ID: " + id + " does not exist");
+            logger.debug("Answer with ID: " + id + " does not exist");
             res.status(400).json(STATUS_ERROR);
             return;
         }
@@ -474,19 +477,19 @@ module.exports = function(app) {
         let questionQuery = {questionId: answerDoc.questionId};
         let questionDoc = await db.collection(COLLECTION_QUESTIONS).findOne(questionQuery);
         if (questionDoc == null) {
-            console.log("Question " + answerDoc.questionId + " associated with answer " + id + " could not be found.");
+            logger.debug("Question " + answerDoc.questionId + " associated with answer " + id + " could not be found.");
             res.status(400).json(STATUS_ERROR);
             return;
         }
 
         if (questionDoc.userId != user.userId) {
-            console.log("You can only accept an answer if you posted the question.");
+            logger.debug("You can only accept an answer if you posted the question.");
             res.status(401).json(STATUS_ERROR);
             return;
         }
 
         if (questionDoc.accepted === true) {
-            console.log("Question already has an accepted answer with ID: " + questionDoc.accepted_answer_id);
+            logger.debug("Question already has an accepted answer with ID: " + questionDoc.accepted_answer_id);
             res.status(400).json(STATUS_ERROR);
             return;
         }
@@ -497,18 +500,18 @@ module.exports = function(app) {
 
         db.collection(COLLECTION_QUESTIONS).updateOne(questionQuery, updateQuestionQuery)
         .then(function(result) {
-            console.log("Question updated with accepted status: n: " + result.result.n + ", nModified: " + result.result.nModified);
+            logger.debug("Question updated with accepted status: n: " + result.result.n + ", nModified: " + result.result.nModified);
         })
         .catch(function(error) {
-            console.log("Failed to update question with accepted status: " + error);
+            logger.debug("Failed to update question with accepted status: " + error);
         });
 
         db.collection(COLLECTION_ANSWERS).updateOne(answerQuery, updateAnswerQuery)
         .then(function(result) {
-            console.log("Answer updated with accepted status: n: " + result.result.n + ", nModified: " + result.result.nModified);
+            logger.debug("Answer updated with accepted status: n: " + result.result.n + ", nModified: " + result.result.nModified);
         })
         .catch(function(error) {
-            console.log("Failed to update answer with accepted status: " + error);
+            logger.debug("Failed to update answer with accepted status: " + error);
         });
 
         res.json(STATUS_OK);

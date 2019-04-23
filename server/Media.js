@@ -1,4 +1,7 @@
 
+var loggerUtils = require('./LoggerUtils.js');
+var logger = loggerUtils.getAppLogger();
+
 const formidable = require('formidable');
 var cassandraUtils = require('./CassandraUtils.js');
 var mongoUtil = require('./MongoUtils.js');
@@ -14,7 +17,7 @@ var getRandomIdString = constants.getRandomIdString;
 module.exports = function(app) {
 
     app.post('/addmedia', async function(req, res) {
-        console.log("/addmedia");
+        logger.debug("/addmedia");
 
         var cookie = req.cookies['SessionID'];
         const authErrorMessage = "Must be logged in to add media.";
@@ -23,7 +26,7 @@ module.exports = function(app) {
         var user = await mongoUtil.getUserAndIdForCookie(cookie);
         if (user == null) {
             // Not logged in. Fail.
-            console.log(authErrorMessage);
+            logger.debug(authErrorMessage);
             res.status(401).json({status: "error", error: authErrorMessage});
             return;
         }
@@ -49,23 +52,23 @@ module.exports = function(app) {
             });
             part.on('error', function(err) {
                 // handle this too
-                console.log("error handling stream: " + err);
+                logger.debug("error handling stream: " + err);
             });
         }
 
         form.parse(req, function(err, fields, files) {
-            // console.log("fields: " + util.inspect(fields, {showHidden: false, depth: null}));
-            // console.log("files: " + util.inspect(files, {showHidden: false, depth: null}));
+            // logger.debug("fields: " + util.inspect(fields, {showHidden: false, depth: null}));
+            // logger.debug("files: " + util.inspect(files, {showHidden: false, depth: null}));
 
             var file = Buffer.concat(chunks);
             var filename = fields.filename;
 
             cassandraClient.execute(query, [id, filename, file], {prepare: true})
             .then(function(result) {
-                console.log("Inserting file id: " + id + ", filename: " + filename + ", result: " + result);
+                logger.debug("Inserting file id: " + id + ", filename: " + filename + ", result: " + result);
             })
             .catch(function(error) {
-                console.log("Error inserting: " + error);
+                logger.debug("Error inserting: " + error);
             });
         });
 
@@ -74,13 +77,13 @@ module.exports = function(app) {
 
     app.get('/media/:id', function(req, res) {
         var id = req.params.id;
-        console.log("GET /media/" + id);
+        logger.debug("GET /media/" + id);
         
         var query = "SELECT id, filename, contents FROM imgs WHERE filename = ?";
         cassandraClient.execute(query, [id], {prepare: true})
         .then(function(result) {
             if (result == null || result.first() == null) {
-                console.log("No such media with id: " + id);
+                logger.debug("No such media with id: " + id);
                 res.json({status: "OK"});
                 return;
             }
@@ -89,7 +92,7 @@ module.exports = function(app) {
             res.send(row['contents']);
         })
         .catch(function(error) {
-            console.log("Error retrieving file with id: " + id + ", Error: " + error);
+            logger.debug("Error retrieving file with id: " + id + ", Error: " + error);
             res.json({status: "OK"});
         });
     });

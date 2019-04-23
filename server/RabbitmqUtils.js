@@ -1,4 +1,7 @@
 
+var loggerUtils = require('./LoggerUtils.js');
+var logger = loggerUtils.getAppLogger();
+
 var amqp = require('amqplib');
 // var url = 'amqp://localhost';
 var url = 'amqp://192.168.122.29';
@@ -13,10 +16,10 @@ module.exports = {
             var conn = await amqp.connect(url);
             _connection = conn;
             _ch = await conn.createChannel();
-            console.log("CONNECTED to RabbitMQ");
+            logger.debug("CONNECTED to RabbitMQ");
         }
         catch (error) {
-            console.log("Error connecting to RabbitMQ: " + error);
+            logger.debug("Error connecting to RabbitMQ: " + error);
         }
     },
     getConnection: function() {
@@ -29,12 +32,12 @@ module.exports = {
         if (_connection == null) {
             return amqp.connect(url)
             .then(function(conn) {
-                console.log("Connected to RabbitMQ Async");
+                logger.debug("Connected to RabbitMQ Async");
                 _connection = conn;
                 return conn;
             })
             .catch(function(error) {
-                console.log("Error connecting to RabbitMQ Async: " + error);
+                logger.debug("Error connecting to RabbitMQ Async: " + error);
             });
         }
         else {

@@ -1,4 +1,7 @@
 
+var loggerUtils = require('./LoggerUtils.js');
+var logger = loggerUtils.getAppLogger();
+
 const util = require('util');
 
 var mongoUtil = require('./MongoUtils.js');
@@ -24,10 +27,10 @@ module.exports = function(app) {
 
             var userDoc = await db.collection(COLLECTION_USERS).findOne(userQuery);
 
-            console.log("Get user profile for username: " + username);
+            logger.debug("Get user profile for username: " + username);
             if (userDoc != null) {
-                console.log("Succeeded in getting user profile.")
-                console.log("----------------------------------------");
+                logger.debug("Succeeded in getting user profile.")
+                logger.debug("----------------------------------------");
                 res.json({status: "OK",
                         user: {
                             email: userDoc.email,
@@ -36,15 +39,15 @@ module.exports = function(app) {
                 });
             }
             else {
-                console.log("Failed to get user profile.");
-                console.log("--------------------------------------");
+                logger.debug("Failed to get user profile.");
+                logger.debug("--------------------------------------");
                 res.status(400).json({status: "error"});
             }
 
         }
         catch (error) {
-            console.log("Failed to get user profile. Error: " + error);
-            console.log("--------------------------------------");
+            logger.debug("Failed to get user profile. Error: " + error);
+            logger.debug("--------------------------------------");
             res.status(400).json({status: "error"});
         }
     });
@@ -54,7 +57,7 @@ module.exports = function(app) {
         var db = mongoUtil.getDB();
 
         try {
-            console.log("Getting question Ids for username: " + username);
+            logger.debug("Getting question Ids for username: " + username);
             var searchQuery = {username: username};
 
             var questionIds = [];
@@ -63,13 +66,13 @@ module.exports = function(app) {
                 let questionDoc = await cursor.next();
                 questionIds.push(questionDoc.questionId);
             }
-            console.log(username + " has posted " + questionIds.length + " questions.");
-            console.log("--------------------------------------------------------");
+            logger.debug(username + " has posted " + questionIds.length + " questions.");
+            logger.debug("--------------------------------------------------------");
             res.json({status: "OK", questions: questionIds});
         }
         catch (error) {
-            console.log("Error getting questions for username: " + username);
-            console.log("-------------------------------------------");
+            logger.debug("Error getting questions for username: " + username);
+            logger.debug("-------------------------------------------");
             res.status(400).json({status: "error"});
         }
     });
@@ -79,7 +82,7 @@ module.exports = function(app) {
         var db = mongoUtil.getDB();
 
         try {
-            console.log("Getting answer Ids for username: " + username);
+            logger.debug("Getting answer Ids for username: " + username);
             var searchQuery = {username: username};
 
             var answerIds = [];
@@ -88,13 +91,13 @@ module.exports = function(app) {
                 let answerDoc = await cursor.next();
                 answerIds.push(answerDoc.answerId);
             }
-            console.log(username + " has posted " + answerIds.length + " answers.");
-            console.log("--------------------------------------------------------");
+            logger.debug(username + " has posted " + answerIds.length + " answers.");
+            logger.debug("--------------------------------------------------------");
             res.json({status: "OK", answers: answerIds});
         }
         catch (error) {
-            console.log("Error getting questions for username: " + username);
-            console.log("-------------------------------------------");
+            logger.debug("Error getting questions for username: " + username);
+            logger.debug("-------------------------------------------");
             res.status(400).json({status: "error"});
         }
     });

@@ -1,4 +1,7 @@
 
+var loggerUtils = require('./LoggerUtils.js');
+var logger = loggerUtils.getAppLogger();
+
 function generateKey() {
     var key = "", possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     for (var i = 0; i < 32; i++) {
@@ -25,11 +28,13 @@ function sendMail(email, key) {
         subject: 'Verification Key',
         text: "validation key: <" + key + ">",
         html: "validation key: <" + key + ">"
+        // html: "<p>validation key: &lt;" + key + "&gt;</p>"
+
     }
 
     transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
-            return console.log(error);
+            return logger.debug(error);
         }
     });
 }
@@ -50,7 +55,7 @@ module.exports = function(app) {
     let mongoUtil = require('./MongoUtils');
 
     app.post('/adduser/', async function (req, res) {
-        console.log("Add User");
+        logger.debug("Add User");
 
         let username = req.body.username;
         let password = req.body.password;
@@ -72,12 +77,12 @@ module.exports = function(app) {
         //     .then(function(doc) {
         //         if (doc == null) return false;
         //         else {
-        //             console.log("userId: " + userId + " already exists. Must get a new random userId.");
+        //             logger.debug("userId: " + userId + " already exists. Must get a new random userId.");
         //             return true;
         //         }
         //     })
         //     .catch(function(error) {
-        //         console.log("Failed to find if userId " + userId + " already exists.");
+        //         logger.debug("Failed to find if userId " + userId + " already exists.");
         //         return true;
         //     });
         // }
@@ -107,7 +112,7 @@ module.exports = function(app) {
 
         if (isUserUnique) {
             let result = await db.collection(COLLECTION_USERS).insertOne(insertQuery);
-            console.log("Add user result: " + result);
+            logger.debug("Add user result: " + result);
             sendMail(email, key);
             res.json(STATUS_OK);
         }
@@ -118,9 +123,14 @@ module.exports = function(app) {
     });
 
     app.post('/verify', function(req, res) {
+        logger.debug("//////////////////////////");
+        logger.debug("/verify");
         var email = req.body.email;
         var key = req.body.key;
         var backdoor = "abracadabra";
+
+        logger.debug("Email: " + email);
+        logger.debug("Key: " + key);
 
         var db = mongoUtil.getDB();
 
@@ -146,11 +156,11 @@ module.exports = function(app) {
         })
         .then(function(ret) {
             if (ret == null) return;
-            console.log("Update verified result: " + ret);
+            logger.debug("Update verified result: " + ret);
             verifySuccess = true;
         })
         .catch(function(error) {
-            console.log("Failed finding account to verify or updating account verified status: " + error);
+            logger.debug("Failed finding account to verify or updating account verified status: " + error);
             verifySuccess = false;
         })
         .finally(function() {

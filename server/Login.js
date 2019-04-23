@@ -1,4 +1,7 @@
 
+var loggerUtils = require('./LoggerUtils.js');
+var logger = loggerUtils.getAppLogger();
+
 const util = require('util');
 
 var mongoUtil = require('./MongoUtils.js');
@@ -43,7 +46,7 @@ module.exports = function(app) {
             return doc != null;
         })
         .catch(function(error) {
-            console.log("Error checking to see if user/pass is correct: " + error);
+            logger.debug("Error checking to see if user/pass is correct: " + error);
             return false;
         });
 
@@ -61,16 +64,16 @@ module.exports = function(app) {
         let memCookieObj = {userId: userId, username: username};
         memcached.set(newCookie, memCookieObj, 86400, function(err) {
             if (err) {
-                console.log("Login: Error setting object in memcached: " + err);
+                logger.debug("Login: Error setting object in memcached: " + err);
             }
         });
 
         db.collection(COLLECTION_COOKIES).insertOne(cookieQuery)
         .then(function(ret) {
-            console.log("New Cookie added: " + newCookie + "\nMongoDB Message: " + ret);
+            logger.debug("New Cookie added: " + newCookie + "\nMongoDB Message: " + ret);
         })
         .catch(function(error) {
-            console.log("Error Inserting Cookie: " + error);
+            logger.debug("Error Inserting Cookie: " + error);
             cookieInsertSuccess = false;
         })
         .finally(function() {
@@ -104,15 +107,15 @@ module.exports = function(app) {
 
             // Delete cookie from memcached.
             memcached.del(cookie, function(err) {
-                console.log("Error deleting cookie " + cookie + " from memcached: " + err);
+                logger.debug("Error deleting cookie " + cookie + " from memcached: " + err);
             });
 
             mongoUtil.getDB().collection(COLLECTION_COOKIES).deleteOne(deleteQuery)
             .then(function(ret) {
-                console.log("Deleted: " + ret);
+                logger.debug("Deleted: " + ret);
             })
             .catch(function(error) {
-                console.log("Delete cookie error: " + error);
+                logger.debug("Delete cookie error: " + error);
                 res.status(400).json({ status: "error", error: "Failed to delete cookie." });
             })
             .finally(function() {

@@ -1,4 +1,6 @@
 
+var loggerUtils = require('./LoggerUtils.js');
+var logger = loggerUtils.getAppLogger();
 
 const util = require('util');
 
@@ -18,8 +20,8 @@ const COLLECTION_IP = constants.COLLECTION_IP;
 
 module.exports = function(app) {
     app.post('/search', async function(req, res) {
-        console.log("/////////////////////////////////////");
-        console.log("/search");
+        logger.debug("/////////////////////////////////////");
+        logger.debug("/search");
         var client = elasticUtils.getElasticClient();
         var db = mongoUtil.getDB();
 
@@ -41,14 +43,14 @@ module.exports = function(app) {
                 tags = tagsArray.join(" ");
             }
 
-            console.log("search");
-            console.log("Timestamp: " + timestamp);
-            console.log("Limit: " + limit);
-            console.log("q: " + q);
-            console.log("sort_by: " + sort_by);
-            console.log("tags: " + tags);
-            console.log("has_media: " + has_media);
-            console.log("accepted: " + accepted);
+            logger.debug("search");
+            logger.debug("Timestamp: " + timestamp);
+            logger.debug("Limit: " + limit);
+            logger.debug("q: " + q);
+            logger.debug("sort_by: " + sort_by);
+            logger.debug("tags: " + tags);
+            logger.debug("has_media: " + has_media);
+            logger.debug("accepted: " + accepted);
 
             var matches;
             if (q != null && q != "") {
@@ -99,8 +101,8 @@ module.exports = function(app) {
 
                     matches = body.hits.hits;
                 }
-                // console.log(util.inspect(body, {showHidden: false, depth: null}));
-                // console.log("body: " +  body);
+                // logger.debug(util.inspect(body, {showHidden: false, depth: null}));
+                // logger.debug("body: " +  body);
                 
             }
             else if (tags != "") {
@@ -126,7 +128,7 @@ module.exports = function(app) {
             if (matches != null) {
                 for (let i = 0; i < matches.length; i++) {
                     stringMatchedIds.push(matches[i]._source.id);
-                    console.log("Available ID: " + matches[i]._source.id);
+                    logger.debug("Available ID: " + matches[i]._source.id);
                 }
             }
 
@@ -167,13 +169,13 @@ module.exports = function(app) {
                 cursor = await db.collection(COLLECTION_QUESTIONS).find(searchQuery).sort({ score: -1 }).limit(limit);
             }
 
-            console.log("1");
+            logger.debug("1");
             while (await cursor.hasNext()) {
-                console.log("2");
+                logger.debug("2");
                 let questionDoc = await cursor.next();
-                console.log("3");
+                logger.debug("3");
                 let userDoc = await db.collection(COLLECTION_USERS).findOne({userId: questionDoc.userId});
-                console.log("4");
+                logger.debug("4");
                 var question = {
                     id: questionDoc.questionId, user: { username: userDoc.username, reputation: userDoc.reputation },
                     title: questionDoc.title, body: questionDoc.body, score: questionDoc.score, view_count: questionDoc.view_count,
@@ -183,13 +185,13 @@ module.exports = function(app) {
                 questionsArray.push(question);
             }
             for (var i = 0; i < questionsArray.length; i++) {
-                console.log(questionsArray[i]);
+                logger.debug(questionsArray[i]);
             }
-            console.log("5");
+            logger.debug("5");
             res.json({status: "OK", questions: questionsArray});
         }
         catch(error) {
-            console.log("Failed to do search. Error: " + error);
+            logger.debug("Failed to do search. Error: " + error);
             res.status(400).json({status: "error", error: "Failed to do the search query."});
         }
     });

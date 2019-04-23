@@ -1,4 +1,6 @@
 
+var loggerUtils = require('./LoggerUtils.js');
+var logger = loggerUtils.getAppLogger();
 const cassandra = require('cassandra-driver');
 
 var cassandraKeyspace = "final";
@@ -13,10 +15,10 @@ const client = new cassandra.Client({
 
 client.connect(function(err) {
     if (err) {
-        console.log("Cassandra: Error connecting: " + err);
+        logger.debug("Cassandra: Error connecting: " + err);
         return;
     }
-    console.log("Connected to Cassandra cluster.");
+    logger.debug("Connected to Cassandra cluster.");
 });
 
 module.exports = {

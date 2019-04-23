@@ -1,4 +1,7 @@
 
+var loggerUtils = require('./LoggerUtils.js');
+var logger = loggerUtils.getAppLogger();
+
 var mongo = require('mongodb').MongoClient;
 const url = "mongodb://192.168.122.13:27017";
 // const url = "mongodb://localhost:27017";
@@ -24,7 +27,7 @@ function checkIfUserLoggedIn(cookieString) {
         return doc != null;
     })
     .catch(function(error) {
-        console.log("Error checking if user is logged in with cookie: " + error);
+        logger.debug("Error checking if user is logged in with cookie: " + error);
         return false;
     });
 }
@@ -39,7 +42,7 @@ async function getUserForCookie(cookieString) {
         return doc.username;
     }
     else {
-        console.log("No such cookie is found.");
+        logger.debug("No such cookie is found.");
         return null;
     }
 
@@ -49,12 +52,12 @@ async function getUserForCookie(cookieString) {
     //         return doc.username;
     //     }
     //     else {
-    //         console.log("No such cookie is found.");
+    //         logger.debug("No such cookie is found.");
     //         return null;
     //     }
     // })
     // .catch(function(error) {
-    //     console.log("Could not complete query to find username for cookie. Error: " + error);
+    //     logger.debug("Could not complete query to find username for cookie. Error: " + error);
     //     return null;
     // });
 }
@@ -70,7 +73,7 @@ async function getIdForCookie(cookieString) {
         return doc.userId;
     }
     else {
-        console.log("No such cookie is found.");
+        logger.debug("No such cookie is found.");
         return null;
     }
 
@@ -80,12 +83,12 @@ async function getIdForCookie(cookieString) {
     //         return doc.userId;
     //     }
     //     else {
-    //         console.log("No such cookie is found.");
+    //         logger.debug("No such cookie is found.");
     //         return null;
     //     }
     // })
     // .catch(function(error) {
-    //     console.log("Could not complete query to find userId for cookie. Error: " + error);
+    //     logger.debug("Could not complete query to find userId for cookie. Error: " + error);
     //     return null;
     // });
 }
@@ -95,12 +98,12 @@ function promiseWrapGet(cookieString, memcached) {
     return new Promise(function(resolve, reject) {
         memcached.get(cookieString, function(err, data) {
             if (err) {
-                console.log("Error getting data from memcached: " + err);
+                logger.debug("Error getting data from memcached: " + err);
                 // reject(err);
             }
 
             if (data) {
-                console.log("Cookie: " + cookieString + " was in memcached.");
+                logger.debug("Cookie: " + cookieString + " was in memcached.");
                 resolve({userId: data.userId, username: data.username});
             }
             else {
@@ -118,14 +121,14 @@ function promiseWrapSet(cookieString, memcached) {
             let memCookieObj = {userId: doc.userId, username: doc.username};
             memcached.set(cookieString, memCookieObj, 86400, function(err) {
                 if (err) {
-                    console.log("Error setting object in memcached: " + err);
+                    logger.debug("Error setting object in memcached: " + err);
                 }
             });
             return memCookieObj;
             // resolve(memCookieObj);
         }
         else {
-            console.log("No such cookie is found.");
+            logger.debug("No such cookie is found.");
             // resolve(null);
             return null;
         }
@@ -133,7 +136,7 @@ function promiseWrapSet(cookieString, memcached) {
 }
 
 async function getUserAndIdForCookie(cookieString) {
-    console.log("Get user and ID for cookie");
+    logger.debug("Get user and ID for cookie");
     if (cookieString == null) return null;
     var cookieQuery = { val: cookieString };
 
@@ -151,20 +154,20 @@ async function getUserAndIdForCookie(cookieString) {
 
 /*
     return new Promise(function(resolve, reject) {
-        console.log("Outer promise");
+        logger.debug("Outer promise");
         memcached.get(cookieString, function(err, data) {
-            console.log("Inner Promise");
+            logger.debug("Inner Promise");
             if (err) {
-                console.log("Error getting data from memcached: " + err);
+                logger.debug("Error getting data from memcached: " + err);
                 // reject(err);
             }
 
             if (data) {
-                console.log("Cookie: " + cookieString + " was in memcached.");
+                logger.debug("Cookie: " + cookieString + " was in memcached.");
                 resolve({userId: data.userId, username: data.username});
             }
             else {
-                console.log("Cookie: " + cookieString + " was not in memcached");
+                logger.debug("Cookie: " + cookieString + " was not in memcached");
                 
                 _db.collection(COLLECTION_COOKIES).findOne(cookieQuery).then(function(doc) {
 
@@ -172,14 +175,14 @@ async function getUserAndIdForCookie(cookieString) {
                         let memCookieObj = {userId: doc.userId, username: doc.username};
                         memcached.set(cookieString, memCookieObj, 86400, function(err) {
                             if (err) {
-                                console.log("Error setting object in memcached: " + err);
+                                logger.debug("Error setting object in memcached: " + err);
                             }
                         });
                         // return memCookieObj;
                         resolve(memCookieObj);
                     }
                     else {
-                        console.log("No such cookie is found.");
+                        logger.debug("No such cookie is found.");
                         resolve(null);
                         // return null;
                     }
@@ -187,7 +190,7 @@ async function getUserAndIdForCookie(cookieString) {
                 
 
                 // .catch(function(error) {
-                //     console.log("Could not complete query to find userId for cookie. Error: " + error);
+                //     logger.debug("Could not complete query to find userId for cookie. Error: " + error);
                 //     // reject(error);
                 // })
             }
@@ -201,12 +204,12 @@ async function getUserAndIdForCookie(cookieString) {
     //         return {userId: doc.userId, username: doc.username};
     //     }
     //     else {
-    //         console.log("No such cookie is found.");
+    //         logger.debug("No such cookie is found.");
     //         return null;
     //     }
     // })
     // .catch(function(error) {
-    //     console.log("Could not complete query to find userId for cookie. Error: " + error);
+    //     logger.debug("Could not complete query to find userId for cookie. Error: " + error);
     //     return null;
     // });
 }
@@ -218,10 +221,10 @@ module.exports = {
             var db = await mongo.connect(url);
             _realdb = db;
             _db = db.db(DATABASE);
-            console.log("CONNECTED");
+            logger.debug("CONNECTED");
         }
         catch (error) {
-            console.log("Error connecting to MongoDB: " + error);
+            logger.debug("Error connecting to MongoDB: " + error);
         }
     },
     getDB: function() {
@@ -236,11 +239,11 @@ module.exports = {
             .then(function(db) {
                 _realdb = db;
                 _db = db.db(DATABASE);
-                console.log("Connected Async with MongoDB");
+                logger.debug("Connected Async with MongoDB");
                 return _db;
             })
             .catch(function(error) {
-                console.log("Error connecting to MongoDB Async: " + error);
+                logger.debug("Error connecting to MongoDB Async: " + error);
             });
         }
         else {

@@ -233,8 +233,8 @@ module.exports = function(app) {
             console.log("ElasticSearch failed to create index: Questions. Error: " + error);
         });
         
-        
-        
+        // client.cluster.
+
         var db = mongoUtil.getDB();
 
         db.collection(COLLECTION_USERS).createIndexes([

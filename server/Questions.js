@@ -300,7 +300,7 @@ module.exports = function(app) {
         var media = req.body.media;
 
         var cookie = req.cookies['SessionID'];
-        const authErrorMessage = "User is not logged in. Must be logged in to add an answer.";
+        const authErrorMessage = "ANSWER_ADD_ERROR: User is not logged in. Must be logged in to add an answer.";
 
         var user = await mongoUtil.getUserAndIdForCookie(cookie);
 
@@ -320,7 +320,9 @@ module.exports = function(app) {
                 let mediaIdQuery = {mediaId: media[i]};
                 let result = await db.collection(COLLECTION_MEDIA).findOne(mediaIdQuery);
                 if (result != null) {
+                    logger.debug("ANSWER_ADD_ERROR: can't use media from other Q/A's");
                     res.status(400).json({status: "error", error: "An answer can't use media from other Q/A's."});
+                    return;
                 }
 
                 result = await db.collection(COLLECTION_MEDIA_USER).findOne({_id: media[i]});

@@ -36,9 +36,11 @@ module.exports = function(app) {
         form.onPart = function(part) {
             console.log(part.filename);
             if (!part.filename) {
-                filename = part.filename;
                 form.handlePart(part);
                 return;
+            }
+            else {
+                filename = part.filename;
             }
             // part.addListener('data', function(data) {
             //     chunks.push(data);

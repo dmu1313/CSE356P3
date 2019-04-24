@@ -4,7 +4,7 @@ var logger = loggerUtils.getAppLogger();
 
 var rabbitUtils = require('./RabbitmqUtils.js');
 
-var RABBITMQ_ADD_MEDIA = rabbitUtils.RABBITMQ_ADD_QUESTIONS;
+var RABBITMQ_ADD_MEDIA = rabbitUtils.RABBITMQ_ADD_MEDIA;
 var QUEUE_NAME = rabbitUtils.QUEUE_NAME;
 
 const formidable = require('formidable');
@@ -24,29 +24,28 @@ module.exports = function(app) {
     app.post('/addmedia', async function(req, res) {
         logger.debug("/addmedia");
 
-        var cookie = req.cookies['SessionID'];
-        const authErrorMessage = "Must be logged in to add media.";
 
-        // Check to see if logged in first.
-        var user = await mongoUtil.getUserAndIdForCookie(cookie);
-        console.log("addmedia: user: " + user);
-        if (user == null) {
-            // Not logged in. Fail.
-            logger.debug(authErrorMessage);
-            res.status(401).json({status: "error", error: authErrorMessage});
-            return;
-        }
 
         var id = getRandomIdString();
 
         var form = new formidable.IncomingForm();
         var chunks = [];
+        
+        var filename;
 
         form.onPart = function(part) {
+            console.log(part.filename);
             if (!part.filename) {
+                filename = part.filename;
                 form.handlePart(part);
                 return;
             }
+            // part.addListener('data', function(data) {
+            //     chunks.push(data);
+            // });
+            // part.addListener('end', function() {
+            //     console.log('end');
+            // });
             part.on('data', function(data) {
                 chunks.push(data);
             });
@@ -59,12 +58,26 @@ module.exports = function(app) {
             });
         }
 
-        form.parse(req, function(err, fields, files) {
+        form.parse(req, async function(err, fields, files) {
             // logger.debug("fields: " + util.inspect(fields, {showHidden: false, depth: null}));
             // logger.debug("files: " + util.inspect(files, {showHidden: false, depth: null}));
 
+            var cookie = req.cookies['SessionID'];
+            const authErrorMessage = "Must be logged in to add media.";
+    
+            // Check to see if logged in first.
+            var user = await mongoUtil.getUserAndIdForCookie(cookie);
+            console.log("addmedia: user: " + user);
+            if (user == null) {
+                // Not logged in. Fail.
+                logger.debug(authErrorMessage);
+                res.status(401).json({status: "error", error: authErrorMessage});
+                return;
+            }
+
+
             var file = Buffer.concat(chunks);
-            var filename = fields.filename;
+            // var filename = fields.filename;
 
             var rabbitChannel = rabbitUtils.getChannel();
 
@@ -82,9 +95,11 @@ module.exports = function(app) {
             // .catch(function(error) {
             //     logger.debug("Error inserting: " + error);
             // });
+
+            res.json({status: "OK", id: id});
+
         });
 
-        res.json({status: "OK", id: id});
     });
 
     app.get('/media/:id', function(req, res) {

@@ -34,7 +34,7 @@ async function startConsumer() {
         var ch = await connection.createChannel();
 
         var ok = await ch.assertQueue(QUEUE_NAME, {durable: true});
-        await ch.prefetch(50);
+        await ch.prefetch(500);
         ch.consume(QUEUE_NAME, function(msg) {
             var obj = JSON.parse(msg.content);
             console.log("obj.t: " + obj.t);
@@ -179,7 +179,12 @@ async function startConsumer() {
                 var query = "INSERT INTO " + cassandraFullName + " (id, filename, contents) VALUES (?, ?, ?)";
 
                 var filename = obj.filename;
-                var file = obj.content;
+
+                // logic for blob: Buffer.concat(chunks):Buffer -> Put buffer in object -> Buffer.from(JSON.stringify(object)) -> RabbitMQ ->
+                // Data from right before RabbitMQ transit shows up in msg.content -> obj = JSON.parse(msg.content) -> buffer is still in the content property
+                // of the object but now it has the structure: {content: { type: 'Buffer', data: [ 49, 50, 51, 52, 49, 50, 51 ] }, ... } ->
+                // Buffer.from(obj.content.data) -> Now we have the original buffer.
+                var file = Buffer.from(obj.content.data);
                 var id = obj.id;
     
                 console.log("Cassandra Insert");

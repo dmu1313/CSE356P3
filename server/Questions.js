@@ -293,6 +293,7 @@ module.exports = function(app) {
     app.post('/questions/:id/answers/add', async function(req, res) {
         var rabbitConnection = rabbitUtils.getConnection();
         var rabbitChannel = rabbitUtils.getChannel();
+        var db = mongoUtil.getDB();
 
         var id = req.params.id;
         var body = req.body.body;
@@ -338,7 +339,7 @@ module.exports = function(app) {
         }
 
         var answerId;
-        var db = mongoUtil.getDB();
+        
 
         answerId = getRandomIdString();
         let timestamp = getUnixTime();
@@ -454,7 +455,7 @@ module.exports = function(app) {
                     questionDoc.media.forEach(function(mediaId) {
                         let deleteMediaQuery = {mediaId: mediaId};
                         db.collection(COLLECTION_MEDIA).deleteMany(deleteMediaQuery);
-
+                        db.collection(COLLECTION_MEDIA_USER).deleteMany({_id: mediaId});
                         cassandraClient.execute(query, [mediaId], {prepare: true})
                         .then(function(result) {
                             logger.debug("Deleting question media file id: " + mediaId + ", result: " + result);
@@ -489,6 +490,7 @@ module.exports = function(app) {
                     answerDoc.media.forEach(function(mediaId) {
                         let deleteMediaQuery = {mediaId: mediaId};
                         db.collection(COLLECTION_MEDIA).deleteMany(deleteMediaQuery);
+                        db.collection(COLLECTION_MEDIA_USER).deleteMany({_id: mediaId});
 
                         cassandraClient.execute(query, [mediaId], {prepare: true})
                         .then(function(result) {

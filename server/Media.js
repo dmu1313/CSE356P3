@@ -118,7 +118,9 @@ module.exports = function(app) {
                 return;
             }
             var row = result.first();
-            // res.type(row['filename']);
+            if (row['filename'] != null) {
+                res.type(row['filename']);
+            }
             res.send(row['contents']);
         })
         .catch(function(error) {

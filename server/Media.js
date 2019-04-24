@@ -72,8 +72,6 @@ module.exports = function(app) {
             return;
         }
 
-        res.json({status: "OK", id: id});
-
         form.parse(req, async function(err, fields, files) {
             // logger.debug("fields: " + util.inspect(fields, {showHidden: false, depth: null}));
             // logger.debug("files: " + util.inspect(files, {showHidden: false, depth: null}));
@@ -104,6 +102,7 @@ module.exports = function(app) {
             //     logger.debug("Error inserting: " + error);
             // });
 
+            res.json({status: "OK", id: id});
             
 
         });

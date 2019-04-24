@@ -135,6 +135,7 @@ module.exports = function(app) {
         var elasticClient = elasticUtils.getElasticClient();
         var rabbitConnection = rabbitUtils.getConnection();
         var rabbitChannel = rabbitUtils.getChannel();
+        var db = mongoUtil.getDB();
         try {
             logger.debug("/questions/add");
             var title = req.body.title;
@@ -153,15 +154,18 @@ module.exports = function(app) {
             // logger.debug("cookie: " + cookie);
 
             var user = await mongoUtil.getUserAndIdForCookie(cookie);
-            var userId = user.userId;
-            var username = user.username;
-            // var userId = await mongoUtil.getIdForCookie(cookie);
+            
             if (user == null) {
                 // Not logged in. Fail.
                 logger.debug(authErrorMessage);
                 res.status(401).json({status: "error", error: authErrorMessage});
                 return;
             }
+
+            var userId = user.userId;
+            var username = user.username;
+            // var userId = await mongoUtil.getIdForCookie(cookie);
+            
             if (title == null || body == null || tags == null) {
                 let validValuesMsg = "QUESTION_ADD_ERROR: Title, body, and tags must all have valid values for /questions/add.";
                 logger.debug(validValuesMsg);
@@ -182,7 +186,7 @@ module.exports = function(app) {
 
             var questionId = getRandomIdString();
             var questionIdExists = true;
-            var db = mongoUtil.getDB();
+            
 
             // while (questionIdExists) {    
             //     questionId = getRandomIdString();

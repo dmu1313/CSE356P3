@@ -25,6 +25,7 @@ module.exports = {
     COLLECTION_QMEDIA: "QMEDIA",
     COLLECTION_AMEDIA: "AMEDIA",
     COLLECTION_MEDIA: "MEDIA",
+    COLLECTION_MEDIA_USER: "Media_User",
     
 
     getRandomIdString: getRandomIdString,

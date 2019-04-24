@@ -306,6 +306,7 @@ module.exports = function(app) {
         // q_media: { _id=questionId, mediaId }
         // a_media: { _id=answerId, mediaId }
         // media: { _id=questionId/answerId, mediaId }
+        // var mediaUserQuery = {_id: id, qaId: null, userId: userId};
 
         db.collection(COLLECTION_MEDIA).createIndex( { mediaId: 1  })
         .then(function(result) {

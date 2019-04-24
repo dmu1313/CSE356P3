@@ -69,7 +69,7 @@ module.exports = function(app) {
     
             // Check to see if logged in first.
             var user = await mongoUtil.getUserAndIdForCookie(cookie);
-            logger.debug("addmedia: user: " + user);
+            logger.debug("addmedia: user: " + user.userId);
             if (user == null) {
                 // Not logged in. Fail.
                 logger.debug(authErrorMessage);
@@ -85,7 +85,7 @@ module.exports = function(app) {
 
             // console.log("Sending /addmedia to RabbitMQ");
             // console.log("Filename: " + filename);
-            var msg = {t: RABBITMQ_ADD_MEDIA, content: file, filename: filename, id: id};
+            var msg = {t: RABBITMQ_ADD_MEDIA, content: file, filename: filename, id: id, userId: user.userId};
 
             rabbitChannel.sendToQueue(QUEUE_NAME, Buffer.from(JSON.stringify(msg))/*, {persistent: true}*/);
     

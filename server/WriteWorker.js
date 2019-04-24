@@ -21,6 +21,7 @@ const COLLECTION_ANSWERS = constants.COLLECTION_ANSWERS;
 const COLLECTION_QMEDIA = constants.COLLECTION_QMEDIA;
 const COLLECTION_AMEDIA = constants.COLLECTION_AMEDIA;
 const COLLECTION_MEDIA = constants.COLLECTION_MEDIA;
+const COLLECTION_MEDIA_USER = constants.COLLECTION_MEDIA_USER;
 
 var RABBITMQ_ADD_QUESTIONS = rabbitUtils.RABBITMQ_ADD_QUESTIONS;
 var RABBITMQ_ADD_ANSWERS = rabbitUtils.RABBITMQ_ADD_ANSWERS;
@@ -92,6 +93,7 @@ async function startConsumer() {
 
                 if (qMediaDocs.length > 0) {
                     db.collection(COLLECTION_MEDIA).insertMany(qMediaDocs, {ordered: false})
+                    // db.collection(COLLECTION_MEDIA).updateMany({_id: {$in: qMediaDocs} }, { $set: {qaId: questionId} })
                     .then(function(ret) {
                         logger.debug("Insert many Q media IDs: " + ret);
                     })
@@ -145,6 +147,7 @@ async function startConsumer() {
 
                 if (aMediaDocs.length > 0) {
                     db.collection(COLLECTION_MEDIA).insertMany(aMediaDocs, {ordered: false})
+                    // db.collection(COLLECTION_MEDIA).updateMany({_id: {$in: aMediaDocs} }, { $set: {qaId: answerId} })
                     .then(function(ret) {
                         logger.debug("Insert many A media IDs: " + ret);
                     })
@@ -186,7 +189,14 @@ async function startConsumer() {
                 // Buffer.from(obj.content.data) -> Now we have the original buffer.
                 var file = Buffer.from(obj.content.data);
                 var id = obj.id;
+                var userId = obj.userId;
+
+                // var mediaUserQuery = {_id: id, qaId: null, userId: userId};
+                // db.collection(COLLECTION_MEDIA).insertOne(mediaUserQuery);
     
+                var mediaUserQuery = {_id: id, userId: userId};
+                db.collection(COLLECTION_MEDIA_USER).insertOne(mediaUserQuery);
+
                 logger.debug("Cassandra Insert");
                 cassandraClient.execute(query, [id, filename, file], {prepare: true})
                 .then(function(result) {

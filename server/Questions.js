@@ -27,6 +27,7 @@ const COLLECTION_ANSWERS = constants.COLLECTION_ANSWERS;
 const COLLECTION_IP_VIEWS = constants.COLLECTION_IP_VIEWS;
 const COLLECTION_USER_VIEWS = constants.COLLECTION_USER_VIEWS;
 const COLLECTION_MEDIA = constants.COLLECTION_MEDIA;
+const COLLECTION_MEDIA_USER = constants.COLLECTION_MEDIA_USER;
 
 var getRandomIdString = constants.getRandomIdString;
 var getUnixTime = constants.getUnixTime;
@@ -178,8 +179,21 @@ module.exports = function(app) {
                     let mediaIdQuery = {mediaId: media[i]};
                     let result = await db.collection(COLLECTION_MEDIA).findOne(mediaIdQuery);
                     if (result != null) {
-                        logger.debug("QUESTION_ADD_ERROR");
+                        logger.debug("QUESTION_ADD_ERROR: can't use media from other Q/A's");
                         res.status(400).json({status: "error", error: "A question can't use media from other Q/A's."});
+                        return;
+                    }
+
+                    result = await db.collection(COLLECTION_MEDIA_USER).findOne({_id: media[i]});
+                    if (result != null) {
+                        if (userId != result.userId) {
+                            logger.debug("QUESTION_ADD_ERROR: can't use media from other user");
+                            res.status(400).json({status: "error", error: "A question can't use media from other users."});
+                            return;
+                        }
+                        else {
+                            logger.debug("Media belongs to user attempting to add question.");
+                        }
                     }
                 }
             }
@@ -303,6 +317,19 @@ module.exports = function(app) {
                 if (result != null) {
                     res.status(400).json({status: "error", error: "An answer can't use media from other Q/A's."});
                 }
+
+                result = await db.collection(COLLECTION_MEDIA_USER).findOne({_id: media[i]});
+                if (result != null) {
+                    if (userId != result.userId) {
+                        logger.debug("ANSWER_ADD_ERROR: can't use media from other user");
+                        res.status(400).json({status: "error", error: "An answer can't use media from other users."});
+                        return;
+                    }
+                    else {
+                        logger.debug("Media belongs to user attempting to add answer.");
+                    }
+                }
+
             }
         }
 

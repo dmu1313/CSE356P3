@@ -49,7 +49,9 @@ module.exports = function(app) {
                 if (cookie != undefined) {
                     // username = await mongoUtil.getUserForCookie(cookie);
                     let temp = await mongoUtil.getUserAndIdForCookie(cookie);
-                    username = temp.username;
+                    if (temp != null) {
+                        username = temp.username;
+                    }
                 }
 
                 var numViews = questionDoc.view_count;
@@ -300,8 +302,7 @@ module.exports = function(app) {
         const authErrorMessage = "User is not logged in. Must be logged in to add an answer.";
 
         var user = await mongoUtil.getUserAndIdForCookie(cookie);
-        var userId = user.userId;
-        var username = user.username;
+
         // var userId = await mongoUtil.getIdForCookie(cookie);
         if (user == null) {
             // Not logged in. Fail.
@@ -309,6 +310,9 @@ module.exports = function(app) {
             res.status(401).json({status: "error", error: authErrorMessage});
             return;
         }
+
+        var userId = user.userId;
+        var username = user.username;
 
         if (media != null) {
             for (let i = 0; i < media.length; i++) {
@@ -432,11 +436,14 @@ module.exports = function(app) {
             }
             
             
-            var userId = (await mongoUtil.getUserAndIdForCookie(cookie)).userId;
+            var user = await mongoUtil.getUserAndIdForCookie(cookie)
+            
             if (!userId) {
                 res.status(401).json({status: "error", error: errorMessage})
             }
             else {
+                var userId = user.userId;
+
                 var query = "DELETE FROM " + cassandraFullName + " WHERE id=? IF EXISTS";
                 let questionIdQuery = { questionId: qid };
 

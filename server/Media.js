@@ -69,7 +69,7 @@ module.exports = function(app) {
     
             // Check to see if logged in first.
             var user = await mongoUtil.getUserAndIdForCookie(cookie);
-            logger.debug("addmedia: user: " + user.userId);
+            
             if (user == null) {
                 // Not logged in. Fail.
                 logger.debug(authErrorMessage);
@@ -77,6 +77,7 @@ module.exports = function(app) {
                 return;
             }
 
+            logger.debug("addmedia: user: " + user.userId);
 
             var file = Buffer.concat(chunks);
             // var filename = fields.filename;

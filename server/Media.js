@@ -60,22 +60,27 @@ module.exports = function(app) {
             });
         }
 
+        var cookie = req.cookies['SessionID'];
+        const authErrorMessage = "Must be logged in to add media.";
+
+        var user = await mongoUtil.getUserAndIdForCookie(cookie);
+            
+        if (user == null) {
+            // Not logged in. Fail.
+            logger.debug(authErrorMessage);
+            res.status(401).json({status: "error", error: authErrorMessage});
+            return;
+        }
+
+        res.json({status: "OK", id: id});
+
         form.parse(req, async function(err, fields, files) {
             // logger.debug("fields: " + util.inspect(fields, {showHidden: false, depth: null}));
             // logger.debug("files: " + util.inspect(files, {showHidden: false, depth: null}));
 
-            var cookie = req.cookies['SessionID'];
-            const authErrorMessage = "Must be logged in to add media.";
+            
     
             // Check to see if logged in first.
-            var user = await mongoUtil.getUserAndIdForCookie(cookie);
-            
-            if (user == null) {
-                // Not logged in. Fail.
-                logger.debug(authErrorMessage);
-                res.status(401).json({status: "error", error: authErrorMessage});
-                return;
-            }
 
             logger.debug("addmedia: user: " + user.userId);
 
@@ -99,7 +104,7 @@ module.exports = function(app) {
             //     logger.debug("Error inserting: " + error);
             // });
 
-            res.json({status: "OK", id: id});
+            
 
         });
 

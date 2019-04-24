@@ -34,7 +34,7 @@ module.exports = function(app) {
         var filename;
 
         form.onPart = function(part) {
-            console.log(part.filename);
+            // console.log(part.filename);
             if (!part.filename) {
                 form.handlePart(part);
                 return;
@@ -69,7 +69,7 @@ module.exports = function(app) {
     
             // Check to see if logged in first.
             var user = await mongoUtil.getUserAndIdForCookie(cookie);
-            console.log("addmedia: user: " + user);
+            logger.debug("addmedia: user: " + user);
             if (user == null) {
                 // Not logged in. Fail.
                 logger.debug(authErrorMessage);
@@ -83,8 +83,8 @@ module.exports = function(app) {
 
             var rabbitChannel = rabbitUtils.getChannel();
 
-            console.log("Sending /addmedia to RabbitMQ");
-            console.log("Filename: " + filename);
+            // console.log("Sending /addmedia to RabbitMQ");
+            // console.log("Filename: " + filename);
             var msg = {t: RABBITMQ_ADD_MEDIA, content: file, filename: filename, id: id};
 
             rabbitChannel.sendToQueue(QUEUE_NAME, Buffer.from(JSON.stringify(msg))/*, {persistent: true}*/);

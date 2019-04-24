@@ -34,10 +34,10 @@ async function startConsumer() {
         var ch = await connection.createChannel();
 
         var ok = await ch.assertQueue(QUEUE_NAME, {durable: true});
-        await ch.prefetch(500);
+        await ch.prefetch(300);
         ch.consume(QUEUE_NAME, function(msg) {
             var obj = JSON.parse(msg.content);
-            console.log("obj.t: " + obj.t);
+            // console.log("obj.t: " + obj.t);
             var elasticClient = elasticUtils.getElasticClient();
 
             if (obj.t == RABBITMQ_ADD_QUESTIONS) {
@@ -93,10 +93,10 @@ async function startConsumer() {
                 if (qMediaDocs.length > 0) {
                     db.collection(COLLECTION_MEDIA).insertMany(qMediaDocs, {ordered: false})
                     .then(function(ret) {
-                        console.log("Insert many Q media IDs: " + ret);
+                        logger.debug("Insert many Q media IDs: " + ret);
                     })
                     .catch(function(error) {
-                        console.log("Error inserting Q media IDs: " + error);
+                        logger.debug("Error inserting Q media IDs: " + error);
                     });
                 }
 
@@ -146,10 +146,10 @@ async function startConsumer() {
                 if (aMediaDocs.length > 0) {
                     db.collection(COLLECTION_MEDIA).insertMany(aMediaDocs, {ordered: false})
                     .then(function(ret) {
-                        console.log("Insert many A media IDs: " + ret);
+                        logger.debug("Insert many A media IDs: " + ret);
                     })
                     .catch(function(error) {
-                        console.log("Error inserting A media IDs: " + error);
+                        logger.debug("Error inserting A media IDs: " + error);
                     });
                 }
 
@@ -187,13 +187,13 @@ async function startConsumer() {
                 var file = Buffer.from(obj.content.data);
                 var id = obj.id;
     
-                console.log("Cassandra Insert");
+                logger.debug("Cassandra Insert");
                 cassandraClient.execute(query, [id, filename, file], {prepare: true})
                 .then(function(result) {
-                    console.log("Inserting file id: " + id + ", filename: " + filename + ", result: " + result);
+                    logger.debug("Inserting file id: " + id + ", filename: " + filename + ", result: " + result);
                 })
                 .catch(function(error) {
-                    console.log("Error inserting: " + error);
+                    logger.debug("Error inserting into cassandra: " + error);
                 })
                 .finally(function() {
                     ch.ack(msg);

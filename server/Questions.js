@@ -143,7 +143,7 @@ module.exports = function(app) {
             var media = req.body.media;
 
             var cookie = req.cookies['SessionID'];
-            const authErrorMessage = "User is not logged in. Must be logged in to add a question.";
+            const authErrorMessage = "QUESTION_ADD_ERROR: User is not logged in. Must be logged in to add a question.";
 
             logger.debug("/////////////////////////////");
             // logger.debug("title: " + title);
@@ -163,7 +163,7 @@ module.exports = function(app) {
                 return;
             }
             if (title == null || body == null || tags == null) {
-                let validValuesMsg = "Title, body, and tags must all have valid values for /questions/add.";
+                let validValuesMsg = "QUESTION_ADD_ERROR: Title, body, and tags must all have valid values for /questions/add.";
                 logger.debug(validValuesMsg);
                 res.status(400).json({status: "error", error: validValuesMsg});
                 return;
@@ -174,6 +174,7 @@ module.exports = function(app) {
                     let mediaIdQuery = {mediaId: media[i]};
                     let result = await db.collection(COLLECTION_MEDIA).findOne(mediaIdQuery);
                     if (result != null) {
+                        logger.debug("QUESTION_ADD_ERROR");
                         res.status(400).json({status: "error", error: "A question can't use media from other Q/A's."});
                     }
                 }
@@ -264,7 +265,7 @@ module.exports = function(app) {
             res.json({status: "OK", id: questionId, error: null});
         }
         catch (error) {
-            logger.debug("Error in /questions/add async/await: " + error);
+            logger.debug("QUESTION_ADD_ERROR: Error in /questions/add async/await: " + error);
             res.status(400).json({status: "error", error: "async/await error. Failed to add question."});
         }
     });

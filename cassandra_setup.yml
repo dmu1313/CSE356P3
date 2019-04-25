@@ -9,6 +9,15 @@
       apt:
         update_cache: yes
   tasks:
+    - name: install git
+      apt:
+        name: git
+    - name: Delete /var/www/ for the git checkout
+      shell: sudo rm -rf /var/www/
+    - name: Get git checkout
+      git:
+        repo: 'https://github.com/dmu1313/CSE356P3.git'
+        dest: /var/www/
     - name: Configuration for Cassandra Installation
       shell: |
         sudo echo "deb http://www.apache.org/dist/cassandra/debian 311x main" | sudo tee -a /etc/apt/sources.list.d/cassandra.sources.list
@@ -17,6 +26,11 @@
       apt:
         name: cassandra
         update_cache: yes
+    - name: Configure Cassandra
+      shell: |
+        sudo mv /var/www/cassandra.yaml /etc/cassandra/cassandra.yaml
+        sudo mv /var/www/cassandra-rackdc.properties /etc/cassandra/cassandra-rackdc.properties
+        sudo systemctl restart cassandra
         
 # concurrent_reads: 16 # (16 * drives)
 # concurrent_writes: 16 # (8 * cores)

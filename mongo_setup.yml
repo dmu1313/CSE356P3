@@ -20,4 +20,8 @@
     - name: Start MongoDB
       shell: |
         sudo service mongod start
+    - name: Setup configuration for MongoDB
+      shell: |
+        sudo mv /var/www/mongod.conf /etc/mongod.conf
+        sudo systemctl restart mongod
     # Must change network bind to allow incoming traffic

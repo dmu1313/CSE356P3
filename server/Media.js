@@ -108,6 +108,7 @@ module.exports = function(app) {
         var mediaDoc = await db.collection(COLLECTION_MEDIA).findOne(mediaQuery);
 
         if (mediaDoc == null) {
+            logger.debug("THIS IS THE ERROR1");
             res.status(400).json({status: "error"});
             return;
         }
@@ -117,6 +118,7 @@ module.exports = function(app) {
         .then(function(result) {
             if (result == null || result.first() == null) {
                 logger.debug("No such media with id: " + id);
+                logger.debug("THIS IS THE ERROR2");
                 res.status(400).json({status: "error"});
                 return;
             }
@@ -124,9 +126,11 @@ module.exports = function(app) {
             if (row['filename'] != null) {
                 res.type(row['filename']);
             }
+            res.status(200);
             res.send(row['contents']);
         })
         .catch(function(error) {
+            logger.debug("THIS IS THE ERROR3");
             logger.debug("Error retrieving file with id: " + id + ", Error: " + error);
             res.status(400).json({status: "error"});
         });

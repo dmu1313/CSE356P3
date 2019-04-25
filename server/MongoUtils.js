@@ -143,7 +143,7 @@ async function getUserAndIdForCookie(cookieString) {
     var memcached = memcachedUtils.memcached;
 
     var data = await promiseWrapGet(cookieString, memcached);
-
+    logger.debug("Data from promiseWrapGet: " + data);
     if (data != null) {
         return new Promise(function(resolve, reject) {
             resolve(data);

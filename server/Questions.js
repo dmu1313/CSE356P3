@@ -429,6 +429,7 @@ module.exports = function(app) {
         var qid = req.params.id;
         logger.debug("-------------------------------");
         logger.debug("/questions/" + qid);
+        var headerSent = false;
         try {
             var cookie = req.cookies['SessionID'];
             const errorMessage = "You are not logged in as the proper user to delete question: " + qid + ".";
@@ -437,23 +438,29 @@ module.exports = function(app) {
                 res.status(401).json({status: "error", error: errorMessage})
                 return;
             }
-            
-            
-            var user = await mongoUtil.getUserAndIdForCookie(cookie)
-            
-            if (!userId) {
-                res.status(401).json({status: "error", error: errorMessage})
+
+            var user = await mongoUtil.getUserAndIdForCookie(cookie);
+            if (!user) {
+                res.status(401).json({status: "error", error: errorMessage});
+                return;
+            }
+
+            // var userId = user.userId;
+
+            let questionIdQuery = { questionId: qid };
+            var questionDoc = await db.collection(COLLECTION_QUESTIONS).findOne(questionIdQuery);
+            if (questionDoc == null) {
+                res.status(400).json({status: "error", error: "The question to be deleted does not exist."});
+                return;
+            }
+            else if (questionDoc.userId != user.userId) {
+                res.status(401).json({status: "error", error: "You must be the poster of the question to delete it."});
+                return;
             }
             else {
-                var userId = user.userId;
-
                 var query = "DELETE FROM " + cassandraFullName + " WHERE id=? IF EXISTS";
-                let questionIdQuery = { questionId: qid };
 
-                db.collection(COLLECTION_QUESTIONS).findOne(questionIdQuery)
-                .then(function(questionDoc) {
-                    if (questionDoc == null) return;
-
+                if (questionDoc.media != null && questionDoc.media.length > 0) {
                     questionDoc.media.forEach(function(mediaId) {
                         let deleteMediaQuery = {mediaId: mediaId};
                         db.collection(COLLECTION_MEDIA).deleteMany(deleteMediaQuery);
@@ -466,9 +473,9 @@ module.exports = function(app) {
                             logger.debug("Error deleting question media: " + error);
                         });
                     });
+                }
 
-                    return db.collection(COLLECTION_QUESTIONS).deleteOne(questionIdQuery);
-                })
+                db.collection(COLLECTION_QUESTIONS).deleteOne(questionIdQuery)
                 .then(function(ret) {
                     if (ret == null) return;
                     let result = ret.result;
@@ -476,9 +483,11 @@ module.exports = function(app) {
     
                     if (result.n != 1 || result.ok != 1) {
                         res.status(401).json({status: "error", error: "Failed to delete the question."});
+                        headerSent = true;
                     }
                     else {
                         res.status(200).json(STATUS_OK);
+                        headerSent = true;
                     }
                 })
                 .catch(function(error) {
@@ -515,7 +524,9 @@ module.exports = function(app) {
         }
         catch (error) {
             logger.debug("Error: " + error);
-            res.status(401).json({status: "error", rror: "Failed to delete question with ID: " + qid});
+            if (!headerSent) {
+                res.status(401).json({status: "error", error: "Failed to delete question with ID: " + qid});
+            }
         }
     });
 

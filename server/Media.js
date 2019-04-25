@@ -18,7 +18,8 @@ var cassandraFullName = cassandraUtils.cassandraFullName;
 
 let constants = require('./Utils.js');
 var getRandomIdString = constants.getRandomIdString;
-var COLLECTION_MEDIA = constants.COLLECTION_MEDIA;
+const COLLECTION_MEDIA = constants.COLLECTION_MEDIA;
+
 
 module.exports = function(app) {
 

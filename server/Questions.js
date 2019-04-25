@@ -449,9 +449,12 @@ module.exports = function(app) {
 
             let questionIdQuery = { questionId: qid };
             var questionDoc = await db.collection(COLLECTION_QUESTIONS).findOne(questionIdQuery);
-            logger.debug("questionDoc == null: " + questionDoc == null);
-            if (questionDoc != null)
+            logger.debug("questionDoc == null: " + (questionDoc == null));
+            
+            if (questionDoc != null) {
                 logger.debug("questionDoc.questionId: " + questionDoc.questionId);
+            }
+
             if (questionDoc == null) {
                 res.status(400).json({status: "error", error: "The question to be deleted does not exist."});
                 return;

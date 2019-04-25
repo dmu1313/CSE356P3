@@ -30,6 +30,7 @@
       shell: |
         sudo mv /var/www/cassandra.yaml /etc/cassandra/cassandra.yaml
         sudo mv /var/www/cassandra-rackdc.properties /etc/cassandra/cassandra-rackdc.properties
+        sudo rm -f /etc/cassandra/cassandra-topology.properties
         sudo systemctl restart cassandra
         
 # concurrent_reads: 16 # (16 * drives)

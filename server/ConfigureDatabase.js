@@ -30,6 +30,9 @@ const COLLECTION_QUESTION_UPVOTE = constants.COLLECTION_QUESTION_UPVOTE;
 // ip_views: { _id, ip:string, questionID:string }
 // user_views: { _id, username:string, questionId:string }
 
+// COLLECTION_MEDIA: {_id: questionId/answerId, mediaId: mediaId}
+// COLLECTION_MEDIA_USER: {_id: mediaId, userId: userId};
+
 // Proposed Changes
 
 // q_media: { _id=questionId, mediaId }
@@ -303,10 +306,9 @@ module.exports = function(app) {
         });
 
 
-        // q_media: { _id=questionId, mediaId }
-        // a_media: { _id=answerId, mediaId }
+        // MEDIA_USER {the media id, the user id}
+        // MEDIA {the media id, the Q/A id}
         // media: { _id=questionId/answerId, mediaId }
-        // var mediaUserQuery = {_id: id, qaId: null, userId: userId};
 
         db.collection(COLLECTION_MEDIA).createIndex( { mediaId: 1  })
         .then(function(result) {

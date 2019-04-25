@@ -18,6 +18,7 @@ var cassandraFullName = cassandraUtils.cassandraFullName;
 
 let constants = require('./Utils.js');
 var getRandomIdString = constants.getRandomIdString;
+var COLLECTION_MEDIA = constants.COLLECTION_MEDIA;
 
 module.exports = function(app) {
 
@@ -109,17 +110,26 @@ module.exports = function(app) {
 
     });
 
-    app.get('/media/:id', function(req, res) {
+    app.get('/media/:id', async function(req, res) {
         var id = req.params.id;
         logger.debug("GET /media/" + id);
         var cassandraClient = cassandraUtils.getCassandraClient();
+        var db = mongoUtil.getDB();
+        
+        let mediaQuery = { mediaId: id };
+        var mediaDoc = await db.collection(COLLECTION_MEDIA).findOne(mediaQuery);
+
+        if (mediaDoc == null) {
+            res.status(400).json({status: "error"});
+            return;
+        }
 
         var query = "SELECT id, filename, contents FROM " + cassandraFullName + " WHERE id = ?";
         cassandraClient.execute(query, [id], {prepare: true})
         .then(function(result) {
             if (result == null || result.first() == null) {
                 logger.debug("No such media with id: " + id);
-                res.json({status: "OK"});
+                res.status(400).json({status: "error"});
                 return;
             }
             var row = result.first();
@@ -130,7 +140,7 @@ module.exports = function(app) {
         })
         .catch(function(error) {
             logger.debug("Error retrieving file with id: " + id + ", Error: " + error);
-            res.json({status: "OK"});
+            res.status(400).json({status: "error"});
         });
     });
 

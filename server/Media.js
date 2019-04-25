@@ -24,9 +24,6 @@ module.exports = function(app) {
 
     app.post('/addmedia', async function(req, res) {
         logger.debug("/addmedia");
-
-
-
         var id = getRandomIdString();
 
         var form = new formidable.IncomingForm();
@@ -43,12 +40,6 @@ module.exports = function(app) {
             else {
                 filename = part.filename;
             }
-            // part.addListener('data', function(data) {
-            //     chunks.push(data);
-            // });
-            // part.addListener('end', function() {
-            //     console.log('end');
-            // });
             part.on('data', function(data) {
                 chunks.push(data);
             });
@@ -76,10 +67,6 @@ module.exports = function(app) {
         form.parse(req, async function(err, fields, files) {
             // logger.debug("fields: " + util.inspect(fields, {showHidden: false, depth: null}));
             // logger.debug("files: " + util.inspect(files, {showHidden: false, depth: null}));
-
-            
-    
-            // Check to see if logged in first.
 
             logger.debug("addmedia: user: " + user.userId);
 

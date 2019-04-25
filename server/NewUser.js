@@ -35,7 +35,7 @@ function sendMail(email, key) {
 
     transporter.sendMail(mailOptions, (error, info) => {
         logger.debug("Sending email");
-        logger.debug(util.inspect(info, {showHidden: false, depth: 4}));
+        // logger.debug(util.inspect(info, {showHidden: false, depth: 4}));
         
         if (error) {
             return logger.debug(error);

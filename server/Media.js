@@ -18,7 +18,7 @@ var cassandraFullName = cassandraUtils.cassandraFullName;
 
 let constants = require('./Utils.js');
 var getRandomIdString = constants.getRandomIdString;
-const COLLECTION_MEDIA = constants.COLLECTION_MEDIA;
+const COLLECTION_MEDIA_USER = constants.COLLECTION_MEDIA_USER;
 
 
 module.exports = function(app) {
@@ -105,7 +105,7 @@ module.exports = function(app) {
         var db = mongoUtil.getDB();
         
         let mediaQuery = { mediaId: id };
-        var mediaDoc = await db.collection(COLLECTION_MEDIA).findOne(mediaQuery);
+        var mediaDoc = await db.collection(COLLECTION_MEDIA_USER).findOne(mediaQuery);
 
         if (mediaDoc == null) {
             logger.debug("THIS IS THE ERROR1");

@@ -104,7 +104,7 @@ module.exports = function(app) {
         var cassandraClient = cassandraUtils.getCassandraClient();
         var db = mongoUtil.getDB();
         
-        let mediaQuery = { mediaId: id };
+        let mediaQuery = { _id: id };
         var mediaDoc = await db.collection(COLLECTION_MEDIA_USER).findOne(mediaQuery);
 
         if (mediaDoc == null) {

@@ -498,19 +498,21 @@ module.exports = function(app) {
 
                 while (await cursor.hasNext()) {
                     let answerDoc = await cursor.next();
-                    answerDoc.media.forEach(function(mediaId) {
-                        let deleteMediaQuery = {mediaId: mediaId};
-                        db.collection(COLLECTION_MEDIA).deleteMany(deleteMediaQuery);
-                        db.collection(COLLECTION_MEDIA_USER).deleteMany({_id: mediaId});
+                    if (answerDoc.media != null && answerDoc.media.length > 0) {
+                        answerDoc.media.forEach(function(mediaId) {
+                            let deleteMediaQuery = {mediaId: mediaId};
+                            db.collection(COLLECTION_MEDIA).deleteMany(deleteMediaQuery);
+                            db.collection(COLLECTION_MEDIA_USER).deleteMany({_id: mediaId});
 
-                        cassandraClient.execute(query, [mediaId], {prepare: true})
-                        .then(function(result) {
-                            logger.debug("Deleting answer media file id: " + mediaId + ", result: " + result);
-                        })
-                        .catch(function(error) {
-                            logger.debug("Error deleting answer media: " + error);
+                            cassandraClient.execute(query, [mediaId], {prepare: true})
+                            .then(function(result) {
+                                logger.debug("Deleting answer media file id: " + mediaId + ", result: " + result);
+                            })
+                            .catch(function(error) {
+                                logger.debug("Error deleting answer media: " + error);
+                            });
                         });
-                    });
+                    }
                 }
 
                 db.collection(COLLECTION_ANSWERS).deleteMany(questionIdQuery)

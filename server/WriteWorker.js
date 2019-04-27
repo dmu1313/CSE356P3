@@ -35,7 +35,7 @@ async function startConsumer() {
         var ch = await connection.createChannel();
 
         var ok = await ch.assertQueue(QUEUE_NAME, {durable: true});
-        await ch.prefetch(250);
+        await ch.prefetch(500);
         ch.consume(QUEUE_NAME, function(msg) {
             var obj = JSON.parse(msg.content);
             // console.log("obj.t: " + obj.t);

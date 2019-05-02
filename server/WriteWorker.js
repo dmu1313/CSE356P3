@@ -65,22 +65,22 @@ async function batchSend() {
                 logger.debug("Failed to do elastic search batch insert. Error: " + error);
             });
 
-            // elasticClient.index({
-            //     index: 'questions',
-            //     // refresh: true,
-            //     body: {
-            //         title: title,
-            //         body: body,
-            //         id: questionId,
-            //         tags: tagString
-            //     }
-            // })
-            // .then(function(ret) {
-            //     logger.debug("Return value of inserting question " + questionId + " into ElasticSearch: " + ret);
-            // })
-            // .catch(function(error) {
-            //     logger.debug("Failed to insert question " + questionId + " into ElasticSearch. Error: " + error);
-            // })
+            elasticClient.index({
+                index: 'questions',
+                // refresh: true,
+                body: {
+                    title: 'title',
+                    body: 'body',
+                    id: 'questionId',
+                    tags: 'tagString'
+                }
+            })
+            .then(function(ret) {
+                logger.debug("Return value of inserting question " + questionId + " into ElasticSearch: " + ret);
+            })
+            .catch(function(error) {
+                logger.debug("Failed to insert question " + questionId + " into ElasticSearch. Error: " + error);
+            });
             // .finally(function() {
             //     ch.ack(msg);
             // });
@@ -118,8 +118,8 @@ async function startConsumer() {
                 if (tags != null) {
                     tagString = tags.join(" ");
                 }
-                
-                inserts.push({ index: { _index: 'questions' } });
+
+                inserts.push({ index: { _index: 'questions', _type: '_doc' } });
                 inserts.push({ title: title, body: body, id: questionId, tags: tagString });
             
                 // media inserts

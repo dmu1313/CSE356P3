@@ -66,7 +66,7 @@ module.exports = function(app) {
 
         var userId = getRandomIdString();
         
-        var userExistsQuery = { username: username, email: email };
+        var userExistsQuery = { $or: [ {username: username}, {email: email} ] };
         var insertQuery = { userId: userId, username: username, password: password, email: email, reputation: 1, verified: false, key: key };
 
         var isUserUnique = await db.collection(COLLECTION_USERS).findOne(userExistsQuery)

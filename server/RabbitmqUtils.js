@@ -6,6 +6,7 @@ var amqp = require('amqplib');
 // var url = 'amqp://localhost';
 var url = 'amqp://192.168.122.29';
 var QUEUE_NAME = 'final_queue';
+var ES_QUEUE = 'final_es_queue';
 
 var _connection;
 var _ch;
@@ -49,6 +50,7 @@ module.exports = {
     RABBITMQ_ADD_QUESTIONS: "/questions/add",
     RABBITMQ_ADD_ANSWERS: "/answers/add",
     RABBITMQ_ADD_MEDIA: "/addmedia",
-    QUEUE_NAME: QUEUE_NAME
+    QUEUE_NAME: QUEUE_NAME,
+    ES_QUEUE: ES_QUEUE
 
 };

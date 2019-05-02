@@ -180,9 +180,9 @@ module.exports = function(app) {
                 };
                 questionsArray.push(question);
             }
-            for (var i = 0; i < questionsArray.length; i++) {
-                logger.debug(questionsArray[i]);
-            }
+            // for (var i = 0; i < questionsArray.length; i++) {
+            //     logger.debug(questionsArray[i]);
+            // }
             res.json({status: "OK", questions: questionsArray});
         }
         catch(error) {

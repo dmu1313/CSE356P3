@@ -28,6 +28,70 @@ var RABBITMQ_ADD_ANSWERS = rabbitUtils.RABBITMQ_ADD_ANSWERS;
 var RABBITMQ_ADD_MEDIA = rabbitUtils.RABBITMQ_ADD_MEDIA;
 var QUEUE_NAME = rabbitUtils.QUEUE_NAME;
 
+
+
+var inserts = [];
+
+
+
+
+function sleep(ms) {
+    return new Promise(resolve => {
+        setTimeout(resolve, ms);
+    });
+}
+
+async function batchSend() {
+    await sleep(10000);
+
+
+    while (true) {
+        await sleep(1500);
+        if (inserts.length > 0) {
+            var elasticClient = elasticUtils.getElasticClient();
+            
+            let temp = inserts;
+            inserts = [];
+
+            logger.debug("Attempting to insert " + temp.length + " documents into elastic search.");
+
+            elasticClient.bulk({
+                body: temp
+            })
+            .then(function(ret) {
+                logger.debug("Return value of elastic search batch insert: " + ret);
+            })
+            .catch(function(error) {
+                logger.debug("Failed to do elastic search batch insert. Error: " + error);
+            });
+
+            // elasticClient.index({
+            //     index: 'questions',
+            //     // refresh: true,
+            //     body: {
+            //         title: title,
+            //         body: body,
+            //         id: questionId,
+            //         tags: tagString
+            //     }
+            // })
+            // .then(function(ret) {
+            //     logger.debug("Return value of inserting question " + questionId + " into ElasticSearch: " + ret);
+            // })
+            // .catch(function(error) {
+            //     logger.debug("Failed to insert question " + questionId + " into ElasticSearch. Error: " + error);
+            // })
+            // .finally(function() {
+            //     ch.ack(msg);
+            // });
+        }
+    }
+}
+
+
+
+
+
 async function startConsumer() {
     try {
         var db = await mongoUtil.getDbAsync();
@@ -39,7 +103,6 @@ async function startConsumer() {
         ch.consume(QUEUE_NAME, function(msg) {
             var obj = JSON.parse(msg.content);
             // console.log("obj.t: " + obj.t);
-            var elasticClient = elasticUtils.getElasticClient();
 
             if (obj.t == RABBITMQ_ADD_QUESTIONS) {
                 let title = obj.title;
@@ -55,34 +118,10 @@ async function startConsumer() {
                 if (tags != null) {
                     tagString = tags.join(" ");
                 }
-
-                let doneInserting = false;
-
-                elasticClient.index({
-                    index: 'questions',
-                    // refresh: true,
-                    body: {
-                        title: title,
-                        body: body,
-                        id: questionId,
-                        tags: tagString
-                    }
-                })
-                .then(function(ret) {
-                    logger.debug("Return value of inserting question " + questionId + " into ElasticSearch: " + ret);
-                })
-                .catch(function(error) {
-                    logger.debug("Failed to insert question " + questionId + " into ElasticSearch. Error: " + error);
-                })
-                .finally(function() {
-                    // if (doneInserting) {
-                        ch.ack(msg);
-                    // }
-                    // else {
-                    //     doneInserting = true;
-                    // }
-                });
-
+                
+                inserts.push({ index: { _index: 'questions' } });
+                inserts.push({ title: title, body: body, id: questionId, tags: tagString });
+            
                 // media inserts
                 var qMediaDocs = [];
                 if (media != null) {
@@ -120,13 +159,7 @@ async function startConsumer() {
                     logger.debug("Unable to add question. Error: " + error);
                 })
                 .finally(function() {
-                    // ch.ack(msg);
-                    // if (doneInserting) {
-                    //     ch.ack(msg);
-                    // }
-                    // else {
-                    //     doneInserting = true;
-                    // }
+                    ch.ack(msg);
                 });
             }
             else if (obj.t == RABBITMQ_ADD_ANSWERS) {
@@ -220,6 +253,7 @@ async function startConsumer() {
 }
 
 startConsumer();
+batchSend();
 
 /*
 amqp.connect('amqp://localhost', function(err, conn) {

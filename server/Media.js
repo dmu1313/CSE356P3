@@ -11,9 +11,6 @@ const formidable = require('formidable');
 var cassandraUtils = require('./CassandraUtils.js');
 var mongoUtil = require('./MongoUtils.js');
 
-
-var cassandraKeyspace = cassandraUtils.cassandraKeyspace;
-var cassandraTable = cassandraUtils.cassandraTable;
 var cassandraFullName = cassandraUtils.cassandraFullName;
 
 let constants = require('./Utils.js');
@@ -33,7 +30,6 @@ module.exports = function(app) {
         var filename;
 
         form.onPart = function(part) {
-            // console.log(part.filename);
             if (!part.filename) {
                 form.handlePart(part);
                 return;
@@ -45,10 +41,8 @@ module.exports = function(app) {
                 chunks.push(data);
             });
             part.on('end', function() {
-                // res.send(Buffer.concat(chunks));
             });
             part.on('error', function(err) {
-                // handle this too
                 logger.debug("error handling stream: " + err);
             });
         }
@@ -66,13 +60,10 @@ module.exports = function(app) {
         }
 
         form.parse(req, async function(err, fields, files) {
-            // logger.debug("fields: " + util.inspect(fields, {showHidden: false, depth: null}));
-            // logger.debug("files: " + util.inspect(files, {showHidden: false, depth: null}));
 
             logger.debug("addmedia: user: " + user.userId);
 
             var file = Buffer.concat(chunks);
-            // var filename = fields.filename;
 
             var rabbitChannel = rabbitUtils.getChannel();
 
@@ -81,15 +72,6 @@ module.exports = function(app) {
             var msg = {t: RABBITMQ_ADD_MEDIA, content: file, filename: filename, id: id, userId: user.userId};
 
             rabbitChannel.sendToQueue(QUEUE_NAME, Buffer.from(JSON.stringify(msg))/*, {persistent: true}*/);
-    
-
-            // cassandraClient.execute(query, [id, filename, file], {prepare: true})
-            // .then(function(result) {
-            //     logger.debug("Inserting file id: " + id + ", filename: " + filename + ", result: " + result);
-            // })
-            // .catch(function(error) {
-            //     logger.debug("Error inserting: " + error);
-            // });
 
             res.json({status: "OK", id: id});
             

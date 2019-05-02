@@ -135,7 +135,6 @@ module.exports = function(app) {
     });
 
     app.post('/questions/add', async function(req, res) {
-        var elasticClient = elasticUtils.getElasticClient();
         var rabbitConnection = rabbitUtils.getConnection();
         var rabbitChannel = rabbitUtils.getChannel();
         var db = mongoUtil.getDB();
@@ -305,6 +304,9 @@ module.exports = function(app) {
             while (await cursor.hasNext()) {
                 let answerDoc = await cursor.next();
                 let userDoc = await db.collection(COLLECTION_USERS).findOne({userId: answerDoc.userId});
+                if (userDoc == null) {
+                    logger.debug("[/questions/:id/answers] - The user doc with userId: " + answerDoc.userId + " does not exist, Answer Doc: " + answerDoc.answerId);
+                }
                 let answer = {
                                 id: answerDoc.answerId, user: userDoc.username, body: answerDoc.body, score: answerDoc.score,
                                 is_accepted: answerDoc.accepted, timestamp: answerDoc.timestamp, media: answerDoc.media
@@ -323,6 +325,7 @@ module.exports = function(app) {
     app.delete('/questions/:id', async function(req, res) {
         var db = mongoUtil.getDB();
         var cassandraClient = cassandraUtils.getCassandraClient();
+        var elasticClient = elasticUtils.getElasticClient();
         var qid = req.params.id;
         logger.debug("-------------------------------");
         logger.debug("/questions/" + qid);
@@ -396,6 +399,25 @@ module.exports = function(app) {
                 .catch(function(error) {
                     logger.debug("Failed to delete media associated with question and question. Error: " + error);
                 });
+
+                elasticClient.deleteByQuery({
+                    index: 'questions',
+                    // refresh: true,
+                    body: {
+                        query: {
+                            match: {
+                                id: qid
+                            }
+                        }
+                    }
+                })
+                .then(function(ret) {
+                    logger.debug("[/questions/:id] - Return value of deleting ES question with id " + qid + ": " + ret);
+                })
+                .catch(function(error) {
+                    logger.debug("[/questions/:id] - Failed to delete ES question with id " + qid + ": " + error);
+                });
+
 
                 let cursor = await db.collection(COLLECTION_ANSWERS).find(questionIdQuery);
 

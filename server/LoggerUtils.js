@@ -1,4 +1,21 @@
 
+/*
+
+Keywords to search for in logs.
+
+Successes:
+----------
+Failed
+Unable
+not
+
+
+Failures:
+-----------
+Got
+
+*/
+
 const log4js = require('log4js');
 log4js.configure({
     appenders: {
@@ -23,3 +40,5 @@ module.exports = {
         return log4js.getLogger('write');
     }
 };
+
+

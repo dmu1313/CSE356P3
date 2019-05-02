@@ -227,7 +227,15 @@ module.exports = function(app) {
 
         var client = elasticClient.getElasticClient();
         client.indices.create({
-            index: 'questions'
+            index: 'questions',
+            body: {
+                settings : {
+                    index : {
+                        number_of_shards : 6, 
+                        number_of_replicas : 0 
+                    }
+                }
+            }
         })
         .then(function(ret) {
             console.log("Created ElasticSearch index: Questions. ret: " + ret);

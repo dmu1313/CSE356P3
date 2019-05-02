@@ -7,30 +7,27 @@ const util = require('util');
 var mongoUtil = require('./MongoUtils.js');
 
 let constants = require('./Utils.js');
-const STATUS_OK = constants.STATUS_OK;
 
 const COLLECTION_USERS = constants.COLLECTION_USERS;
-const COLLECTION_COOKIES = constants.COLLECTION_COOKIES;
 const COLLECTION_QUESTIONS = constants.COLLECTION_QUESTIONS;
 const COLLECTION_ANSWERS = constants.COLLECTION_ANSWERS;
-const COLLECTION_IP_VIEWS = constants.COLLECTION_IP_VIEWS;
-const COLLECTION_USER_VIEWS = constants.COLLECTION_USER_VIEWS;
 
 
 module.exports = function(app) {
 
     app.get('/user/:username', async function(req, res) {
+        var username = req.params.username;
+        var userQuery = { username: username };
+        var db = mongoUtil.getDB();
+        
         try {
-            var username = req.params.username;
-            var userQuery = { username: username };
-            var db = mongoUtil.getDB();
-
             var userDoc = await db.collection(COLLECTION_USERS).findOne(userQuery);
 
-            logger.debug("Get user profile for username: " + username);
             if (userDoc != null) {
-                logger.debug("Succeeded in getting user profile.")
-                logger.debug("----------------------------------------");
+                let userId = userDoc.userId;
+                let email = userDoc.email;
+                let reputation = userDoc.reputation;
+                logger.debug("[/user/:username] - Successfully got user profile username: " + username + ", userId: " + userId + ", email: " + email + ", reputation: " + reputation);
                 res.json({status: "OK",
                         user: {
                             email: userDoc.email,
@@ -39,15 +36,13 @@ module.exports = function(app) {
                 });
             }
             else {
-                logger.debug("Failed to get user profile.");
-                logger.debug("--------------------------------------");
+                logger.debug("[/user/:username] - Failed to get user profile username: " + username + ", userId: " + userDoc.userId);
                 res.status(400).json({status: "error"});
             }
 
         }
         catch (error) {
-            logger.debug("Failed to get user profile. Error: " + error);
-            logger.debug("--------------------------------------");
+            logger.debug("[/user/:username] - Failed to get user profile username: " + username);
             res.status(400).json({status: "error"});
         }
     });
@@ -57,7 +52,6 @@ module.exports = function(app) {
         var db = mongoUtil.getDB();
 
         try {
-            logger.debug("Getting question Ids for username: " + username);
             var searchQuery = {username: username};
 
             var questionIds = [];
@@ -66,13 +60,11 @@ module.exports = function(app) {
                 let questionDoc = await cursor.next();
                 questionIds.push(questionDoc.questionId);
             }
-            logger.debug(username + " has posted " + questionIds.length + " questions.");
-            logger.debug("--------------------------------------------------------");
+            logger.debug("[/user/:username/questions] - Got " + questionIds.length + " questions for username: " + username);
             res.json({status: "OK", questions: questionIds});
         }
         catch (error) {
-            logger.debug("Error getting questions for username: " + username);
-            logger.debug("-------------------------------------------");
+            logger.debug("[/user/:username/questions] - Failed to get questions for username: " + username + ", Error: " + error);
             res.status(400).json({status: "error"});
         }
     });
@@ -82,7 +74,6 @@ module.exports = function(app) {
         var db = mongoUtil.getDB();
 
         try {
-            logger.debug("Getting answer Ids for username: " + username);
             var searchQuery = {username: username};
 
             var answerIds = [];
@@ -91,16 +82,12 @@ module.exports = function(app) {
                 let answerDoc = await cursor.next();
                 answerIds.push(answerDoc.answerId);
             }
-            logger.debug(username + " has posted " + answerIds.length + " answers.");
-            logger.debug("--------------------------------------------------------");
+            logger.debug("[/user/:username/answers] - Got + " + answerIds.length + " answers for username: " + username);
             res.json({status: "OK", answers: answerIds});
         }
         catch (error) {
-            logger.debug("Error getting questions for username: " + username);
-            logger.debug("-------------------------------------------");
+            logger.debug("[/user/:username/answers] - Failed to get answers for username: " + username + ", Error: " + error);
             res.status(400).json({status: "error"});
         }
     });
-
-
 };

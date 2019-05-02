@@ -35,7 +35,7 @@ async function startConsumer() {
         var ch = await connection.createChannel();
 
         var ok = await ch.assertQueue(QUEUE_NAME, {durable: true});
-        await ch.prefetch(500);
+        await ch.prefetch(750);
         ch.consume(QUEUE_NAME, function(msg) {
             var obj = JSON.parse(msg.content);
             // console.log("obj.t: " + obj.t);
@@ -60,7 +60,7 @@ async function startConsumer() {
 
                 elasticClient.index({
                     index: 'questions',
-                    refresh: true,
+                    // refresh: true,
                     body: {
                         title: title,
                         body: body,

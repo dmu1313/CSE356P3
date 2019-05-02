@@ -47,7 +47,6 @@ module.exports = function(app) {
 
     let constants = require('./Utils.js');
     const STATUS_OK = constants.STATUS_OK;
-    const STATUS_ERROR = constants.STATUS_ERROR;
     
     const COLLECTION_USERS = constants.COLLECTION_USERS;
     const COLLECTION_COOKIES = constants.COLLECTION_COOKIES;
@@ -59,8 +58,6 @@ module.exports = function(app) {
     let mongoUtil = require('./MongoUtils');
 
     app.post('/adduser/', async function (req, res) {
-        logger.debug("Add User");
-
         let username = req.body.username;
         let password = req.body.password;
         let email = req.body.email;
@@ -70,71 +67,38 @@ module.exports = function(app) {
         var userId = getRandomIdString();
         
         var userExistsQuery = { username: username, email: email };
-        var userExists = false;
-        
-        // var userIdExistsQuery = { userId: "" };
-        // var userIdExists = true;
-        // while (userIdExists) {
-        //     userId = getRandomIdString();
-        //     userIdExistsQuery = { userId: userId };
-        //     userIdExists = await db.collection(COLLECTION_USERS).findOne(userIdExistsQuery)
-        //     .then(function(doc) {
-        //         if (doc == null) return false;
-        //         else {
-        //             logger.debug("userId: " + userId + " already exists. Must get a new random userId.");
-        //             return true;
-        //         }
-        //     })
-        //     .catch(function(error) {
-        //         logger.debug("Failed to find if userId " + userId + " already exists.");
-        //         return true;
-        //     });
-        // }
-
-
-        var usernameExistsQuery = {username: username};
-        var emailExistsQuery = {email: email};
-        var userExistsQuery = { $or: [ { email: email },
-                                    { username: username }
-                                ]
-                            };
-
         var insertQuery = { userId: userId, username: username, password: password, email: email, reputation: 1, verified: false, key: key };
 
         var isUserUnique = await db.collection(COLLECTION_USERS).findOne(userExistsQuery)
         .then(function(userDoc) {
             return userDoc == null;
         });
-        // var isUsernameUnique = await db.collection(COLLECTION_USERS).findOne(usernameExistsQuery)
-        //                                 .then(function(userDoc) {
-        //                                     return userDoc == null;
-        //                                 });
-        // var isEmailUnique = await db.collection(COLLECTION_USERS).findOne(emailExistsQuery)
-        //                                 .then(function(userDoc) {
-        //                                     return userDoc == null;
-        //                                 });
 
         if (isUserUnique) {
-            let result = await db.collection(COLLECTION_USERS).insertOne(insertQuery);
-            logger.debug("Add user result: " + result);
-            sendMail(email, key);
-            res.json(STATUS_OK);
+            try {
+                let result = await db.collection(COLLECTION_USERS).insertOne(insertQuery);
+            
+                logger.debug("[/adduser] - Adding userId: " + userId + ", result: " + result);
+                sendMail(email, key);
+                res.json(STATUS_OK);
+            }
+            catch (error) {
+                logger.debug("[/adduser] - Unable to add userId: " + userId);
+            }
         }
         else {
+            logger.debug("[/adduser] - Unable to add userId: " + userId);
             res.status(400).json({status: "error", error: "User already exists. You need a unique username and email."});
         }
-
     });
 
     app.post('/verify', function(req, res) {
-        logger.debug("//////////////////////////");
-        logger.debug("/verify");
         var email = req.body.email;
         var key = req.body.key;
         var backdoor = "abracadabra";
 
-        logger.debug("Email: " + email);
-        logger.debug("Key: " + key);
+        logger.debug("[/verify] - Email: " + email);
+        logger.debug("[/verify] - Key: " + key);
 
         var db = mongoUtil.getDB();
 
@@ -149,6 +113,7 @@ module.exports = function(app) {
         }
 
         var update = {$set: {verified: true}};
+        var username, userId;
 
         db.collection(COLLECTION_USERS).findOne(verifyQuery)
         .then(function(doc) {
@@ -156,21 +121,23 @@ module.exports = function(app) {
                 verifySuccess = false;
                 return null;
             }
-            logger.debug("verify username: " + doc.username);
-            logger.debug("verify userid: " + doc.userId);
+            username = doc.username;
+            userId = doc.userId;
+            logger.debug("[/verify] - Attempting to verify username: " + username + ", userId: " + userId);
             return db.collection(COLLECTION_USERS).updateOne(verifyQuery, update);
         })
         .then(function(ret) {
             if (ret == null) return;
-            logger.debug("Update verified result: " + ret);
+            logger.debug("[/verify] - Update verified result: " + ret);
             verifySuccess = true;
         })
         .catch(function(error) {
-            logger.debug("Failed finding account to verify or updating account verified status: " + error);
+            logger.debug("[/verify] - Failed to update userId " + userId + ": " + error);
             verifySuccess = false;
         })
         .finally(function() {
             if (verifySuccess) {
+                logger.debug("[/verify] - Sucessfully verified userId " + userId);
                 res.json(STATUS_OK);
             }
             else {

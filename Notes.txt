@@ -11,6 +11,12 @@ Elastic Search
 - at least 8 GB RAM
 - prefer to use more cores rather than increase clock speed but both are good
 
+Elastic Search optimizations:
+- Bulk operations
+- Reduce refresh rate
+- 0 replica's and reduce shards if possible. Less shards generally means faster if you have the same number of nodes.
+
+
 Cassandra
 - Increase RAM and cores
 
@@ -21,3 +27,20 @@ MongoDB
 - Measure resource usage by node/express app
 
 Look into deep linking with /Question/:id
+
+
+
+Nginx Optimizations
+
+# Run: ulimit -n 4096
+# on the nginx terminal.
+
+/etc/sysctl.conf to control network connections and files per process in kernel
+
+net.ipv4.ip_local_port_range = 1024 65535
+net.ipv4.tcp_tw_reuse = 1
+# This one is not necessarily needed --> fs.file-max = 100000
+
+ulimit num files can be modified in /etc/security/limits.conf with:
+* - nofile 16384
+

@@ -1,0 +1,6 @@
+[2019-04-27T11:27:47.793] [DEBUG] app - Upvote { userId: '123', qid: '1', val: true, waived: false }
+[2019-04-27T11:27:47.798] [DEBUG] app - Upvote { userId: '123', qid: '2', val: false, waived: true }
+[2019-04-27T11:27:47.799] [DEBUG] app - Upvote { userId: '124', qid: '3', val: false, waived: false }
+[2019-04-27T11:29:23.527] [DEBUG] app - Upvote { userId: '123', qid: '1', val: true, waived: false }
+[2019-04-27T11:29:23.534] [DEBUG] app - Upvote { userId: '123', qid: '2', val: false, waived: true }
+[2019-04-27T11:29:23.534] [DEBUG] app - Upvote { userId: '124', qid: '3', val: false, waived: false }

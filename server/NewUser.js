@@ -6,6 +6,15 @@ var rabbitUtils = require('./RabbitmqUtils.js');
 var USERS_QUEUE = rabbitUtils.USERS_QUEUE;
 
 
+function generateKey() {
+    var key = "", possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    for (var i = 0; i < 8; i++) {
+        key += possible.charAt(Math.floor(Math.random() * possible.length));
+    }
+    return key;
+}
+
+
 module.exports = function(app) {
 
     let constants = require('./Utils.js');

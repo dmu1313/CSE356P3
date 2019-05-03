@@ -32,6 +32,7 @@ var QUESTIONS_QUEUE = rabbitUtils.QUESTIONS_QUEUE;
 var ANSWERS_QUEUE = rabbitUtils.ANSWERS_QUEUE;
 var MEDIA_QUEUE = rabbitUtils.MEDIA_QUEUE;
 var USERS_QUEUE = rabbitUtils.USERS_QUEUE;
+var ES_QUEUE = rabbitUtils.ES_QUEUE;
 
 
 var ES_PREFETCH = 1000

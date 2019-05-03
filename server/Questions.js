@@ -34,6 +34,16 @@ const COLLECTION_MEDIA_USER = constants.COLLECTION_MEDIA_USER;
 var getRandomIdString = constants.getRandomIdString;
 var getUnixTime = constants.getUnixTime;
 
+
+function generateKey() {
+    var key = "", possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    for (var i = 0; i < 8; i++) {
+        key += possible.charAt(Math.floor(Math.random() * possible.length));
+    }
+    return key;
+}
+
+
 module.exports = function(app) {
 
     app.get('/questions/:id', async function(req, res) {

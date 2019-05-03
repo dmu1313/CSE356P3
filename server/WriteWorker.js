@@ -326,14 +326,6 @@ batchSend();
 
 
 
-function generateKey() {
-    var key = "", possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    for (var i = 0; i < 8; i++) {
-        key += possible.charAt(Math.floor(Math.random() * possible.length));
-    }
-    return key;
-}
-
 function sendMail(email, key) {
     // send email
     const nodemailer = require('nodemailer');

@@ -73,8 +73,13 @@ async function batchSend() {
                     body: temp
                 })
                 .then(function(ret) {
-                    logger.debug("Return value of elastic search batch insert: " + ret);
-                    logger.debug("Return of batch insert: " + util.inspect(ret, {showHidden: false, depth: 7}) + "\n\n");
+                    logger.debug("ES Bulk insert took: " + ret.body.took);
+                    if (ret.body.errors == true) {
+                        logger.debug("Error reported for ES bulk insert.");
+                    }
+                    // logger.debug("Return value of elastic search batch insert: " + ret);
+                    // logger.debug("Return of batch insert: " + util.inspect(ret, {showHidden: false, depth: 7}) + "\n\n");
+
                 })
                 .catch(function(error) {
                     logger.debug("Failed to do elastic search batch insert. Error: " + error);

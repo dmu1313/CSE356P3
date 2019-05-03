@@ -2,7 +2,7 @@
 var loggerUtils = require('./LoggerUtils.js');
 var logger = loggerUtils.getAppLogger();
 var util = require('util');
-var rabbitUtils = require('RabbitmqUtils.js');
+var rabbitUtils = require('./RabbitmqUtils.js');
 var USERS_QUEUE = rabbitUtils.USERS_QUEUE;
 
 

@@ -315,9 +315,9 @@ async function addUsers(db, connection) {
     }, {noAck: false});
 }
 
-async function delete(db, connection) {
+// async function deleteQuestions(db, connection) {
 
-}
+// }
 
 startConsumer();
 batchSend();

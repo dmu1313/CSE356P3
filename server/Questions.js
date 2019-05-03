@@ -7,7 +7,9 @@ var rabbitUtils = require('./RabbitmqUtils.js');
 
 var RABBITMQ_ADD_QUESTIONS = rabbitUtils.RABBITMQ_ADD_QUESTIONS;
 var RABBITMQ_ADD_ANSWERS = rabbitUtils.RABBITMQ_ADD_ANSWERS;
-var QUEUE_NAME = rabbitUtils.QUEUE_NAME;
+var QUESTIONS_QUEUE = rabbitUtils.QUESTIONS_QUEUE;
+var ANSWERS_QUEUE =  rabbitUtils.ANSWERS_QUEUE;
+var ES_QUEUE = rabbitUtils.ES_QUEUE;
 
 const util = require('util');
 var mongoUtil = require('./MongoUtils.js');
@@ -204,10 +206,14 @@ module.exports = function(app) {
 
             // Rabbit MQ Message
             logger.debug("Sending /questions/add to RabbitMQ: questionId: " + questionId);
-            var msg = {t: RABBITMQ_ADD_QUESTIONS, title: title, body: body, questionId: questionId, tags: tags,
+            var msg = {title: title, body: body, questionId: questionId, tags: tags,
                         userId: userId, timestamp: timestamp, media: media, username: username};
-        
-            rabbitChannel.sendToQueue(QUEUE_NAME, Buffer.from(JSON.stringify(msg))/*, {persistent: true}*/);
+
+            rabbitChannel.sendToQueue(QUESTIONS_QUEUE, Buffer.from(JSON.stringify(msg))/*, {persistent: true}*/);
+
+            var es_msg = {title: title, body: body, questionId: questionId, tags: tags}
+
+            rabbitChannel.sendToQueue(ES_QUEUE, Buffer.from(JSON.stringify(es_msg)));
 
             res.json({status: "OK", id: questionId, error: null});
         }
@@ -276,10 +282,10 @@ module.exports = function(app) {
 
             // Send RabbitMQ message
             logger.debug("Sending /answers/add to RabbitMQ: questionId: " + answerId);
-            var msg = {t: RABBITMQ_ADD_ANSWERS, answerId: answerId, questionId: id, body: body, media: media, userId: userId,
+            var msg = {answerId: answerId, questionId: id, body: body, media: media, userId: userId,
                         timestamp: timestamp, username: username};
         
-            rabbitChannel.sendToQueue(QUEUE_NAME, Buffer.from(JSON.stringify(msg))/*, {persistent: true}*/);
+            rabbitChannel.sendToQueue(ANSWERS_QUEUE, Buffer.from(JSON.stringify(msg))/*, {persistent: true}*/);
 
 
             res.json({status: "OK", id: answerId});

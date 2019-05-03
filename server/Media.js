@@ -5,7 +5,7 @@ var logger = loggerUtils.getAppLogger();
 var rabbitUtils = require('./RabbitmqUtils.js');
 
 var RABBITMQ_ADD_MEDIA = rabbitUtils.RABBITMQ_ADD_MEDIA;
-var QUEUE_NAME = rabbitUtils.QUEUE_NAME;
+var MEDIA_QUEUE = rabbitUtils.MEDIA_QUEUE;
 
 const formidable = require('formidable');
 var cassandraUtils = require('./CassandraUtils.js');
@@ -69,9 +69,9 @@ module.exports = function(app) {
 
             // console.log("Sending /addmedia to RabbitMQ");
             // console.log("Filename: " + filename);
-            var msg = {t: RABBITMQ_ADD_MEDIA, content: file, filename: filename, id: id, userId: user.userId};
+            var msg = {content: file, filename: filename, id: id, userId: user.userId};
 
-            rabbitChannel.sendToQueue(QUEUE_NAME, Buffer.from(JSON.stringify(msg))/*, {persistent: true}*/);
+            rabbitChannel.sendToQueue(MEDIA_QUEUE, Buffer.from(JSON.stringify(msg))/*, {persistent: true}*/);
 
             res.json({status: "OK", id: id});
             

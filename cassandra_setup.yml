@@ -38,6 +38,8 @@
 # concurrent_counter_writes: 16 (16 * drives)
 
 
+# Make sure to set up jvm.options RAM to half the size
+
 
 # cluster_name: 'Test Cluster'
 # num_tokens: 256

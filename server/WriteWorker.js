@@ -31,15 +31,13 @@ var RABBITMQ_ADD_USERS = rabbitUtils.RABBITMQ_ADD_USERS;
 var QUESTIONS_QUEUE = rabbitUtils.QUESTIONS_QUEUE;
 var ANSWERS_QUEUE = rabbitUtils.ANSWERS_QUEUE;
 var MEDIA_QUEUE = rabbitUtils.MEDIA_QUEUE;
-var USERS_QUEUE = rabbitUtils.USERS_QUEUE;
 var ES_QUEUE = rabbitUtils.ES_QUEUE;
 
 
-var ES_PREFETCH = 1000
+var ES_PREFETCH = 1000;
 var QUESTIONS_PREFETCH = 500;
 var ANSWERS_PREFETCH = 500;
 var MEDIA_PREFETCH = 100;
-var USERS_PREFETCH = 300;
 
 // var ES_PREFETCH = 0
 // var QUESTIONS_PREFETCH = 750;
@@ -60,7 +58,7 @@ async function batchSend() {
         await sleep(10000);
         
         while (true) {
-            await sleep(1500);
+            await sleep(300);
             if (inserts.length > 0) {
                 var elasticClient = elasticUtils.getElasticClient();
                 
@@ -99,7 +97,6 @@ async function startConsumer() {
         addQuestions(db, connection);
         addAnswers(db, connection);
         addMedia(db, connection);
-        addUsers(db, connection);
 
         logger.debug("Waiting for messages.");
     }
@@ -286,40 +283,6 @@ async function addMedia(db, connection) {
     }, {noAck: false});
 }
 
-async function addUsers(db, connection) {
-    var ch = await connection.createChannel();
-    
-    var ok = await ch.assertQueue(USERS_QUEUE, {durable: true});
-    await ch.prefetch(USERS_PREFETCH);
-    ch.consume(USERS_QUEUE, function(msg) {
-        var obj = JSON.parse(msg.content);
-
-        var userId = obj.userId;
-        var username = obj.username;
-        var password = obj.password;
-        var email = obj.email;
-        var key = obj.key;
-
-        var insertQuery = {
-            userId: userId, username: username, password: password, email: email,
-            reputation: 1, verified: false, key: key
-        };
-
-        db.collection(COLLECTION_USERS).insertOne(insertQuery)
-        .then(function(result) {
-            logger.debug("[MQ Add Users] - Adding userId: " + userId + ", email: " + email + ", result: " + result);
-        })
-        .catch(function(error) {
-            logger.debug("[MQ Add Users] - Unable to add userId: " + userId + ", email: " + email + ", Error: " + error);
-        })
-        .finally(function() {
-            ch.ack(msg);
-        });
- 
-        sendMail(email, key);
-
-    }, {noAck: false});
-}
 
 // async function deleteQuestions(db, connection) {
 
@@ -328,37 +291,3 @@ async function addUsers(db, connection) {
 startConsumer();
 batchSend();
 
-
-
-
-function sendMail(email, key) {
-    // send email
-    const nodemailer = require('nodemailer');
-    let transporter = nodemailer.createTransport({
-        host: "localhost",
-        port: 25,
-        secure: false,
-        tls: {
-            rejectUnauthorized: false
-        }
-    });
-
-    let mailOptions = {
-        from: 'dmu@arrayoutofbounds.com',
-        to: email,
-        subject: 'Verification Key',
-        text: "validation key: <" + key + ">",
-        html: "validation key: <" + key + ">"
-        // html: "<p>validation key: &lt;" + key + "&gt;</p>"
-
-    }
-
-    transporter.sendMail(mailOptions, (error, info) => {
-        logger.debug("Sending email");
-        // logger.debug(util.inspect(info, {showHidden: false, depth: 4}));
-        
-        if (error) {
-            return logger.debug(error);
-        }
-    });
-}

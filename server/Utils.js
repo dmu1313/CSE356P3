@@ -1,6 +1,6 @@
 
 function getRandomIdString() {
-    return (Date.now()-1555000000000) + (Math.floor(Math.random() * 10000000) + 1).toString();
+    return (Date.now()-1555000000000) + (Math.floor(Math.random() * 1000000000) + 1).toString();
     // return (Math.floor(Math.random() * 1000000000000) + 1).toString();
 }
 

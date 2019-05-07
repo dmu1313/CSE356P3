@@ -3,6 +3,9 @@ server/node_modules
 server/package.json
 server/package-lock.json
 
+server/Write.txt
+server/app.txt
+
 react/frontend/node_modules
 react/frontend/package.json
 react/frontend/package-lock.json

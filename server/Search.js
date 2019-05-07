@@ -187,7 +187,7 @@ module.exports = function(app) {
         }
         catch(error) {
             logger.debug("Failed to do search. Error: " + error);
-            res.status(400).json({status: "error", error: "Failed to do the search query."});
+            res.status(400).json({status: "error", error: "Failed to do the search query.", questions: []});
         }
     });
 }

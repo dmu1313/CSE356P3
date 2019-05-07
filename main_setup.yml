@@ -11,10 +11,10 @@
   tasks:
 ######    Nginx and Git    #######
     - name: Install Nginx
-    apt:
-      name: nginx
-      update_cache: yes
-      state: latest
+      apt:
+        name: nginx
+        update_cache: yes
+        state: latest
     - name: install git
       apt:
         name: git

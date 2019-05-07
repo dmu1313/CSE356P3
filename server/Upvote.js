@@ -86,7 +86,10 @@ module.exports = function(app) {
                 }
                 
                 logger.debug("[/questions/:id/upvote] - Inserting upvote query: userId: " + insertUpvoteQuery._id + ", questionId: " + insertUpvoteQuery.qid + ", val: " + insertUpvoteQuery.val + ", waived: " + insertUpvoteQuery.waived);
-                db.collection(COLLECTION_QUESTION_UPVOTE).insertOne(insertUpvoteQuery);
+                db.collection(COLLECTION_QUESTION_UPVOTE).insertOne(insertUpvoteQuery)
+                .catch(function(error) {
+                    logger.debug(errorString + ", Error: " + error);
+                });
             }
             else {
                 // Undo the vote

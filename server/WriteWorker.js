@@ -99,7 +99,7 @@ async function startConsumer() {
         addQuestions(db, connection);
         addAnswers(db, connection);
         addMedia(db, connection);
-        addUsers(db, connection);
+        // addUsers(db, connection);
 
         logger.debug("Waiting for messages.");
     }

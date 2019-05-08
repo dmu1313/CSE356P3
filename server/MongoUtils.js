@@ -119,11 +119,11 @@ function promiseWrapSet(cookieString, memcached) {
     return _db.collection(COLLECTION_COOKIES).findOne(cookieQuery).then(function(doc) {
         if (doc != null) {
             let memCookieObj = {userId: doc.userId, username: doc.username};
-            // memcached.set(cookieString, memCookieObj, 86400, function(err) {
-            //     if (err) {
-            //         logger.debug("Error setting object in memcached: " + err);
-            //     }
-            // });
+            memcached.set(cookieString, memCookieObj, 86400, function(err) {
+                if (err) {
+                    logger.debug("Error setting object in memcached: " + err);
+                }
+            });
             return memCookieObj;
             // resolve(memCookieObj);
         }
@@ -142,8 +142,7 @@ async function getUserAndIdForCookie(cookieString) {
 
     var memcached = memcachedUtils.memcached;
 
-    // var data = await promiseWrapGet(cookieString, memcached);
-    var data;
+    var data = await promiseWrapGet(cookieString, memcached);
     if (data != null) {
         return new Promise(function(resolve, reject) {
             resolve(data);

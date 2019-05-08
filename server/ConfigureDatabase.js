@@ -13,10 +13,8 @@ const COLLECTION_QUESTIONS = constants.COLLECTION_QUESTIONS;
 const COLLECTION_ANSWERS = constants.COLLECTION_ANSWERS;
 const COLLECTION_IP_VIEWS = constants.COLLECTION_IP_VIEWS;
 const COLLECTION_USER_VIEWS = constants.COLLECTION_USER_VIEWS;
-const COLLECTION_MEDIA_TEST = constants.COLLECTION_MEDIA_TEST;
-const COLLECTION_QMEDIA = constants.COLLECTION_QMEDIA;
-const COLLECTION_AMEDIA = constants.COLLECTION_AMEDIA;
 const COLLECTION_MEDIA = constants.COLLECTION_MEDIA;
+const COLLECTION_MEDIA_USER = constants.COLLECTION_MEDIA_USER;
 
 const COLLECTION_ANSWER_UPVOTE = constants.COLLECTION_ANSWER_UPVOTE;
 const COLLECTION_QUESTION_UPVOTE = constants.COLLECTION_QUESTION_UPVOTE;
@@ -30,17 +28,17 @@ const COLLECTION_QUESTION_UPVOTE = constants.COLLECTION_QUESTION_UPVOTE;
 // ip_views: { _id, ip:string, questionID:string }
 // user_views: { _id, username:string, questionId:string }
 
-// COLLECTION_MEDIA: {_id: questionId/answerId, mediaId: mediaId}
+// COLLECTION_MEDIA: {_id: questionId/answerId, mediaId: mediaId}  --> Error caused with duplicate qid's or aid's
+// COLLECTION_MEDIA: {_id: mediaId, qa: questionId/answerId}
 // COLLECTION_MEDIA_USER: {_id: mediaId, userId: userId};
 
-// Proposed Changes
+// Combined:
+// COLLECTION_MEDIA: {_id: mediaId, qa: questionId/answerId, uid: userId}
 
-// q_media: { _id=questionId, mediaId }
-// a_media: { _id=answerId, mediaId }
 
-// q_upvote: {_id=userId, qid=questionId, val:boolean, waived:boolean}
-// a_upvote: {_id=userId, aid=answerId, val:boolean, waived:boolean}
-// - Index on _id and questionId
+
+// q_upvote: {_id, uid=userId, qid=questionId, val:boolean, waived:boolean}
+// a_upvote: {_id, uid=userId, aid=answerId, val:boolean, waived:boolean}
 
 
 
@@ -318,35 +316,27 @@ module.exports = function(app) {
         // MEDIA {the media id, the Q/A id}
         // media: { _id=questionId/answerId, mediaId }
 
-        db.collection(COLLECTION_MEDIA).createIndex( { mediaId: 1  })
-        .then(function(result) {
-            console.log("media index: " + result);
-        })
-        .catch(function(error) {
-            console.log("MEDIA ERROR: " + error);
-        });
-
-        // db.collection(COLLECTION_QMEDIA).createIndex( { mediaId: 1 } )
+        // db.collection(COLLECTION_MEDIA).createIndex( { mediaId: 1  })
         // .then(function(result) {
-        //     console.log("qmedia index: " + result);
+        //     console.log("media index: " + result);
         // })
         // .catch(function(error) {
-        //     console.log("QMEDIA ERROR: " + error);
+        //     console.log("MEDIA ERROR: " + error);
         // });
 
-        // db.collection(COLLECTION_AMEDIA).createIndex( { mediaId: 1 } )
+        // db.collection(COLLECTION_MEDIA_USER).createIndex( {} )
         // .then(function(result) {
-        //     console.log("amedia index: " + result);
+        //     console.log("media_user index: " + result);
         // })
         // .catch(function(error) {
-        //     console.log("AMEDIA ERROR: " + error);
+        //     console.log("MEDIA_USER ERROR: " + error);
         // });
 
 
-        // q_upvote: {_id=userId, qid=questionId, val:boolean, waived:boolean}
-        // a_upvote: {_id=userId, aid=answerId, val:boolean, waived:boolean}
 
-        db.collection(COLLECTION_QUESTION_UPVOTE).createIndex( { _id: 1, qid: 1 } )
+
+
+        db.collection(COLLECTION_QUESTION_UPVOTE).createIndex( { uid: 1, qid: 1 } )
         .then(function(result) {
             console.log("Q_upvote index: " + result);
         })
@@ -354,7 +344,7 @@ module.exports = function(app) {
             console.log("Q_UPVOTE: " + error);
         });
 
-        db.collection(COLLECTION_ANSWER_UPVOTE).createIndex( {_id: 1, aid: 1})
+        db.collection(COLLECTION_ANSWER_UPVOTE).createIndex( {uid: 1, aid: 1})
         .then(function(result) {
             console.log("A_upvote index: " + result);
         })
@@ -362,13 +352,6 @@ module.exports = function(app) {
             console.log("A_UPVOTE: " + error);
         });
 
-        // db.collection(COLLECTION_MEDIA_TEST).createIndex( { meidaId: 1} )
-        // .then(function(result) {
-        //     console.log("Media_Test index: " + result);
-        // }
-        // .catch(function(error) {
-        //     console.log("MEDIA_TEST: " + error);
-        // });
 
         res.json(STATUS_OK);
     });

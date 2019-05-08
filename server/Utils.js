@@ -1,6 +1,6 @@
 
 function getRandomIdString() {
-    return (Date.now()-1555000000000) + (Math.floor(Math.random() * 1000000000) + 1).toString();
+    return (Date.now()-1555000000000) + (Math.floor(Math.random() * 100000) + 1).toString();
     // return (Math.floor(Math.random() * 1000000000000) + 1).toString();
 }
 
@@ -19,13 +19,12 @@ module.exports = {
     COLLECTION_ANSWERS: "Answers",
     COLLECTION_IP_VIEWS: "Ip_Views",
     COLLECTION_USER_VIEWS: "User_Views",
-    COLLECTION_MEDIA_TEST: "Media_Test",
     COLLECTION_ANSWER_UPVOTE: "A_upvote",
     COLLECTION_QUESTION_UPVOTE: "Q_upvote",
-    COLLECTION_QMEDIA: "QMEDIA",
-    COLLECTION_AMEDIA: "AMEDIA",
+    // COLLECTION_QMEDIA: "QMEDIA",
+    // COLLECTION_AMEDIA: "AMEDIA",
     COLLECTION_MEDIA: "MEDIA",
-    COLLECTION_MEDIA_USER: "Media_User",
+    COLLECTION_MEDIA_USER: "Media_U",
     
 
     getRandomIdString: getRandomIdString,

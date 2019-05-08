@@ -56,21 +56,21 @@ module.exports = function(app) {
                 return;
             }
             
-            let upvoteQuery = {_id: user.userId, qid: id};
+            let upvoteQuery = {uid: user.userId, qid: id};
             let upvoteDoc = await db.collection(COLLECTION_QUESTION_UPVOTE).findOne(upvoteQuery);
             if (upvoteDoc == null) {
                 logger.debug("[/questions/:id/upvote] - No previous upvote/downvote for userId " + user.userId + ", questionId: " + id + ", Insert upvote: " + upvote);
                 let insertUpvoteQuery;
                 if (upvote == false) {
                     if (posterDoc.reputation <= 1) {
-                        insertUpvoteQuery = {_id: user.userId, qid: id, val: false, waived: true};
+                        insertUpvoteQuery = {uid: user.userId, qid: id, val: false, waived: true};
                     }
                     else {
-                        insertUpvoteQuery = {_id: user.userId, qid: id, val: false, waived: false};
+                        insertUpvoteQuery = {uid: user.userId, qid: id, val: false, waived: false};
                     }
                 }
                 else {
-                    insertUpvoteQuery = {_id: user.userId, qid: id, val: true, waived: false };
+                    insertUpvoteQuery = {uid: user.userId, qid: id, val: true, waived: false };
                 }
 
                 if (insertUpvoteQuery.waived == false) {
@@ -85,7 +85,7 @@ module.exports = function(app) {
                     db.collection(COLLECTION_USERS).updateOne(posterQuery, updateUserReputationQuery);
                 }
                 
-                logger.debug("[/questions/:id/upvote] - Inserting upvote query: userId: " + insertUpvoteQuery._id + ", questionId: " + insertUpvoteQuery.qid + ", val: " + insertUpvoteQuery.val + ", waived: " + insertUpvoteQuery.waived);
+                logger.debug("[/questions/:id/upvote] - Inserting upvote query: userId: " + insertUpvoteQuery.uid + ", questionId: " + insertUpvoteQuery.qid + ", val: " + insertUpvoteQuery.val + ", waived: " + insertUpvoteQuery.waived);
                 db.collection(COLLECTION_QUESTION_UPVOTE).insertOne(insertUpvoteQuery)
                 .catch(function(error) {
                     logger.debug(errorString + ", Error: " + error);
@@ -107,7 +107,7 @@ module.exports = function(app) {
                             db.collection(COLLECTION_USERS).updateOne(posterQuery, updateReputationQuery);
                         }
                     }
-                    logger.debug("[/questions/:id/upvote] - Deleting upvote with userId " + upvoteQuery._id + ", questionId " + upvoteQuery.qid);
+                    logger.debug("[/questions/:id/upvote] - Deleting upvote with userId " + upvoteQuery.uid + ", questionId " + upvoteQuery.qid);
                     db.collection(COLLECTION_QUESTION_UPVOTE).deleteOne(upvoteQuery);
                 }
                 else {
@@ -126,7 +126,7 @@ module.exports = function(app) {
                         }
                         db.collection(COLLECTION_USERS).updateOne(posterQuery, updateReputationQuery);
 
-                        logger.debug("[/questions/:id/upvote] - Updating Question upvote userId " + upvoteQuery._id + ", questionId " + upvoteQuery.qid + ", With val: " + modifyUpvoteQuery.$set.val + ", waived: " + modifyUpvoteQuery.$set.waived);
+                        logger.debug("[/questions/:id/upvote] - Updating Question upvote userId " + upvoteQuery.uid + ", questionId " + upvoteQuery.qid + ", With val: " + modifyUpvoteQuery.$set.val + ", waived: " + modifyUpvoteQuery.$set.waived);
                         db.collection(COLLECTION_QUESTION_UPVOTE).updateOne(upvoteQuery, modifyUpvoteQuery);
                     }
                     else {
@@ -144,7 +144,7 @@ module.exports = function(app) {
                         logger.debug("[/questions/:id/upvote] - Update User " + posterQuery.userId + " Reputation: inc_reputation: " + updateReputationQuery.$inc.reputation);
                         db.collection(COLLECTION_USERS).updateOne(posterQuery, updateReputationQuery);
 
-                        logger.debug("[/questions/:id/upvote] - Updating Question upvote userId " + upvoteQuery._id + ", questionId " + upvoteQuery.qid + ", With val: " + modifyUpvoteQuery.$set.val + ", waived: " + modifyUpvoteQuery.$set.waived);
+                        logger.debug("[/questions/:id/upvote] - Updating Question upvote userId " + upvoteQuery.uid + ", questionId " + upvoteQuery.qid + ", With val: " + modifyUpvoteQuery.$set.val + ", waived: " + modifyUpvoteQuery.$set.waived);
                         db.collection(COLLECTION_QUESTION_UPVOTE).updateOne(upvoteQuery, modifyUpvoteQuery);
                     }
                 }
@@ -229,21 +229,21 @@ module.exports = function(app) {
             return;
         }
         
-        let upvoteQuery = {_id: user.userId, aid: id};
+        let upvoteQuery = {uid: user.userId, aid: id};
         let upvoteDoc = await db.collection(COLLECTION_ANSWER_UPVOTE).findOne(upvoteQuery);
         if (upvoteDoc == null) {
             logger.debug("No previous upvote/downvote for this answer and user. Inserting now.");
             let insertUpvoteQuery;
             if (upvote == false) {
                 if (posterDoc.reputation <= 1) {
-                    insertUpvoteQuery = {_id: user.userId, aid: id, val: false, waived: true};
+                    insertUpvoteQuery = {uid: user.userId, aid: id, val: false, waived: true};
                 }
                 else {
-                    insertUpvoteQuery = {_id: user.userId, aid: id, val: false, waived: false};
+                    insertUpvoteQuery = {uid: user.userId, aid: id, val: false, waived: false};
                 }
             }
             else {
-                insertUpvoteQuery = {_id: user.userId, aid: id, val: true, waived: false };
+                insertUpvoteQuery = {uid: user.userId, aid: id, val: true, waived: false };
             }
             if (insertUpvoteQuery.waived == false) {
                 let updateUserReputationQuery;

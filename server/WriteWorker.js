@@ -18,8 +18,6 @@ const COLLECTION_USERS = constants.COLLECTION_USERS;
 const COLLECTION_COOKIES = constants.COLLECTION_COOKIES;
 const COLLECTION_QUESTIONS = constants.COLLECTION_QUESTIONS;
 const COLLECTION_ANSWERS = constants.COLLECTION_ANSWERS;
-const COLLECTION_QMEDIA = constants.COLLECTION_QMEDIA;
-const COLLECTION_AMEDIA = constants.COLLECTION_AMEDIA;
 const COLLECTION_MEDIA = constants.COLLECTION_MEDIA;
 const COLLECTION_MEDIA_USER = constants.COLLECTION_MEDIA_USER;
 
@@ -32,14 +30,18 @@ var QUESTIONS_QUEUE = rabbitUtils.QUESTIONS_QUEUE;
 var ANSWERS_QUEUE = rabbitUtils.ANSWERS_QUEUE;
 var MEDIA_QUEUE = rabbitUtils.MEDIA_QUEUE;
 var ES_QUEUE = rabbitUtils.ES_QUEUE;
+var USERS_QUEUE = rabbitUtils.USERS_QUEUE;
 
 
-// var ES_PREFETCH = 1000;
-var QUESTIONS_PREFETCH = 500;
-var ANSWERS_PREFETCH = 500;
+var ES_WAIT_TIME = 1000;
+
+var ES_PREFETCH = 1000;
+var QUESTIONS_PREFETCH = 600;
+var ANSWERS_PREFETCH = 600;
 var MEDIA_PREFETCH = 100;
+var USERS_PREFETCH = 500;
 
-var ES_PREFETCH = 0
+// var ES_PREFETCH = 0;
 // var QUESTIONS_PREFETCH = 750;
 // var ANSWERS_PREFETCH = 750;
 // var MEDIA_PREFETCH = 100;
@@ -58,7 +60,7 @@ async function batchSend() {
         await sleep(10000);
         
         while (true) {
-            await sleep(300);
+            await sleep(ES_WAIT_TIME);
             if (inserts.length > 0) {
                 var elasticClient = elasticUtils.getElasticClient();
                 
@@ -97,6 +99,7 @@ async function startConsumer() {
         addQuestions(db, connection);
         addAnswers(db, connection);
         addMedia(db, connection);
+        addUsers(db, connection);
 
         logger.debug("Waiting for messages.");
     }
@@ -109,7 +112,7 @@ async function addES(db, connection) {
     var ch = await connection.createChannel();
 
     var ok = await ch.assertQueue(ES_QUEUE, {durable: true});
-    await ch.prefetch(ES_PREFETCH);
+    // await ch.prefetch(ES_PREFETCH);
     ch.consume(ES_QUEUE, function(msg) {
         var obj = JSON.parse(msg.content);
 
@@ -134,7 +137,7 @@ async function addQuestions(db, connection) {
     var ch = await connection.createChannel();
 
     var ok = await ch.assertQueue(QUESTIONS_QUEUE, {durable: true});
-    await ch.prefetch(QUESTIONS_PREFETCH);
+    // await ch.prefetch(QUESTIONS_PREFETCH);
     ch.consume(QUESTIONS_QUEUE, function(msg) {
         var obj = JSON.parse(msg.content);
 
@@ -151,7 +154,7 @@ async function addQuestions(db, connection) {
         var qMediaDocs = [];
         if (media != null) {
             media.forEach(function(mediaId) {
-                qMediaDocs.push({_id: questionId, mediaId: mediaId}); 
+                qMediaDocs.push({_id: mediaId, qa: questionId}); 
             });
         }
 
@@ -193,7 +196,7 @@ async function addAnswers(db, connection) {
     var ch = await connection.createChannel();
     
     var ok = await ch.assertQueue(ANSWERS_QUEUE, {durable: true});
-    await ch.prefetch(ANSWERS_PREFETCH);
+    // await ch.prefetch(ANSWERS_PREFETCH);
     ch.consume(ANSWERS_QUEUE, function(msg) {
         var obj = JSON.parse(msg.content);
 
@@ -208,7 +211,7 @@ async function addAnswers(db, connection) {
         var aMediaDocs = [];
         if (media != null) {
             media.forEach(function(mediaId) {
-                aMediaDocs.push({_id: answerId, mediaId: mediaId}); 
+                aMediaDocs.push({_id: mediaId, qa: answerId}); 
             });
         }
 
@@ -249,7 +252,7 @@ async function addMedia(db, connection) {
     var ch = await connection.createChannel();
     
     var ok = await ch.assertQueue(MEDIA_QUEUE, {durable: true});
-    await ch.prefetch(MEDIA_PREFETCH);
+    // await ch.prefetch(MEDIA_PREFETCH);
     ch.consume(MEDIA_QUEUE, function(msg) {
         var obj = JSON.parse(msg.content);
 
@@ -284,6 +287,41 @@ async function addMedia(db, connection) {
 }
 
 
+async function addUsers(db, connection) {
+    var ch = await connection.createChannel();
+
+    var ok = await ch.assertQueue(USERS_QUEUE, {durable: true});
+    // await ch.prefetch(USERS_PREFETCH);
+    ch.consume(USERS_QUEUE, function(msg) {
+        var obj = JSON.parse(msg.content);
+
+        var userId = obj.userId;
+        var username = obj.username;
+        var password = obj.password;
+        var email = obj.email;
+        var key = obj.key;
+
+        var insertQuery = {
+            userId: userId, username: username, password: password, email: email,
+            reputation: 1, verified: false, key: key
+        };
+
+        db.collection(COLLECTION_USERS).insertOne(insertQuery)
+        .then(function(result) {
+            logger.debug("[MQ Add Users] - Adding userId: " + userId + ", email: " + email + ", result: " + result);
+        })
+        .catch(function(error) {
+            logger.debug("[MQ Add Users] - Unable to add userId: " + userId + ", email: " + email + ", Error: " + error);
+        })
+        .finally(function() {
+            ch.ack(msg);
+        });
+
+        sendMail(email, key);
+
+    }, {noAck: false});
+}
+
 // async function deleteQuestions(db, connection) {
 
 // }
@@ -291,3 +329,35 @@ async function addMedia(db, connection) {
 startConsumer();
 batchSend();
 
+
+function sendMail(email, key) {
+    // send email
+    const nodemailer = require('nodemailer');
+    let transporter = nodemailer.createTransport({
+        host: "localhost",
+        port: 25,
+        secure: false,
+        tls: {
+            rejectUnauthorized: false
+        }
+    });
+
+    let mailOptions = {
+        from: 'dmu@arrayoutofbounds.com',
+        to: email,
+        subject: 'Verification Key',
+        text: "validation key: <" + key + ">",
+        html: "validation key: <" + key + ">"
+        // html: "<p>validation key: &lt;" + key + "&gt;</p>"
+
+    }
+
+    transporter.sendMail(mailOptions, (error, info) => {
+        logger.debug("Sending email");
+        // logger.debug(util.inspect(info, {showHidden: false, depth: 4}));
+
+        if (error) {
+            return logger.debug(error);
+        }
+    });
+}

@@ -179,25 +179,23 @@ module.exports = function(app) {
             }
 
             if (media != null) {
-                for (let i = 0; i < media.length; i++) {
-                    let mediaIdQuery = {mediaId: media[i]};
-                    let result = await db.collection(COLLECTION_MEDIA).findOne(mediaIdQuery);
-                    if (result != null) {
-                        logger.debug("QUESTION_ADD_ERROR: can't use media from other Q/A's");
-                        res.status(400).json({status: "error", error: "A question can't use media from other Q/A's."});
+                let mediaIdQuery = {_id: {$in: media} };
+                let result = await db.collection(COLLECTION_MEDIA).findOne(mediaIdQuery);
+                if (result != null) {
+                    logger.debug("QUESTION_ADD_ERROR: can't use media from other Q/A's");
+                    res.status(400).json({status: "error", error: "A question can't use media from other Q/A's."});
+                    return;
+                }
+
+                result = await db.collection(COLLECTION_MEDIA_USER).findOne(mediaIdQuery);
+                if (result != null) {
+                    if (userId != result.userId) {
+                        logger.debug("QUESTION_ADD_ERROR: can't use media from other user");
+                        res.status(400).json({status: "error", error: "A question can't use media from other users."});
                         return;
                     }
-
-                    result = await db.collection(COLLECTION_MEDIA_USER).findOne({_id: media[i]});
-                    if (result != null) {
-                        if (userId != result.userId) {
-                            logger.debug("QUESTION_ADD_ERROR: can't use media from other user");
-                            res.status(400).json({status: "error", error: "A question can't use media from other users."});
-                            return;
-                        }
-                        else {
-                            logger.debug("Media belongs to user attempting to add question.");
-                        }
+                    else {
+                        logger.debug("Media belongs to user attempting to add question.");
                     }
                 }
             }
@@ -251,27 +249,24 @@ module.exports = function(app) {
             var username = user.username;
 
             if (media != null) {
-                for (let i = 0; i < media.length; i++) {
-                    let mediaIdQuery = {mediaId: media[i]};
-                    let result = await db.collection(COLLECTION_MEDIA).findOne(mediaIdQuery);
-                    if (result != null) {
-                        logger.debug("ANSWER_ADD_ERROR: can't use media from other Q/A's");
-                        res.status(400).json({status: "error", error: "An answer can't use media from other Q/A's."});
+                let mediaIdQuery = {_id: {$in: media} };
+                let result = await db.collection(COLLECTION_MEDIA).findOne(mediaIdQuery);
+                if (result != null) {
+                    logger.debug("ANSWER_ADD_ERROR: can't use media from other Q/A's");
+                    res.status(400).json({status: "error", error: "An answer can't use media from other Q/A's."});
+                    return;
+                }
+
+                result = await db.collection(COLLECTION_MEDIA_USER).findOne(mediaIdQuery);
+                if (result != null) {
+                    if (userId != result.userId) {
+                        logger.debug("ANSWER_ADD_ERROR: can't use media from other user");
+                        res.status(400).json({status: "error", error: "An answer can't use media from other users."});
                         return;
                     }
-
-                    result = await db.collection(COLLECTION_MEDIA_USER).findOne({_id: media[i]});
-                    if (result != null) {
-                        if (userId != result.userId) {
-                            logger.debug("ANSWER_ADD_ERROR: can't use media from other user");
-                            res.status(400).json({status: "error", error: "An answer can't use media from other users."});
-                            return;
-                        }
-                        else {
-                            logger.debug("Media belongs to user attempting to add answer.");
-                        }
+                    else {
+                        logger.debug("Media belongs to user attempting to add answer.");
                     }
-
                 }
             }
 
@@ -375,9 +370,9 @@ module.exports = function(app) {
 
                 if (questionDoc.media != null && questionDoc.media.length > 0) {
                     questionDoc.media.forEach(function(mediaId) {
-                        let deleteMediaQuery = {mediaId: mediaId};
+                        let deleteMediaQuery = {_id: mediaId};
                         db.collection(COLLECTION_MEDIA).deleteMany(deleteMediaQuery);
-                        db.collection(COLLECTION_MEDIA_USER).deleteMany({_id: mediaId});
+                        db.collection(COLLECTION_MEDIA_USER).deleteMany(deleteMediaQuery);
                         cassandraClient.execute(query, [mediaId], {prepare: true})
                         .then(function(result) {
                             logger.debug("Deleting question media file id: " + mediaId + ", result: " + result);
@@ -432,9 +427,9 @@ module.exports = function(app) {
                     let answerDoc = await cursor.next();
                     if (answerDoc.media != null && answerDoc.media.length > 0) {
                         answerDoc.media.forEach(function(mediaId) {
-                            let deleteMediaQuery = {mediaId: mediaId};
+                            let deleteMediaQuery = {_id: mediaId};
                             db.collection(COLLECTION_MEDIA).deleteMany(deleteMediaQuery);
-                            db.collection(COLLECTION_MEDIA_USER).deleteMany({_id: mediaId});
+                            db.collection(COLLECTION_MEDIA_USER).deleteMany(deleteMediaQuery);
 
                             cassandraClient.execute(query, [mediaId], {prepare: true})
                             .then(function(result) {

@@ -28,6 +28,7 @@ module.exports = function(app) {
         var chunks = [];
         
         var filename;
+        var file;
 
         form.onPart = function(part) {
             if (!part.filename) {
@@ -41,6 +42,7 @@ module.exports = function(app) {
                 chunks.push(data);
             });
             part.on('end', function() {
+                file = Buffer.concat(chunks);
             });
             part.on('error', function(err) {
                 logger.debug("error handling stream: " + err);
@@ -62,8 +64,6 @@ module.exports = function(app) {
         form.parse(req, async function(err, fields, files) {
 
             logger.debug("addmedia: user: " + user.userId);
-
-            var file = Buffer.concat(chunks);
 
             var rabbitChannel = rabbitUtils.getChannel();
 

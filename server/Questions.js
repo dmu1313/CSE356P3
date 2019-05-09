@@ -204,23 +204,23 @@ module.exports = function(app) {
             var timestamp = getUnixTime();
 
             // Add media to questionId relationship
-            var qMediaDocs = [];
-            if (media != null) {
-                media.forEach(function(mediaId) {
-                    qMediaDocs.push({_id: mediaId, qa: questionId}); 
-                });
-            }
+            // var qMediaDocs = [];
+            // if (media != null) {
+            //     media.forEach(function(mediaId) {
+            //         qMediaDocs.push({_id: mediaId, qa: questionId}); 
+            //     });
+            // }
 
-            if (qMediaDocs.length > 0) {
-                db.collection(COLLECTION_MEDIA).insertMany(qMediaDocs, {ordered: false})
-                // db.collection(COLLECTION_MEDIA).updateMany({_id: {$in: qMediaDocs} }, { $set: {qaId: questionId} })
-                .then(function(ret) {
-                    // logger.debug("Insert many Q media IDs: " + ret);
-                })
-                .catch(function(error) {
-                    logger.debug("Error inserting Q media IDs: " + error);
-                });
-            }
+            // if (qMediaDocs.length > 0) {
+            //     db.collection(COLLECTION_MEDIA).insertMany(qMediaDocs, {ordered: false})
+            //     // db.collection(COLLECTION_MEDIA).updateMany({_id: {$in: qMediaDocs} }, { $set: {qaId: questionId} })
+            //     .then(function(ret) {
+            //         // logger.debug("Insert many Q media IDs: " + ret);
+            //     })
+            //     .catch(function(error) {
+            //         logger.debug("Error inserting Q media IDs: " + error);
+            //     });
+            // }
 
             // Rabbit MQ Message
             logger.debug("Sending /questions/add to RabbitMQ: questionId: " + questionId);
@@ -294,23 +294,23 @@ module.exports = function(app) {
             let timestamp = getUnixTime();
 
             // Add media to answer relationship
-            var aMediaDocs = [];
-            if (media != null) {
-                media.forEach(function(mediaId) {
-                    aMediaDocs.push({_id: mediaId, qa: answerId}); 
-                });
-            }
+            // var aMediaDocs = [];
+            // if (media != null) {
+            //     media.forEach(function(mediaId) {
+            //         aMediaDocs.push({_id: mediaId, qa: answerId}); 
+            //     });
+            // }
 
-            if (aMediaDocs.length > 0) {
-                db.collection(COLLECTION_MEDIA).insertMany(aMediaDocs, {ordered: false})
-                // db.collection(COLLECTION_MEDIA).updateMany({_id: {$in: aMediaDocs} }, { $set: {qaId: answerId} })
-                .then(function(ret) {
-                    // logger.debug("Insert many A media IDs: " + ret);
-                })
-                .catch(function(error) {
-                    logger.debug("Error inserting A media IDs: " + error);
-                });
-            }
+            // if (aMediaDocs.length > 0) {
+            //     db.collection(COLLECTION_MEDIA).insertMany(aMediaDocs, {ordered: false})
+            //     // db.collection(COLLECTION_MEDIA).updateMany({_id: {$in: aMediaDocs} }, { $set: {qaId: answerId} })
+            //     .then(function(ret) {
+            //         // logger.debug("Insert many A media IDs: " + ret);
+            //     })
+            //     .catch(function(error) {
+            //         logger.debug("Error inserting A media IDs: " + error);
+            //     });
+            // }
 
 
 

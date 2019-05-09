@@ -151,23 +151,23 @@ async function addQuestions(db, connection) {
         let username = obj.username;
     
         // media inserts
-        // var qMediaDocs = [];
-        // if (media != null) {
-        //     media.forEach(function(mediaId) {
-        //         qMediaDocs.push({_id: mediaId, qa: questionId}); 
-        //     });
-        // }
+        var qMediaDocs = [];
+        if (media != null) {
+            media.forEach(function(mediaId) {
+                qMediaDocs.push({_id: mediaId, qa: questionId}); 
+            });
+        }
 
-        // if (qMediaDocs.length > 0) {
-        //     db.collection(COLLECTION_MEDIA).insertMany(qMediaDocs, {ordered: false})
-        //     // db.collection(COLLECTION_MEDIA).updateMany({_id: {$in: qMediaDocs} }, { $set: {qaId: questionId} })
-        //     .then(function(ret) {
-        //         // logger.debug("Insert many Q media IDs: " + ret);
-        //     })
-        //     .catch(function(error) {
-        //         logger.debug("Error inserting Q media IDs: " + error);
-        //     });
-        // }
+        if (qMediaDocs.length > 0) {
+            db.collection(COLLECTION_MEDIA).insertMany(qMediaDocs, {ordered: false})
+            // db.collection(COLLECTION_MEDIA).updateMany({_id: {$in: qMediaDocs} }, { $set: {qaId: questionId} })
+            .then(function(ret) {
+                // logger.debug("Insert many Q media IDs: " + ret);
+            })
+            .catch(function(error) {
+                logger.debug("Error inserting Q media IDs: " + error);
+            });
+        }
 
         var has_media = (media != null);
         var insertQuestionQuery = {
@@ -208,23 +208,23 @@ async function addAnswers(db, connection) {
         let timestamp = obj.timestamp;
         let username = obj.username;
 
-        // var aMediaDocs = [];
-        // if (media != null) {
-        //     media.forEach(function(mediaId) {
-        //         aMediaDocs.push({_id: mediaId, qa: answerId}); 
-        //     });
-        // }
+        var aMediaDocs = [];
+        if (media != null) {
+            media.forEach(function(mediaId) {
+                aMediaDocs.push({_id: mediaId, qa: answerId}); 
+            });
+        }
 
-        // if (aMediaDocs.length > 0) {
-        //     db.collection(COLLECTION_MEDIA).insertMany(aMediaDocs, {ordered: false})
-        //     // db.collection(COLLECTION_MEDIA).updateMany({_id: {$in: aMediaDocs} }, { $set: {qaId: answerId} })
-        //     .then(function(ret) {
-        //         // logger.debug("Insert many A media IDs: " + ret);
-        //     })
-        //     .catch(function(error) {
-        //         logger.debug("Error inserting A media IDs: " + error);
-        //     });
-        // }
+        if (aMediaDocs.length > 0) {
+            db.collection(COLLECTION_MEDIA).insertMany(aMediaDocs, {ordered: false})
+            // db.collection(COLLECTION_MEDIA).updateMany({_id: {$in: aMediaDocs} }, { $set: {qaId: answerId} })
+            .then(function(ret) {
+                // logger.debug("Insert many A media IDs: " + ret);
+            })
+            .catch(function(error) {
+                logger.debug("Error inserting A media IDs: " + error);
+            });
+        }
 
         var answerQuery = {
             answerId:answerId, questionId: questionId, body: body, media: media, userId: userId, score: 0,
@@ -269,8 +269,8 @@ async function addMedia(db, connection) {
         var id = obj.id;
         var userId = obj.userId;
 
-        // var mediaUserQuery = {_id: id, userId: userId};
-        // db.collection(COLLECTION_MEDIA_USER).insertOne(mediaUserQuery);
+        var mediaUserQuery = {_id: id, userId: userId};
+        db.collection(COLLECTION_MEDIA_USER).insertOne(mediaUserQuery);
 
         logger.debug("Cassandra Insert");
         cassandraClient.execute(query, [id, filename, file], {prepare: true})

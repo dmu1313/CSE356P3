@@ -64,8 +64,8 @@ module.exports = function(app) {
 
 
         // Add media to user relationship
-        var mediaUserQuery = {_id: id, userId: user.userId};
-        db.collection(COLLECTION_MEDIA_USER).insertOne(mediaUserQuery);
+        // var mediaUserQuery = {_id: id, userId: user.userId};
+        // db.collection(COLLECTION_MEDIA_USER).insertOne(mediaUserQuery);
 
         form.parse(req, async function(err, fields, files) {
 

@@ -28,7 +28,6 @@ const COLLECTION_QUESTION_UPVOTE = constants.COLLECTION_QUESTION_UPVOTE;
 // ip_views: { _id, ip:string, questionID:string }
 // user_views: { _id, username:string, questionId:string }
 
-// COLLECTION_MEDIA: {_id: questionId/answerId, mediaId: mediaId}  --> Error caused with duplicate qid's or aid's
 // COLLECTION_MEDIA: {_id: mediaId, qa: questionId/answerId}
 // COLLECTION_MEDIA_USER: {_id: mediaId, userId: userId};
 
@@ -225,15 +224,15 @@ module.exports = function(app) {
 
         var client = elasticClient.getElasticClient();
         client.indices.create({
-            index: 'questions',
-            body: {
-                settings : {
-                    index : {
-                        number_of_shards : 6, 
-                        number_of_replicas : 0 
-                    }
-                }
-            }
+            index: 'questions'//,
+            // body: {
+            //     settings : {
+            //         index : {
+            //             number_of_shards : 6, 
+            //             number_of_replicas : 0 
+            //         }
+            //     }
+            // }
         })
         .then(function(ret) {
             console.log("Created ElasticSearch index: Questions. ret: " + ret);

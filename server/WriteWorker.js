@@ -35,11 +35,11 @@ var USERS_QUEUE = rabbitUtils.USERS_QUEUE;
 
 var ES_WAIT_TIME = 1000;
 
-var ES_PREFETCH = 1000;
-var QUESTIONS_PREFETCH = 600;
-var ANSWERS_PREFETCH = 600;
-var MEDIA_PREFETCH = 100;
-var USERS_PREFETCH = 500;
+var ES_PREFETCH = 20000;
+var QUESTIONS_PREFETCH = 20000;
+var ANSWERS_PREFETCH = 20000;
+var MEDIA_PREFETCH = 20000;
+var USERS_PREFETCH = 20000;
 
 // var ES_PREFETCH = 0;
 // var QUESTIONS_PREFETCH = 750;
@@ -112,7 +112,7 @@ async function addES(db, connection) {
     var ch = await connection.createChannel();
 
     var ok = await ch.assertQueue(ES_QUEUE, {durable: true});
-    // await ch.prefetch(ES_PREFETCH);
+    await ch.prefetch(ES_PREFETCH);
     ch.consume(ES_QUEUE, function(msg) {
         var obj = JSON.parse(msg.content);
 
@@ -137,7 +137,7 @@ async function addQuestions(db, connection) {
     var ch = await connection.createChannel();
 
     var ok = await ch.assertQueue(QUESTIONS_QUEUE, {durable: true});
-    // await ch.prefetch(QUESTIONS_PREFETCH);
+    await ch.prefetch(QUESTIONS_PREFETCH);
     ch.consume(QUESTIONS_QUEUE, function(msg) {
         var obj = JSON.parse(msg.content);
 
@@ -151,23 +151,23 @@ async function addQuestions(db, connection) {
         let username = obj.username;
     
         // media inserts
-        var qMediaDocs = [];
-        if (media != null) {
-            media.forEach(function(mediaId) {
-                qMediaDocs.push({_id: mediaId, qa: questionId}); 
-            });
-        }
+        // var qMediaDocs = [];
+        // if (media != null) {
+        //     media.forEach(function(mediaId) {
+        //         qMediaDocs.push({_id: mediaId, qa: questionId}); 
+        //     });
+        // }
 
-        if (qMediaDocs.length > 0) {
-            db.collection(COLLECTION_MEDIA).insertMany(qMediaDocs, {ordered: false})
-            // db.collection(COLLECTION_MEDIA).updateMany({_id: {$in: qMediaDocs} }, { $set: {qaId: questionId} })
-            .then(function(ret) {
-                logger.debug("Insert many Q media IDs: " + ret);
-            })
-            .catch(function(error) {
-                logger.debug("Error inserting Q media IDs: " + error);
-            });
-        }
+        // if (qMediaDocs.length > 0) {
+        //     db.collection(COLLECTION_MEDIA).insertMany(qMediaDocs, {ordered: false})
+        //     // db.collection(COLLECTION_MEDIA).updateMany({_id: {$in: qMediaDocs} }, { $set: {qaId: questionId} })
+        //     .then(function(ret) {
+        //         // logger.debug("Insert many Q media IDs: " + ret);
+        //     })
+        //     .catch(function(error) {
+        //         logger.debug("Error inserting Q media IDs: " + error);
+        //     });
+        // }
 
         var has_media = (media != null);
         var insertQuestionQuery = {
@@ -181,7 +181,7 @@ async function addQuestions(db, connection) {
                 logger.debug("Add question returned null value.");
                 return;
             }
-            logger.debug("Add question result: " + ret);
+            // logger.debug("Add question result: " + ret);
         })
         .catch(function(error) {
             logger.debug("Unable to add question. Error: " + error);
@@ -196,7 +196,7 @@ async function addAnswers(db, connection) {
     var ch = await connection.createChannel();
     
     var ok = await ch.assertQueue(ANSWERS_QUEUE, {durable: true});
-    // await ch.prefetch(ANSWERS_PREFETCH);
+    await ch.prefetch(ANSWERS_PREFETCH);
     ch.consume(ANSWERS_QUEUE, function(msg) {
         var obj = JSON.parse(msg.content);
 
@@ -208,23 +208,23 @@ async function addAnswers(db, connection) {
         let timestamp = obj.timestamp;
         let username = obj.username;
 
-        var aMediaDocs = [];
-        if (media != null) {
-            media.forEach(function(mediaId) {
-                aMediaDocs.push({_id: mediaId, qa: answerId}); 
-            });
-        }
+        // var aMediaDocs = [];
+        // if (media != null) {
+        //     media.forEach(function(mediaId) {
+        //         aMediaDocs.push({_id: mediaId, qa: answerId}); 
+        //     });
+        // }
 
-        if (aMediaDocs.length > 0) {
-            db.collection(COLLECTION_MEDIA).insertMany(aMediaDocs, {ordered: false})
-            // db.collection(COLLECTION_MEDIA).updateMany({_id: {$in: aMediaDocs} }, { $set: {qaId: answerId} })
-            .then(function(ret) {
-                logger.debug("Insert many A media IDs: " + ret);
-            })
-            .catch(function(error) {
-                logger.debug("Error inserting A media IDs: " + error);
-            });
-        }
+        // if (aMediaDocs.length > 0) {
+        //     db.collection(COLLECTION_MEDIA).insertMany(aMediaDocs, {ordered: false})
+        //     // db.collection(COLLECTION_MEDIA).updateMany({_id: {$in: aMediaDocs} }, { $set: {qaId: answerId} })
+        //     .then(function(ret) {
+        //         // logger.debug("Insert many A media IDs: " + ret);
+        //     })
+        //     .catch(function(error) {
+        //         logger.debug("Error inserting A media IDs: " + error);
+        //     });
+        // }
 
         var answerQuery = {
             answerId:answerId, questionId: questionId, body: body, media: media, userId: userId, score: 0,
@@ -237,7 +237,7 @@ async function addAnswers(db, connection) {
 
         db.collection(COLLECTION_ANSWERS).insertOne(answerQuery)
         .then(function(ret) {
-            logger.debug("Add answer result: " + ret);
+            // logger.debug("Add answer result: " + ret);
         })
         .catch(function(error) {
             logger.debug("Failed to add answer. Error: " + error);
@@ -252,7 +252,7 @@ async function addMedia(db, connection) {
     var ch = await connection.createChannel();
     
     var ok = await ch.assertQueue(MEDIA_QUEUE, {durable: true});
-    // await ch.prefetch(MEDIA_PREFETCH);
+    await ch.prefetch(MEDIA_PREFETCH);
     ch.consume(MEDIA_QUEUE, function(msg) {
         var obj = JSON.parse(msg.content);
 
@@ -269,8 +269,8 @@ async function addMedia(db, connection) {
         var id = obj.id;
         var userId = obj.userId;
 
-        var mediaUserQuery = {_id: id, userId: userId};
-        db.collection(COLLECTION_MEDIA_USER).insertOne(mediaUserQuery);
+        // var mediaUserQuery = {_id: id, userId: userId};
+        // db.collection(COLLECTION_MEDIA_USER).insertOne(mediaUserQuery);
 
         logger.debug("Cassandra Insert");
         cassandraClient.execute(query, [id, filename, file], {prepare: true})
@@ -291,7 +291,7 @@ async function addUsers(db, connection) {
     var ch = await connection.createChannel();
 
     var ok = await ch.assertQueue(USERS_QUEUE, {durable: true});
-    // await ch.prefetch(USERS_PREFETCH);
+    await ch.prefetch(USERS_PREFETCH);
     ch.consume(USERS_QUEUE, function(msg) {
         var obj = JSON.parse(msg.content);
 

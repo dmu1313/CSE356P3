@@ -3,8 +3,8 @@ var loggerUtils = require('./LoggerUtils.js');
 var logger = loggerUtils.getAppLogger();
 
 var mongo = require('mongodb').MongoClient;
-const url = "mongodb://192.168.122.36:27017";
-// const url = "mongodb://localhost:27017";
+// const url = "mongodb://192.168.122.36:27017";
+const url = "mongodb://localhost:27017";
 
 var memcachedUtils = require('./MemcachedUtils.js');
 
@@ -103,7 +103,7 @@ function promiseWrapGet(cookieString, memcached) {
             }
 
             if (data) {
-                logger.debug("Cookie: " + cookieString + " was in memcached.");
+                // logger.debug("Cookie: " + cookieString + " was in memcached.");
                 resolve({userId: data.userId, username: data.username});
             }
             else {

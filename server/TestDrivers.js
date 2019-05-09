@@ -144,6 +144,30 @@ async function run() {
     // ret= { _id: '306729', value: 'hi' }
 
 
+    var arr = [];
+    for (let i = 0; i < 5; i++) {
+        arr.push({_id: i.toString(), num: i.toString()});
+    } 
+
+    var res = await db.collection(COLLECTION_TEST).insertMany(arr);
+    console.log(res);
+
+    var media = ["1", "2", "3"];
+    let mediaIdQuery = {_id: {$in: media} };
+    res = await db.collection(COLLECTION_TEST).findOne(mediaIdQuery);
+    if (res == null) {
+        console.log("NULL");
+    }
+    else {
+        console.log("id: " + res._id);
+        console.log("num: " + res.num);
+    }
+
+    res = await db.collection(COLLECTION_TEST).deleteMany({});
+    // console.log(res);
+
+
+    
 
 // let deleteQuery = { questionId: qid, userId: userId };
 // let ret = await db.collection(COLLECTION_QUESTIONS).deleteOne(deleteQuery);

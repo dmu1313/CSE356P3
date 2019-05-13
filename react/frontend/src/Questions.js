@@ -338,8 +338,8 @@ class QuestionPage extends React.Component {
             }
 
             var mediaDisplay;
-            if (this.props.media != null && this.props.media.length > 0) {
-                mediaDisplay = this.props.media.map((mediaId) => {
+            if (this.state.media != null && this.state.media.length > 0) {
+                mediaDisplay = this.state.media.map((mediaId) => {
                     return (
                         <div>
                             <img src={'/media/' + mediaId} />
@@ -514,7 +514,7 @@ class Answers extends React.Component {
                     {this.props.answers.map((answer) => {
                                         return (
                                             <React.Fragment>
-                                            <Answer id={answer.id} body={answer.body} user={answer.user}
+                                            <Answer id={answer.id} body={answer.body} user={answer.user} media={answer.media}
                                             score={answer.score} is_accepted={answer.is_accepted} timestamp={answer.timestamp} />
 
                                             <br />

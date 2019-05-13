@@ -1,9 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import './index.css';
-
-import {App} from './App.js';
 import {NavBar} from './Navigation.js';
 import {Home} from './Home';
 import {LoginStatus} from './Routes';

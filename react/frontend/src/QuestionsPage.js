@@ -3,6 +3,20 @@ import React from 'react';
 import {addQuestionForm as AddQuestionForm} from './Questions';
 
 class QuestionsPage extends React.Component {
+
+    componentDidMount() {
+        var me = this;
+        this.props.getLoginStatus()
+        .then(function(status) {
+            if (status !== me.props.loggedIn) {
+                me.props.setLoginState(status);
+            }
+        })
+        .catch(function(error) {
+            console.log("Error getting login status: " + error);
+        });
+    }
+    
     render() {
         return (
             <div>
@@ -10,7 +24,6 @@ class QuestionsPage extends React.Component {
                 <br />
                 <hr />
                 <br />
-                {/* <SearchForm action="/search" /> */}
             </div>
         );
     }

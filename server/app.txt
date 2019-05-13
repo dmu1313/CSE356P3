@@ -1,17 +1,1237 @@
-[2019-04-27T11:27:47.793] [DEBUG] app - Upvote { userId: '123', qid: '1', val: true, waived: false }
-[2019-04-27T11:27:47.798] [DEBUG] app - Upvote { userId: '123', qid: '2', val: false, waived: true }
-[2019-04-27T11:27:47.799] [DEBUG] app - Upvote { userId: '124', qid: '3', val: false, waived: false }
-[2019-04-27T11:29:23.527] [DEBUG] app - Upvote { userId: '123', qid: '1', val: true, waived: false }
-[2019-04-27T11:29:23.534] [DEBUG] app - Upvote { userId: '123', qid: '2', val: false, waived: true }
-[2019-04-27T11:29:23.534] [DEBUG] app - Upvote { userId: '124', qid: '3', val: false, waived: false }
-[2019-05-08T17:55:06.699] [DEBUG] app - CONNECTED
-[2019-05-08T17:59:49.511] [DEBUG] app - CONNECTED
-[2019-05-08T18:00:48.067] [DEBUG] app - CONNECTED
-[2019-05-08T18:01:00.648] [DEBUG] app - CONNECTED
-[2019-05-08T20:42:24.901] [DEBUG] app - CONNECTED
-[2019-05-08T20:42:35.991] [DEBUG] app - CONNECTED
-[2019-05-08T20:42:43.705] [DEBUG] app - CONNECTED
-[2019-05-08T20:43:58.196] [DEBUG] app - CONNECTED
-[2019-05-08T20:44:33.631] [DEBUG] app - CONNECTED
-[2019-05-08T20:44:49.629] [DEBUG] app - CONNECTED
-[2019-05-08T20:46:14.665] [DEBUG] app - CONNECTED
+[2019-05-12T21:37:46.189] [DEBUG] app - CONNECTED to RabbitMQ
+[2019-05-12T21:37:47.150] [DEBUG] app - CONNECTED
+[2019-05-12T21:37:56.122] [DEBUG] app - Cassandra: Error connecting: NoHostAvailableError: All host(s) tried for query failed. First host tried, 192.168.122.37:9042: DriverError: Connection timeout. See innerErrors.
+[2019-05-12T21:38:38.891] [DEBUG] app - CONNECTED to RabbitMQ
+[2019-05-12T21:38:39.872] [DEBUG] app - CONNECTED
+[2019-05-12T21:38:46.191] [DEBUG] app - /addmedia
+[2019-05-12T21:38:48.846] [DEBUG] app - Cassandra: Error connecting: NoHostAvailableError: All host(s) tried for query failed. First host tried, 192.168.122.37:9042: DriverError: Connection timeout. See innerErrors.
+[2019-05-12T21:38:49.203] [DEBUG] app - Error getting data from memcached: Error: Timed out while trying to establish connection
+[2019-05-12T21:38:49.228] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-12T21:38:49.239] [DEBUG] app - Add media time: 3048
+[2019-05-12T21:38:49.240] [DEBUG] app - addmedia: user: 270202291769807
+[2019-05-12T21:39:07.203] [DEBUG] app - Error getting data from memcached: Error: connect ETIMEDOUT 192.168.122.23:11211
+[2019-05-12T21:46:13.140] [DEBUG] app - CONNECTED to RabbitMQ
+[2019-05-12T21:46:14.101] [DEBUG] app - CONNECTED
+[2019-05-12T21:46:23.070] [DEBUG] app - Cassandra: Error connecting: NoHostAvailableError: All host(s) tried for query failed. First host tried, 192.168.122.37:9042: DriverError: Connection timeout. See innerErrors.
+[2019-05-12T21:46:38.895] [DEBUG] app - /addmedia
+[2019-05-12T21:46:41.906] [DEBUG] app - Error getting data from memcached: Error: Timed out while trying to establish connection
+[2019-05-12T21:46:41.933] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-12T21:46:41.941] [DEBUG] app - Middle onPart time: 3045
+[2019-05-12T21:46:41.942] [DEBUG] app - Middle onPart time: 3047
+[2019-05-12T21:46:41.943] [DEBUG] app - Middle onPart time: 3048
+[2019-05-12T21:46:41.943] [DEBUG] app - Middle onPart time: 3048
+[2019-05-12T21:46:41.943] [DEBUG] app - Middle onPart time: 3048
+[2019-05-12T21:46:41.943] [DEBUG] app - Middle onPart time: 3048
+[2019-05-12T21:46:41.944] [DEBUG] app - Middle onPart time: 3049
+[2019-05-12T21:46:41.944] [DEBUG] app - Middle onPart time: 3049
+[2019-05-12T21:46:41.944] [DEBUG] app - Middle onPart time: 3049
+[2019-05-12T21:46:41.945] [DEBUG] app - Middle onPart time: 3050
+[2019-05-12T21:46:41.946] [DEBUG] app - Middle onPart time: 3051
+[2019-05-12T21:46:41.946] [DEBUG] app - Middle onPart time: 3051
+[2019-05-12T21:46:41.946] [DEBUG] app - Middle onPart time: 3051
+[2019-05-12T21:46:41.947] [DEBUG] app - Middle onPart time: 3052
+[2019-05-12T21:46:41.948] [DEBUG] app - Add media time: 3053
+[2019-05-12T21:46:41.948] [DEBUG] app - PARSE TIME: 3053
+[2019-05-12T21:46:41.948] [DEBUG] app - addmedia: user: 270202291769807
+[2019-05-12T21:46:59.907] [DEBUG] app - Error getting data from memcached: Error: connect ETIMEDOUT 192.168.122.23:11211
+[2019-05-12T21:48:07.799] [DEBUG] app - /addmedia
+[2019-05-12T21:48:10.801] [DEBUG] app - Error getting data from memcached: Error: Timed out while trying to establish connection
+[2019-05-12T21:48:10.805] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-12T21:48:10.807] [DEBUG] app - Middle onPart time: 3008
+[2019-05-12T21:48:10.807] [DEBUG] app - Middle onPart time: 3008
+[2019-05-12T21:48:10.808] [DEBUG] app - Middle onPart time: 3009
+[2019-05-12T21:48:10.808] [DEBUG] app - Middle onPart time: 3009
+[2019-05-12T21:48:10.808] [DEBUG] app - Middle onPart time: 3009
+[2019-05-12T21:48:10.810] [DEBUG] app - Middle onPart time: 3011
+[2019-05-12T21:48:10.810] [DEBUG] app - Middle onPart time: 3011
+[2019-05-12T21:48:10.810] [DEBUG] app - Middle onPart time: 3011
+[2019-05-12T21:48:10.811] [DEBUG] app - Middle onPart time: 3012
+[2019-05-12T21:48:10.811] [DEBUG] app - Middle onPart time: 3012
+[2019-05-12T21:48:10.811] [DEBUG] app - Middle onPart time: 3012
+[2019-05-12T21:48:10.812] [DEBUG] app - Middle onPart time: 3013
+[2019-05-12T21:48:10.820] [DEBUG] app - Middle onPart time: 3021
+[2019-05-12T21:48:10.821] [DEBUG] app - Middle onPart time: 3022
+[2019-05-12T21:48:10.822] [DEBUG] app - Middle onPart time: 3023
+[2019-05-12T21:48:10.822] [DEBUG] app - Middle onPart time: 3023
+[2019-05-12T21:48:10.822] [DEBUG] app - Middle onPart time: 3023
+[2019-05-12T21:48:10.822] [DEBUG] app - Middle onPart time: 3023
+[2019-05-12T21:48:10.823] [DEBUG] app - Middle onPart time: 3024
+[2019-05-12T21:48:10.823] [DEBUG] app - Middle onPart time: 3024
+[2019-05-12T21:48:10.823] [DEBUG] app - Middle onPart time: 3024
+[2019-05-12T21:48:10.824] [DEBUG] app - Middle onPart time: 3025
+[2019-05-12T21:48:10.824] [DEBUG] app - Middle onPart time: 3025
+[2019-05-12T21:48:10.825] [DEBUG] app - Middle onPart time: 3026
+[2019-05-12T21:48:10.825] [DEBUG] app - Middle onPart time: 3026
+[2019-05-12T21:48:10.825] [DEBUG] app - Middle onPart time: 3026
+[2019-05-12T21:48:10.825] [DEBUG] app - Middle onPart time: 3026
+[2019-05-12T21:48:10.829] [DEBUG] app - Middle onPart time: 3030
+[2019-05-12T21:48:10.829] [DEBUG] app - Middle onPart time: 3030
+[2019-05-12T21:48:10.830] [DEBUG] app - Middle onPart time: 3031
+[2019-05-12T21:48:10.831] [DEBUG] app - Middle onPart time: 3032
+[2019-05-12T21:48:10.833] [DEBUG] app - Middle onPart time: 3034
+[2019-05-12T21:48:10.834] [DEBUG] app - Middle onPart time: 3035
+[2019-05-12T21:48:10.834] [DEBUG] app - Middle onPart time: 3035
+[2019-05-12T21:48:10.834] [DEBUG] app - Middle onPart time: 3035
+[2019-05-12T21:48:10.834] [DEBUG] app - Middle onPart time: 3035
+[2019-05-12T21:48:10.835] [DEBUG] app - Middle onPart time: 3036
+[2019-05-12T21:48:10.835] [DEBUG] app - Middle onPart time: 3036
+[2019-05-12T21:48:10.835] [DEBUG] app - Middle onPart time: 3036
+[2019-05-12T21:48:10.836] [DEBUG] app - Middle onPart time: 3037
+[2019-05-12T21:48:10.836] [DEBUG] app - Middle onPart time: 3037
+[2019-05-12T21:48:10.836] [DEBUG] app - Middle onPart time: 3037
+[2019-05-12T21:48:10.836] [DEBUG] app - Middle onPart time: 3037
+[2019-05-12T21:48:10.836] [DEBUG] app - Middle onPart time: 3037
+[2019-05-12T21:48:10.839] [DEBUG] app - Middle onPart time: 3040
+[2019-05-12T21:48:10.841] [DEBUG] app - Middle onPart time: 3042
+[2019-05-12T21:48:10.843] [DEBUG] app - Middle onPart time: 3044
+[2019-05-12T21:48:10.843] [DEBUG] app - Middle onPart time: 3044
+[2019-05-12T21:48:10.843] [DEBUG] app - Middle onPart time: 3044
+[2019-05-12T21:48:10.849] [DEBUG] app - Middle onPart time: 3050
+[2019-05-12T21:48:10.851] [DEBUG] app - Middle onPart time: 3052
+[2019-05-12T21:48:10.851] [DEBUG] app - Middle onPart time: 3052
+[2019-05-12T21:48:10.852] [DEBUG] app - Middle onPart time: 3053
+[2019-05-12T21:48:10.852] [DEBUG] app - Middle onPart time: 3053
+[2019-05-12T21:48:10.853] [DEBUG] app - Middle onPart time: 3054
+[2019-05-12T21:48:10.854] [DEBUG] app - Middle onPart time: 3055
+[2019-05-12T21:48:10.854] [DEBUG] app - Middle onPart time: 3055
+[2019-05-12T21:48:10.854] [DEBUG] app - Middle onPart time: 3055
+[2019-05-12T21:48:10.854] [DEBUG] app - Middle onPart time: 3055
+[2019-05-12T21:48:10.855] [DEBUG] app - Middle onPart time: 3056
+[2019-05-12T21:48:10.855] [DEBUG] app - Middle onPart time: 3056
+[2019-05-12T21:48:10.856] [DEBUG] app - Middle onPart time: 3057
+[2019-05-12T21:48:10.856] [DEBUG] app - Middle onPart time: 3057
+[2019-05-12T21:48:10.856] [DEBUG] app - Middle onPart time: 3057
+[2019-05-12T21:48:10.857] [DEBUG] app - Middle onPart time: 3058
+[2019-05-12T21:48:10.857] [DEBUG] app - Middle onPart time: 3058
+[2019-05-12T21:48:10.857] [DEBUG] app - Middle onPart time: 3058
+[2019-05-12T21:48:10.860] [DEBUG] app - Middle onPart time: 3061
+[2019-05-12T21:48:10.860] [DEBUG] app - Middle onPart time: 3061
+[2019-05-12T21:48:10.861] [DEBUG] app - Middle onPart time: 3061
+[2019-05-12T21:48:10.865] [DEBUG] app - Middle onPart time: 3066
+[2019-05-12T21:48:10.865] [DEBUG] app - Middle onPart time: 3066
+[2019-05-12T21:48:10.865] [DEBUG] app - Middle onPart time: 3066
+[2019-05-12T21:48:10.865] [DEBUG] app - Middle onPart time: 3066
+[2019-05-12T21:48:10.866] [DEBUG] app - Middle onPart time: 3067
+[2019-05-12T21:48:10.866] [DEBUG] app - Middle onPart time: 3067
+[2019-05-12T21:48:10.866] [DEBUG] app - Middle onPart time: 3067
+[2019-05-12T21:48:10.867] [DEBUG] app - Middle onPart time: 3068
+[2019-05-12T21:48:10.867] [DEBUG] app - Middle onPart time: 3068
+[2019-05-12T21:48:10.867] [DEBUG] app - Middle onPart time: 3068
+[2019-05-12T21:48:10.867] [DEBUG] app - Middle onPart time: 3068
+[2019-05-12T21:48:10.867] [DEBUG] app - Middle onPart time: 3068
+[2019-05-12T21:48:10.867] [DEBUG] app - Middle onPart time: 3068
+[2019-05-12T21:48:10.868] [DEBUG] app - Middle onPart time: 3069
+[2019-05-12T21:48:10.868] [DEBUG] app - Middle onPart time: 3069
+[2019-05-12T21:48:10.868] [DEBUG] app - Middle onPart time: 3069
+[2019-05-12T21:48:10.868] [DEBUG] app - Middle onPart time: 3069
+[2019-05-12T21:48:10.868] [DEBUG] app - Middle onPart time: 3069
+[2019-05-12T21:48:10.868] [DEBUG] app - Middle onPart time: 3069
+[2019-05-12T21:48:10.869] [DEBUG] app - Middle onPart time: 3070
+[2019-05-12T21:48:10.869] [DEBUG] app - Middle onPart time: 3070
+[2019-05-12T21:48:10.869] [DEBUG] app - Middle onPart time: 3070
+[2019-05-12T21:48:10.869] [DEBUG] app - Middle onPart time: 3070
+[2019-05-12T21:48:10.870] [DEBUG] app - Middle onPart time: 3071
+[2019-05-12T21:48:10.871] [DEBUG] app - Middle onPart time: 3072
+[2019-05-12T21:48:10.871] [DEBUG] app - Middle onPart time: 3072
+[2019-05-12T21:48:10.871] [DEBUG] app - Middle onPart time: 3072
+[2019-05-12T21:48:10.872] [DEBUG] app - Middle onPart time: 3073
+[2019-05-12T21:48:10.872] [DEBUG] app - Middle onPart time: 3073
+[2019-05-12T21:48:10.872] [DEBUG] app - Middle onPart time: 3073
+[2019-05-12T21:48:10.872] [DEBUG] app - Middle onPart time: 3073
+[2019-05-12T21:48:10.873] [DEBUG] app - Middle onPart time: 3074
+[2019-05-12T21:48:10.873] [DEBUG] app - Middle onPart time: 3074
+[2019-05-12T21:48:10.879] [DEBUG] app - Add media time: 3080
+[2019-05-12T21:48:10.879] [DEBUG] app - PARSE TIME: 3080
+[2019-05-12T21:48:10.879] [DEBUG] app - addmedia: user: 270202291769807
+[2019-05-12T21:48:28.803] [DEBUG] app - Error getting data from memcached: Error: connect ETIMEDOUT 192.168.122.23:11211
+[2019-05-12T21:59:49.744] [DEBUG] app - CONNECTED to RabbitMQ
+[2019-05-12T21:59:50.712] [DEBUG] app - CONNECTED
+[2019-05-12T21:59:59.678] [DEBUG] app - Cassandra: Error connecting: NoHostAvailableError: All host(s) tried for query failed. First host tried, 192.168.122.31:9042: DriverError: Connection timeout. See innerErrors.
+[2019-05-12T22:00:08.094] [DEBUG] app - /addmedia
+[2019-05-12T22:00:11.108] [DEBUG] app - Error getting data from memcached: Error: Timed out while trying to establish connection
+[2019-05-12T22:00:11.141] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-12T22:00:11.150] [DEBUG] app - onPart time: 3055
+[2019-05-12T22:00:11.233] [DEBUG] app - Add media time: 3138
+[2019-05-12T22:00:11.234] [DEBUG] app - PARSE TIME: 3139
+[2019-05-12T22:00:11.235] [DEBUG] app - addmedia: user: 270202291769807
+[2019-05-12T22:00:29.111] [DEBUG] app - Error getting data from memcached: Error: connect ETIMEDOUT 192.168.122.23:11211
+[2019-05-12T22:02:19.615] [DEBUG] app - /addmedia
+[2019-05-12T22:02:22.618] [DEBUG] app - Error getting data from memcached: Error: Timed out while trying to establish connection
+[2019-05-12T22:02:22.625] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-12T22:02:22.628] [DEBUG] app - onPart time: 3012
+[2019-05-12T22:02:31.996] [DEBUG] app - Add media time: 12380
+[2019-05-12T22:03:32.757] [DEBUG] app - CONNECTED to RabbitMQ
+[2019-05-12T22:03:33.724] [DEBUG] app - CONNECTED
+[2019-05-12T22:03:42.696] [DEBUG] app - Cassandra: Error connecting: NoHostAvailableError: All host(s) tried for query failed. First host tried, 192.168.122.31:9042: DriverError: Connection timeout. See innerErrors.
+[2019-05-12T22:12:00.084] [DEBUG] app - /addmedia
+[2019-05-12T22:12:00.086] [DEBUG] app - Get incoming form: 1
+[2019-05-12T22:12:03.097] [DEBUG] app - Error getting data from memcached: Error: Timed out while trying to establish connection
+[2019-05-12T22:12:03.125] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-12T22:12:03.132] [DEBUG] app - onPart time: 3047
+[2019-05-12T22:12:03.206] [DEBUG] app - Add media time: 3121
+[2019-05-12T22:12:03.207] [DEBUG] app - PARSE TIME: 3121
+[2019-05-12T22:12:03.207] [DEBUG] app - addmedia: user: 270202291769807
+[2019-05-12T22:12:09.437] [DEBUG] app - /addmedia
+[2019-05-12T22:12:09.438] [DEBUG] app - Get incoming form: 0
+[2019-05-12T22:12:09.439] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-12T22:12:09.449] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-12T22:12:09.454] [DEBUG] app - onPart time: 16
+[2019-05-12T22:12:09.540] [DEBUG] app - Add media time: 102
+[2019-05-12T22:12:09.541] [DEBUG] app - PARSE TIME: 103
+[2019-05-12T22:12:09.541] [DEBUG] app - addmedia: user: 270202291769807
+[2019-05-12T22:12:21.098] [DEBUG] app - Error getting data from memcached: Error: connect ETIMEDOUT 192.168.122.23:11211
+[2019-05-12T22:13:33.079] [DEBUG] app - /addmedia
+[2019-05-12T22:13:33.080] [DEBUG] app - Get incoming form: 0
+[2019-05-12T22:13:36.084] [DEBUG] app - Error getting data from memcached: Error: Timed out while trying to establish connection
+[2019-05-12T22:13:36.128] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-12T22:13:36.130] [DEBUG] app - onPart time: 3050
+[2019-05-12T22:13:36.200] [DEBUG] app - Add media time: 3119
+[2019-05-12T22:13:36.200] [DEBUG] app - PARSE TIME: 3120
+[2019-05-12T22:13:36.200] [DEBUG] app - addmedia: user: 270202291769807
+[2019-05-12T22:13:50.162] [DEBUG] app - /addmedia
+[2019-05-12T22:13:50.162] [DEBUG] app - Get incoming form: 0
+[2019-05-12T22:13:50.162] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-12T22:13:50.168] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-12T22:13:50.170] [DEBUG] app - onPart time: 8
+[2019-05-12T22:13:50.234] [DEBUG] app - Add media time: 72
+[2019-05-12T22:13:50.234] [DEBUG] app - PARSE TIME: 72
+[2019-05-12T22:13:50.235] [DEBUG] app - addmedia: user: 270202291769807
+[2019-05-12T22:13:51.531] [DEBUG] app - /addmedia
+[2019-05-12T22:13:51.531] [DEBUG] app - Get incoming form: 0
+[2019-05-12T22:13:51.532] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-12T22:13:51.539] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-12T22:13:51.541] [DEBUG] app - onPart time: 10
+[2019-05-12T22:13:51.617] [DEBUG] app - Add media time: 86
+[2019-05-12T22:13:51.617] [DEBUG] app - PARSE TIME: 86
+[2019-05-12T22:13:51.617] [DEBUG] app - addmedia: user: 270202291769807
+[2019-05-12T22:13:54.088] [DEBUG] app - Error getting data from memcached: Error: connect ETIMEDOUT 192.168.122.23:11211
+[2019-05-12T22:13:56.618] [DEBUG] app - /addmedia
+[2019-05-12T22:13:56.619] [DEBUG] app - Get incoming form: 0
+[2019-05-12T22:13:56.620] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-12T22:13:56.628] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-12T22:13:56.630] [DEBUG] app - onPart time: 11
+[2019-05-12T22:13:56.732] [DEBUG] app - Add media time: 113
+[2019-05-12T22:13:56.732] [DEBUG] app - PARSE TIME: 113
+[2019-05-12T22:13:56.732] [DEBUG] app - addmedia: user: 270202291769807
+[2019-05-12T22:14:22.895] [DEBUG] app - /addmedia
+[2019-05-12T22:14:22.896] [DEBUG] app - Get incoming form: 0
+[2019-05-12T22:14:25.899] [DEBUG] app - Error getting data from memcached: Error: Timed out while trying to establish connection
+[2019-05-12T22:14:25.903] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-12T22:14:25.904] [DEBUG] app - onPart time: 3008
+[2019-05-12T22:14:25.955] [DEBUG] app - Add media time: 3059
+[2019-05-12T22:14:25.955] [DEBUG] app - PARSE TIME: 3059
+[2019-05-12T22:14:25.956] [DEBUG] app - addmedia: user: 270202291769807
+[2019-05-12T22:14:36.428] [DEBUG] app - /addmedia
+[2019-05-12T22:14:36.428] [DEBUG] app - Get incoming form: 0
+[2019-05-12T22:14:36.428] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-12T22:14:36.433] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-12T22:14:36.434] [DEBUG] app - onPart time: 6
+[2019-05-12T22:14:36.494] [DEBUG] app - Add media time: 66
+[2019-05-12T22:14:36.494] [DEBUG] app - PARSE TIME: 66
+[2019-05-12T22:14:36.494] [DEBUG] app - addmedia: user: 270202291769807
+[2019-05-12T22:14:37.783] [DEBUG] app - /addmedia
+[2019-05-12T22:14:37.783] [DEBUG] app - Get incoming form: 0
+[2019-05-12T22:14:37.784] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-12T22:14:37.790] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-12T22:14:37.792] [DEBUG] app - onPart time: 9
+[2019-05-12T22:14:37.860] [DEBUG] app - Add media time: 77
+[2019-05-12T22:14:37.860] [DEBUG] app - PARSE TIME: 77
+[2019-05-12T22:14:37.860] [DEBUG] app - addmedia: user: 270202291769807
+[2019-05-12T22:14:39.491] [DEBUG] app - /addmedia
+[2019-05-12T22:14:39.492] [DEBUG] app - Get incoming form: 0
+[2019-05-12T22:14:39.492] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-12T22:14:39.497] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-12T22:14:39.498] [DEBUG] app - onPart time: 6
+[2019-05-12T22:14:39.545] [DEBUG] app - Add media time: 53
+[2019-05-12T22:14:39.550] [DEBUG] app - PARSE TIME: 58
+[2019-05-12T22:14:39.551] [DEBUG] app - addmedia: user: 270202291769807
+[2019-05-12T22:14:43.902] [DEBUG] app - Error getting data from memcached: Error: connect ETIMEDOUT 192.168.122.23:11211
+[2019-05-12T22:19:34.141] [DEBUG] app - /addmedia
+[2019-05-12T22:19:34.142] [DEBUG] app - Get incoming form: 0
+[2019-05-12T22:19:37.145] [DEBUG] app - Error getting data from memcached: Error: Timed out while trying to establish connection
+[2019-05-12T22:19:37.150] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-12T22:19:37.151] [DEBUG] app - onPart time: 3009
+[2019-05-12T22:19:37.225] [DEBUG] app - Add media time: 3083
+[2019-05-12T22:19:37.226] [DEBUG] app - PARSE TIME: 3084
+[2019-05-12T22:19:37.226] [DEBUG] app - addmedia: user: 270202291769807
+[2019-05-12T22:19:55.146] [DEBUG] app - Error getting data from memcached: Error: connect ETIMEDOUT 192.168.122.23:11211
+[2019-05-12T22:20:50.149] [DEBUG] app - CONNECTED to RabbitMQ
+[2019-05-12T22:20:51.115] [DEBUG] app - CONNECTED
+[2019-05-12T22:20:51.970] [DEBUG] app - /addmedia
+[2019-05-12T22:20:51.971] [DEBUG] app - Get incoming form: 1
+[2019-05-12T22:20:51.971] [DEBUG] app - Before get cookie: 1
+[2019-05-12T22:20:54.986] [DEBUG] app - Error getting data from memcached: Error: Timed out while trying to establish connection
+[2019-05-12T22:20:55.056] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-12T22:20:55.056] [DEBUG] app - after get cookie: 3086
+[2019-05-12T22:20:55.068] [DEBUG] app - onPart time: 3098
+[2019-05-12T22:20:55.151] [DEBUG] app - Add media time: 3181
+[2019-05-12T22:20:55.152] [DEBUG] app - PARSE TIME: 3182
+[2019-05-12T22:20:55.152] [DEBUG] app - addmedia: user: 270202291769807
+[2019-05-12T22:21:01.180] [DEBUG] app - Cassandra: Error connecting: NoHostAvailableError: All host(s) tried for query failed. First host tried, 192.168.122.31:9042: DriverError: Connection timeout. See innerErrors.
+[2019-05-12T22:21:12.990] [DEBUG] app - Error getting data from memcached: Error: connect ETIMEDOUT 192.168.122.23:11211
+[2019-05-12T22:21:18.508] [DEBUG] app - /addmedia
+[2019-05-12T22:21:18.509] [DEBUG] app - Get incoming form: 0
+[2019-05-12T22:21:18.509] [DEBUG] app - Before get cookie: 0
+[2019-05-12T22:21:18.509] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-12T22:21:18.516] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-12T22:21:18.516] [DEBUG] app - after get cookie: 7
+[2019-05-12T22:21:18.521] [DEBUG] app - onPart time: 12
+[2019-05-12T22:21:18.610] [DEBUG] app - Add media time: 101
+[2019-05-12T22:21:18.611] [DEBUG] app - PARSE TIME: 102
+[2019-05-12T22:21:18.611] [DEBUG] app - addmedia: user: 270202291769807
+[2019-05-12T22:21:50.545] [DEBUG] app - /addmedia
+[2019-05-12T22:21:50.546] [DEBUG] app - Get incoming form: 0
+[2019-05-12T22:21:50.546] [DEBUG] app - Before get cookie: 0
+[2019-05-12T22:21:53.551] [DEBUG] app - Error getting data from memcached: Error: Timed out while trying to establish connection
+[2019-05-12T22:21:53.556] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-12T22:21:53.557] [DEBUG] app - after get cookie: 3011
+[2019-05-12T22:21:53.558] [DEBUG] app - onPart time: 3012
+[2019-05-12T22:21:53.622] [DEBUG] app - Add media time: 3076
+[2019-05-12T22:21:53.622] [DEBUG] app - PARSE TIME: 3076
+[2019-05-12T22:21:53.623] [DEBUG] app - addmedia: user: 270202291769807
+[2019-05-12T22:22:06.533] [DEBUG] app - /addmedia
+[2019-05-12T22:22:06.534] [DEBUG] app - Get incoming form: 1
+[2019-05-12T22:22:06.534] [DEBUG] app - Before get cookie: 1
+[2019-05-12T22:22:06.534] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-12T22:22:06.540] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-12T22:22:06.541] [DEBUG] app - after get cookie: 8
+[2019-05-12T22:22:06.542] [DEBUG] app - onPart time: 9
+[2019-05-12T22:22:06.603] [DEBUG] app - Add media time: 70
+[2019-05-12T22:22:06.603] [DEBUG] app - PARSE TIME: 70
+[2019-05-12T22:22:06.604] [DEBUG] app - addmedia: user: 270202291769807
+[2019-05-12T22:22:07.978] [DEBUG] app - /addmedia
+[2019-05-12T22:22:07.979] [DEBUG] app - Get incoming form: 0
+[2019-05-12T22:22:07.979] [DEBUG] app - Before get cookie: 0
+[2019-05-12T22:22:07.979] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-12T22:22:07.985] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-12T22:22:07.986] [DEBUG] app - after get cookie: 7
+[2019-05-12T22:22:07.986] [DEBUG] app - onPart time: 7
+[2019-05-12T22:22:08.051] [DEBUG] app - Add media time: 72
+[2019-05-12T22:22:08.052] [DEBUG] app - PARSE TIME: 73
+[2019-05-12T22:22:08.052] [DEBUG] app - addmedia: user: 270202291769807
+[2019-05-12T22:22:11.017] [DEBUG] app - /addmedia
+[2019-05-12T22:22:11.018] [DEBUG] app - Get incoming form: 0
+[2019-05-12T22:22:11.018] [DEBUG] app - Before get cookie: 1
+[2019-05-12T22:22:11.018] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-12T22:22:11.025] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-12T22:22:11.026] [DEBUG] app - after get cookie: 9
+[2019-05-12T22:22:11.027] [DEBUG] app - onPart time: 10
+[2019-05-12T22:22:11.082] [DEBUG] app - Add media time: 65
+[2019-05-12T22:22:11.082] [DEBUG] app - PARSE TIME: 65
+[2019-05-12T22:22:11.083] [DEBUG] app - addmedia: user: 270202291769807
+[2019-05-12T22:22:11.965] [DEBUG] app - Error getting data from memcached: Error: connect ETIMEDOUT 192.168.122.23:11211
+[2019-05-12T22:22:13.095] [DEBUG] app - /addmedia
+[2019-05-12T22:22:13.096] [DEBUG] app - Get incoming form: 0
+[2019-05-12T22:22:13.096] [DEBUG] app - Before get cookie: 0
+[2019-05-12T22:22:13.097] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-12T22:22:13.104] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-12T22:22:13.104] [DEBUG] app - after get cookie: 8
+[2019-05-12T22:22:13.106] [DEBUG] app - onPart time: 10
+[2019-05-12T22:22:13.163] [DEBUG] app - Add media time: 67
+[2019-05-12T22:22:13.164] [DEBUG] app - PARSE TIME: 68
+[2019-05-12T22:22:13.164] [DEBUG] app - addmedia: user: 270202291769807
+[2019-05-12T22:25:54.151] [DEBUG] app - CONNECTED to RabbitMQ
+[2019-05-12T22:25:55.102] [DEBUG] app - CONNECTED
+[2019-05-12T22:26:04.077] [DEBUG] app - Cassandra: Error connecting: NoHostAvailableError: All host(s) tried for query failed. First host tried, 192.168.122.37:9042: DriverError: Connection timeout. See innerErrors.
+[2019-05-12T22:26:19.852] [DEBUG] app - /addmedia
+[2019-05-12T22:26:19.863] [DEBUG] app - Get incoming form: 1
+[2019-05-12T22:26:19.872] [DEBUG] app - onPart time: 10
+[2019-05-12T22:26:19.947] [DEBUG] app - Add media time: 85
+[2019-05-12T22:26:19.948] [DEBUG] app - PARSE TIME: 86
+[2019-05-12T22:26:19.948] [DEBUG] app - addmedia: user: undefined
+[2019-05-12T22:47:04.686] [DEBUG] app - /addmedia
+[2019-05-12T22:47:04.693] [DEBUG] app - Get incoming form: 1
+[2019-05-12T22:47:04.698] [DEBUG] app - onPart time: 6
+[2019-05-12T22:47:04.767] [DEBUG] app - Add media time: 75
+[2019-05-12T22:47:04.767] [DEBUG] app - PARSE TIME: 75
+[2019-05-12T22:47:04.767] [DEBUG] app - addmedia: user: undefined
+[2019-05-12T22:47:26.783] [DEBUG] app - CONNECTED to RabbitMQ
+[2019-05-12T22:47:27.760] [DEBUG] app - CONNECTED
+[2019-05-12T22:47:34.625] [DEBUG] app - /addmedia
+[2019-05-12T22:47:34.626] [DEBUG] app - Get incoming form: 1
+[2019-05-12T22:47:36.736] [DEBUG] app - Cassandra: Error connecting: NoHostAvailableError: All host(s) tried for query failed. First host tried, 192.168.122.37:9042: DriverError: Connection timeout. See innerErrors.
+[2019-05-12T22:47:37.638] [DEBUG] app - Error getting data from memcached: Error: Timed out while trying to establish connection
+[2019-05-12T22:47:37.668] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-12T22:47:37.675] [DEBUG] app - onPart time: 3050
+[2019-05-12T22:47:37.730] [DEBUG] app - Add media time: 3105
+[2019-05-12T22:47:37.730] [DEBUG] app - PARSE TIME: 3105
+[2019-05-12T22:47:37.730] [DEBUG] app - addmedia: user: 270202291769807
+[2019-05-12T22:47:55.638] [DEBUG] app - Error getting data from memcached: Error: connect ETIMEDOUT 192.168.122.23:11211
+[2019-05-12T22:48:12.309] [DEBUG] app - Deleted: {"n":1,"ok":1}
+[2019-05-12T22:48:15.303] [DEBUG] app - Error deleting cookie dmu13131557703144567 from memcached: Error: Timed out while trying to establish connection
+[2019-05-12T22:48:19.866] [DEBUG] app - Login: Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-12T22:48:19.872] [DEBUG] app - New Cookie added: dmu13131557715699865
+MongoDB Message: {"n":1,"ok":1}
+[2019-05-12T22:48:33.309] [DEBUG] app - Error deleting cookie dmu13131557703144567 from memcached: Error: connect ETIMEDOUT 192.168.122.23:11211
+[2019-05-12T23:00:00.341] [DEBUG] app - Deleted: {"n":1,"ok":1}
+[2019-05-12T23:00:03.337] [DEBUG] app - Error deleting cookie dmu13131557715699865 from memcached: Error: Timed out while trying to establish connection
+[2019-05-12T23:00:21.344] [DEBUG] app - Error deleting cookie dmu13131557715699865 from memcached: Error: connect ETIMEDOUT 192.168.122.23:11211
+[2019-05-12T23:02:46.263] [DEBUG] app - New Cookie added: dmu13131557716566259
+MongoDB Message: {"n":1,"ok":1}
+[2019-05-12T23:02:49.260] [DEBUG] app - Login: Error setting object in memcached: Error: Timed out while trying to establish connection
+[2019-05-12T23:03:07.262] [DEBUG] app - Login: Error setting object in memcached: Error: connect ETIMEDOUT 192.168.122.23:11211
+[2019-05-12T23:04:59.390] [DEBUG] app - /addmedia
+[2019-05-12T23:04:59.390] [DEBUG] app - Get incoming form: 0
+[2019-05-12T23:05:02.391] [DEBUG] app - Error getting data from memcached: Error: Timed out while trying to establish connection
+[2019-05-12T23:05:02.395] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-12T23:05:02.397] [DEBUG] app - onPart time: 3007
+[2019-05-12T23:05:02.398] [DEBUG] app - PARSE TIME: 3008
+[2019-05-12T23:05:02.399] [DEBUG] app - addmedia: user: 270202291769807
+[2019-05-12T23:05:20.395] [DEBUG] app - Error getting data from memcached: Error: connect ETIMEDOUT 192.168.122.23:11211
+[2019-05-12T23:05:23.937] [DEBUG] app - /addmedia
+[2019-05-12T23:05:23.938] [DEBUG] app - Get incoming form: 0
+[2019-05-12T23:05:23.938] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-12T23:05:23.944] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-12T23:05:23.947] [DEBUG] app - onPart time: 10
+[2019-05-12T23:05:23.970] [DEBUG] app - Add media time: 33
+[2019-05-12T23:05:23.970] [DEBUG] app - PARSE TIME: 33
+[2019-05-12T23:05:23.970] [DEBUG] app - addmedia: user: 270202291769807
+[2019-05-12T23:05:27.942] [DEBUG] app - Error deleting cookie dmu13131557716566259 from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-12T23:05:27.946] [DEBUG] app - Deleted: {"n":1,"ok":1}
+[2019-05-12T23:05:34.497] [DEBUG] app - /addmedia
+[2019-05-12T23:05:34.498] [DEBUG] app - Get incoming form: 0
+[2019-05-12T23:05:34.499] [DEBUG] app - Must be logged in to add media.
+[2019-05-12T23:05:34.810] [DEBUG] app - /addmedia
+[2019-05-12T23:05:34.810] [DEBUG] app - Get incoming form: 0
+[2019-05-12T23:05:34.811] [DEBUG] app - Must be logged in to add media.
+[2019-05-12T23:20:19.225] [DEBUG] app - CONNECTED to RabbitMQ
+[2019-05-12T23:20:20.002] [DEBUG] app - /addmedia
+[2019-05-12T23:20:20.004] [DEBUG] app - Get incoming form: 1
+[2019-05-12T23:20:20.005] [DEBUG] app - Must be logged in to add media.
+[2019-05-12T23:20:20.200] [DEBUG] app - CONNECTED
+[2019-05-12T23:20:27.897] [DEBUG] app - New Cookie added: dmu13131557717627880
+MongoDB Message: {"n":1,"ok":1}
+[2019-05-12T23:20:29.200] [DEBUG] app - Cassandra: Error connecting: NoHostAvailableError: All host(s) tried for query failed. First host tried, 192.168.122.37:9042: DriverError: Connection timeout. See innerErrors.
+[2019-05-12T23:20:30.892] [DEBUG] app - Login: Error setting object in memcached: Error: Timed out while trying to establish connection
+[2019-05-12T23:20:37.216] [DEBUG] app - /addmedia
+[2019-05-12T23:20:37.217] [DEBUG] app - Get incoming form: 1
+[2019-05-12T23:20:37.219] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-12T23:20:37.224] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-12T23:20:37.232] [DEBUG] app - onPart time: 16
+[2019-05-12T23:20:37.249] [DEBUG] app - Add media time: 33
+[2019-05-12T23:20:37.249] [DEBUG] app - PARSE TIME: 33
+[2019-05-12T23:20:37.249] [DEBUG] app - addmedia: user: 270202291769807
+[2019-05-12T23:20:48.896] [DEBUG] app - Login: Error setting object in memcached: Error: connect ETIMEDOUT 192.168.122.23:11211
+[2019-05-13T03:12:22.728] [DEBUG] app - Connected Async with MongoDB
+[2019-05-13T03:12:22.795] [DEBUG] app - Connected to RabbitMQ Async
+[2019-05-13T03:12:36.964] [DEBUG] app - Connected Async with MongoDB
+[2019-05-13T03:12:37.007] [DEBUG] app - Connected to RabbitMQ Async
+[2019-05-13T03:12:52.203] [DEBUG] app - Connected Async with MongoDB
+[2019-05-13T03:12:52.248] [DEBUG] app - Connected to RabbitMQ Async
+[2019-05-13T03:13:03.431] [DEBUG] app - Connected Async with MongoDB
+[2019-05-13T03:13:03.476] [DEBUG] app - Connected to RabbitMQ Async
+[2019-05-13T03:15:46.852] [DEBUG] app - Connected Async with MongoDB
+[2019-05-13T03:15:46.896] [DEBUG] app - Connected to RabbitMQ Async
+[2019-05-13T03:15:55.821] [DEBUG] app - Cassandra: Error connecting: NoHostAvailableError: All host(s) tried for query failed. First host tried, 192.168.122.31:9042: DriverError: Connection timeout. See innerErrors.
+[2019-05-13T03:23:35.386] [DEBUG] app - CONNECTED to RabbitMQ
+[2019-05-13T03:23:36.360] [DEBUG] app - CONNECTED
+[2019-05-13T03:23:45.332] [DEBUG] app - Cassandra: Error connecting: NoHostAvailableError: All host(s) tried for query failed. First host tried, 192.168.122.37:9042: DriverError: Connection timeout. See innerErrors.
+[2019-05-13T03:23:50.670] [DEBUG] app - Deleted: {"n":1,"ok":1}
+[2019-05-13T03:23:50.767] [DEBUG] app - Error deleting cookie dmu13131557717627880 from memcached: Error: Timed out while trying to establish connection
+[2019-05-13T03:23:54.914] [DEBUG] app - Login: Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T03:23:54.920] [DEBUG] app - New Cookie added: dmu13131557732234912
+MongoDB Message: {"n":1,"ok":1}
+[2019-05-13T03:24:11.669] [DEBUG] app - Error deleting cookie dmu13131557717627880 from memcached: Error: connect ETIMEDOUT 192.168.122.23:11211
+[2019-05-13T03:58:09.083] [DEBUG] app - /questions/add
+[2019-05-13T03:58:09.084] [DEBUG] app - /////////////////////////////
+[2019-05-13T03:58:09.187] [DEBUG] app - Error getting data from memcached: Error: Timed out while trying to establish connection
+[2019-05-13T03:58:09.192] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T03:58:09.232] [DEBUG] app - Sending /questions/add to RabbitMQ: questionId: 273428923214924
+[2019-05-13T03:58:09.592] [DEBUG] app - No question with id: 273428923214924
+[2019-05-13T03:58:12.724] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T03:58:12.727] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T03:58:12.733] [DEBUG] app - Insert user view result: {"n":1,"ok":1}
+[2019-05-13T03:58:16.362] [DEBUG] app - -------------------------------
+[2019-05-13T03:58:16.362] [DEBUG] app - /questions/273428923214924
+[2019-05-13T03:58:16.363] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T03:58:16.366] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T03:58:16.370] [DEBUG] app - questionDoc == null: false
+[2019-05-13T03:58:16.370] [DEBUG] app - questionDoc.questionId: 273428923214924
+[2019-05-13T03:58:18.432] [DEBUG] app - Deleted question: n=1, ok=1
+[2019-05-13T03:58:19.441] [DEBUG] app - Deleted 0 documents.
+[2019-05-13T03:58:24.919] [DEBUG] app - No question with id: 273428923214924
+[2019-05-13T03:58:26.416] [DEBUG] app - Error deleting question media: NoHostAvailableError: All host(s) tried for query failed. First host tried, 192.168.122.31:9042: DriverError: Connection timeout. See innerErrors.
+[2019-05-13T03:58:26.417] [DEBUG] app - Error deleting question media: NoHostAvailableError: All host(s) tried for query failed. First host tried, 192.168.122.31:9042: DriverError: Connection timeout. See innerErrors.
+[2019-05-13T03:58:27.704] [DEBUG] app - No question with id: 273428923214924
+[2019-05-13T03:58:30.094] [DEBUG] app - Error getting data from memcached: Error: connect ETIMEDOUT 192.168.122.23:11211
+[2019-05-13T03:58:41.186] [DEBUG] app - /questions/add
+[2019-05-13T03:58:41.186] [DEBUG] app - /////////////////////////////
+[2019-05-13T03:58:41.288] [DEBUG] app - Error getting data from memcached: Error: Timed out while trying to establish connection
+[2019-05-13T03:58:41.292] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T03:58:41.311] [DEBUG] app - Sending /questions/add to RabbitMQ: questionId: 273432131096800
+[2019-05-13T03:58:41.436] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T03:58:41.440] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T03:58:41.449] [DEBUG] app - Insert user view result: {"n":1,"ok":1}
+[2019-05-13T03:58:49.184] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T03:58:49.188] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T03:58:49.192] [DEBUG] app - dmu1313 already viewed questionId: 273432131096800
+[2019-05-13T03:58:50.818] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T03:58:50.821] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T03:58:50.825] [DEBUG] app - dmu1313 already viewed questionId: 273432131096800
+[2019-05-13T03:58:51.697] [DEBUG] app - -------------------------------
+[2019-05-13T03:58:51.697] [DEBUG] app - /questions/273432131096800
+[2019-05-13T03:58:51.698] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T03:58:51.700] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T03:58:51.703] [DEBUG] app - questionDoc == null: false
+[2019-05-13T03:58:51.704] [DEBUG] app - questionDoc.questionId: 273432131096800
+[2019-05-13T03:58:52.733] [DEBUG] app - Deleted question: n=1, ok=1
+[2019-05-13T03:58:52.735] [DEBUG] app - Deleted 0 documents.
+[2019-05-13T03:58:56.707] [DEBUG] app - No question with id: 273432131096800
+[2019-05-13T03:58:58.183] [DEBUG] app - No question with id: 273432131096800
+[2019-05-13T03:58:59.450] [DEBUG] app - No question with id: 273432131096800
+[2019-05-13T03:59:01.722] [DEBUG] app - Error deleting question media: NoHostAvailableError: All host(s) tried for query failed. First host tried, 192.168.122.37:9042: DriverError: Connection timeout. See innerErrors.
+[2019-05-13T03:59:01.722] [DEBUG] app - Error deleting question media: NoHostAvailableError: All host(s) tried for query failed. First host tried, 192.168.122.37:9042: DriverError: Connection timeout. See innerErrors.
+[2019-05-13T03:59:01.722] [DEBUG] app - Error deleting question media: NoHostAvailableError: All host(s) tried for query failed. First host tried, 192.168.122.37:9042: DriverError: Connection timeout. See innerErrors.
+[2019-05-13T03:59:02.194] [DEBUG] app - Error getting data from memcached: Error: connect ETIMEDOUT 192.168.122.23:11211
+[2019-05-13T03:59:07.634] [DEBUG] app - /questions/add
+[2019-05-13T03:59:07.634] [DEBUG] app - /////////////////////////////
+[2019-05-13T03:59:07.635] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T03:59:07.638] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T03:59:07.642] [DEBUG] app - Sending /questions/add to RabbitMQ: questionId: 273434764249983
+[2019-05-13T03:59:07.891] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T03:59:07.893] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T03:59:07.898] [DEBUG] app - Insert user view result: {"n":1,"ok":1}
+[2019-05-13T03:59:12.725] [DEBUG] app - [/questions/:id] - Failed to delete ES question with id 273432131096800: NoLivingConnectionsError: There are not living connections
+[2019-05-13T03:59:18.427] [DEBUG] app - Error getting data from memcached: Error: Timed out while trying to establish connection
+[2019-05-13T03:59:18.430] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T03:59:18.431] [DEBUG] app - Sending /answers/add to RabbitMQ: questionId: 273435843133573
+[2019-05-13T03:59:19.423] [DEBUG] app - [/questions/:id] - Failed to delete ES question with id 273428923214924: NoLivingConnectionsError: There are not living connections
+[2019-05-13T03:59:23.693] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T03:59:23.697] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T03:59:23.698] [DEBUG] app - Sending /answers/add to RabbitMQ: questionId: 273436369897505
+[2019-05-13T03:59:39.341] [DEBUG] app - Error getting data from memcached: Error: connect ETIMEDOUT 192.168.122.23:11211
+[2019-05-13T04:04:28.665] [DEBUG] app - [/user/:username] - Successfully got user profile username: dmu1313, userId: 270202291769807, email: dmu1313@gmail.com, reputation: 1
+[2019-05-13T04:04:28.912] [DEBUG] app - [/user/:username/questions] - Got 2 questions for username: dmu1313
+[2019-05-13T04:04:29.003] [DEBUG] app - [/user/:username/answers] - Got + 3 answers for username: dmu1313
+[2019-05-13T04:04:33.469] [DEBUG] app - Error getting data from memcached: Error: Timed out while trying to establish connection
+[2019-05-13T04:04:33.471] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T04:04:33.474] [DEBUG] app - dmu1313 already viewed questionId: 270323898016982
+[2019-05-13T04:04:37.482] [DEBUG] app - [/user/:username] - Successfully got user profile username: dmu1313, userId: 270202291769807, email: dmu1313@gmail.com, reputation: 1
+[2019-05-13T04:04:37.501] [DEBUG] app - [/user/:username/questions] - Got 2 questions for username: dmu1313
+[2019-05-13T04:04:37.823] [DEBUG] app - [/user/:username/answers] - Got + 3 answers for username: dmu1313
+[2019-05-13T04:04:38.884] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T04:04:38.888] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T04:04:38.892] [DEBUG] app - dmu1313 already viewed questionId: 273434764249983
+[2019-05-13T04:04:41.005] [DEBUG] app - [/user/:username] - Successfully got user profile username: dmu1313, userId: 270202291769807, email: dmu1313@gmail.com, reputation: 1
+[2019-05-13T04:04:41.049] [DEBUG] app - [/user/:username/questions] - Got 2 questions for username: dmu1313
+[2019-05-13T04:04:41.372] [DEBUG] app - [/user/:username/answers] - Got + 3 answers for username: dmu1313
+[2019-05-13T04:04:54.371] [DEBUG] app - Error getting data from memcached: Error: connect ETIMEDOUT 192.168.122.23:11211
+[2019-05-13T04:05:14.656] [DEBUG] app - [/user/:username] - Successfully got user profile username: dmu1313, userId: 270202291769807, email: dmu1313@gmail.com, reputation: 1
+[2019-05-13T04:05:14.878] [DEBUG] app - [/user/:username/questions] - Got 2 questions for username: dmu1313
+[2019-05-13T04:05:14.902] [DEBUG] app - [/user/:username/answers] - Got + 3 answers for username: dmu1313
+[2019-05-13T04:05:29.737] [DEBUG] app - [/user/:username] - Failed to get user profile username: dm1
+[2019-05-13T04:05:30.069] [DEBUG] app - [/user/:username/questions] - Got 0 questions for username: dm1
+[2019-05-13T04:05:30.320] [DEBUG] app - [/user/:username/answers] - Got + 0 answers for username: dm1
+[2019-05-13T04:05:36.040] [DEBUG] app - [/user/:username] - Successfully got user profile username: dmu1313, userId: 270202291769807, email: dmu1313@gmail.com, reputation: 1
+[2019-05-13T04:05:36.287] [DEBUG] app - [/user/:username/questions] - Got 2 questions for username: dmu1313
+[2019-05-13T04:05:36.377] [DEBUG] app - [/user/:username/answers] - Got + 3 answers for username: dmu1313
+[2019-05-13T04:05:51.848] [DEBUG] app - Error getting data from memcached: Error: Timed out while trying to establish connection
+[2019-05-13T04:05:51.851] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T04:05:51.854] [DEBUG] app - dmu1313 already viewed questionId: 273434764249983
+[2019-05-13T04:05:56.421] [DEBUG] app - -------------------------------
+[2019-05-13T04:05:56.422] [DEBUG] app - /questions/273434764249983
+[2019-05-13T04:05:56.422] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T04:05:56.426] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T04:05:56.429] [DEBUG] app - questionDoc == null: false
+[2019-05-13T04:05:56.429] [DEBUG] app - questionDoc.questionId: 273434764249983
+[2019-05-13T04:05:56.440] [DEBUG] app - [/questions/:id] - Failed to delete ES question with id 273434764249983: NoLivingConnectionsError: There are not living connections
+[2019-05-13T04:05:56.448] [DEBUG] app - Deleted question: n=1, ok=1
+[2019-05-13T04:05:56.451] [DEBUG] app - Deleted 2 documents.
+[2019-05-13T04:06:01.178] [DEBUG] app - [/user/:username] - Successfully got user profile username: dmu1313, userId: 270202291769807, email: dmu1313@gmail.com, reputation: 1
+[2019-05-13T04:06:01.419] [DEBUG] app - [/user/:username/questions] - Got 1 questions for username: dmu1313
+[2019-05-13T04:06:01.500] [DEBUG] app - [/user/:username/answers] - Got + 1 answers for username: dmu1313
+[2019-05-13T04:06:06.447] [DEBUG] app - Error deleting question media: NoHostAvailableError: All host(s) tried for query failed. First host tried, 192.168.122.31:9042: DriverError: Connection timeout. See innerErrors.
+[2019-05-13T04:06:12.751] [DEBUG] app - Error getting data from memcached: Error: connect ETIMEDOUT 192.168.122.23:11211
+[2019-05-13T04:07:50.599] [DEBUG] app - [/user/:username] - Successfully got user profile username: dmu1313, userId: 270202291769807, email: dmu1313@gmail.com, reputation: 1
+[2019-05-13T04:07:50.920] [DEBUG] app - [/user/:username/questions] - Got 1 questions for username: dmu1313
+[2019-05-13T04:07:51.170] [DEBUG] app - [/user/:username/answers] - Got + 1 answers for username: dmu1313
+[2019-05-13T04:34:58.942] [DEBUG] app - /////////////////////////////////////
+[2019-05-13T04:34:58.943] [DEBUG] app - /search
+[2019-05-13T04:34:58.943] [DEBUG] app - search
+[2019-05-13T04:34:58.943] [DEBUG] app - Timestamp: undefined
+[2019-05-13T04:34:58.943] [DEBUG] app - Limit: undefined
+[2019-05-13T04:34:58.943] [DEBUG] app - q: undefined
+[2019-05-13T04:34:58.943] [DEBUG] app - sort_by: score
+[2019-05-13T04:34:58.943] [DEBUG] app - tags: 
+[2019-05-13T04:34:58.943] [DEBUG] app - has_media: false
+[2019-05-13T04:34:58.943] [DEBUG] app - accepted: false
+[2019-05-13T04:35:05.560] [DEBUG] app - Error getting data from memcached: Error: Timed out while trying to establish connection
+[2019-05-13T04:35:05.563] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T04:35:05.572] [DEBUG] app - Insert user view result: {"n":1,"ok":1}
+[2019-05-13T04:35:10.098] [DEBUG] app - /////////////////////////////////////
+[2019-05-13T04:35:10.099] [DEBUG] app - /search
+[2019-05-13T04:35:10.099] [DEBUG] app - search
+[2019-05-13T04:35:10.099] [DEBUG] app - Timestamp: undefined
+[2019-05-13T04:35:10.099] [DEBUG] app - Limit: undefined
+[2019-05-13T04:35:10.099] [DEBUG] app - q: undefined
+[2019-05-13T04:35:10.099] [DEBUG] app - sort_by: score
+[2019-05-13T04:35:10.099] [DEBUG] app - tags: 
+[2019-05-13T04:35:10.099] [DEBUG] app - has_media: false
+[2019-05-13T04:35:10.099] [DEBUG] app - accepted: false
+[2019-05-13T04:35:15.512] [DEBUG] app - /////////////////////////////////////
+[2019-05-13T04:35:15.512] [DEBUG] app - /search
+[2019-05-13T04:35:15.512] [DEBUG] app - search
+[2019-05-13T04:35:15.512] [DEBUG] app - Timestamp: undefined
+[2019-05-13T04:35:15.512] [DEBUG] app - Limit: undefined
+[2019-05-13T04:35:15.512] [DEBUG] app - q: undefined
+[2019-05-13T04:35:15.512] [DEBUG] app - sort_by: score
+[2019-05-13T04:35:15.512] [DEBUG] app - tags: 
+[2019-05-13T04:35:15.512] [DEBUG] app - has_media: false
+[2019-05-13T04:35:15.512] [DEBUG] app - accepted: false
+[2019-05-13T04:35:26.470] [DEBUG] app - Error getting data from memcached: Error: connect ETIMEDOUT 192.168.122.23:11211
+[2019-05-13T04:35:43.840] [DEBUG] app - /////////////////////////////////////
+[2019-05-13T04:35:43.840] [DEBUG] app - /search
+[2019-05-13T04:35:43.840] [DEBUG] app - search
+[2019-05-13T04:35:43.840] [DEBUG] app - Timestamp: undefined
+[2019-05-13T04:35:43.840] [DEBUG] app - Limit: undefined
+[2019-05-13T04:35:43.840] [DEBUG] app - q: undefined
+[2019-05-13T04:35:43.841] [DEBUG] app - sort_by: score
+[2019-05-13T04:35:43.841] [DEBUG] app - tags: 
+[2019-05-13T04:35:43.841] [DEBUG] app - has_media: false
+[2019-05-13T04:35:43.841] [DEBUG] app - accepted: false
+[2019-05-13T04:36:41.790] [DEBUG] app - /////////////////////////////////////
+[2019-05-13T04:36:41.790] [DEBUG] app - /search
+[2019-05-13T04:36:41.790] [DEBUG] app - search
+[2019-05-13T04:36:41.790] [DEBUG] app - Timestamp: undefined
+[2019-05-13T04:36:41.790] [DEBUG] app - Limit: undefined
+[2019-05-13T04:36:41.790] [DEBUG] app - q: undefined
+[2019-05-13T04:36:41.791] [DEBUG] app - sort_by: score
+[2019-05-13T04:36:41.791] [DEBUG] app - tags: 
+[2019-05-13T04:36:41.791] [DEBUG] app - has_media: false
+[2019-05-13T04:36:41.791] [DEBUG] app - accepted: false
+[2019-05-13T04:38:57.000] [DEBUG] app - /////////////////////////////////////
+[2019-05-13T04:38:57.001] [DEBUG] app - /search
+[2019-05-13T04:38:57.001] [DEBUG] app - search
+[2019-05-13T04:38:57.001] [DEBUG] app - Timestamp: undefined
+[2019-05-13T04:38:57.001] [DEBUG] app - Limit: undefined
+[2019-05-13T04:38:57.001] [DEBUG] app - q: undefined
+[2019-05-13T04:38:57.001] [DEBUG] app - sort_by: score
+[2019-05-13T04:38:57.001] [DEBUG] app - tags: 
+[2019-05-13T04:38:57.001] [DEBUG] app - has_media: false
+[2019-05-13T04:38:57.001] [DEBUG] app - accepted: false
+[2019-05-13T04:39:09.995] [DEBUG] app - /////////////////////////////////////
+[2019-05-13T04:39:09.995] [DEBUG] app - /search
+[2019-05-13T04:39:09.996] [DEBUG] app - search
+[2019-05-13T04:39:09.996] [DEBUG] app - Timestamp: undefined
+[2019-05-13T04:39:09.996] [DEBUG] app - Limit: undefined
+[2019-05-13T04:39:09.996] [DEBUG] app - q: undefined
+[2019-05-13T04:39:09.996] [DEBUG] app - sort_by: score
+[2019-05-13T04:39:09.996] [DEBUG] app - tags: 
+[2019-05-13T04:39:09.996] [DEBUG] app - has_media: false
+[2019-05-13T04:39:09.996] [DEBUG] app - accepted: false
+[2019-05-13T04:45:04.400] [DEBUG] app - /questions/add
+[2019-05-13T04:45:04.400] [DEBUG] app - /////////////////////////////
+[2019-05-13T04:45:04.501] [DEBUG] app - Error getting data from memcached: Error: Timed out while trying to establish connection
+[2019-05-13T04:45:04.504] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T04:45:04.508] [DEBUG] app - Sending /questions/add to RabbitMQ: questionId: 273710450892182
+[2019-05-13T04:45:04.653] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T04:45:04.656] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T04:45:04.660] [DEBUG] app - Insert user view result: {"n":1,"ok":1}
+[2019-05-13T04:45:13.652] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T04:45:13.655] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T04:45:13.655] [DEBUG] app - Sending /answers/add to RabbitMQ: questionId: 273711365522931
+[2019-05-13T04:45:17.757] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T04:45:17.761] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T04:45:17.761] [DEBUG] app - Sending /answers/add to RabbitMQ: questionId: 273711776158628
+[2019-05-13T04:45:25.406] [DEBUG] app - Error getting data from memcached: Error: connect ETIMEDOUT 192.168.122.23:11211
+[2019-05-13T04:52:09.639] [DEBUG] app - Error getting data from memcached: Error: Timed out while trying to establish connection
+[2019-05-13T04:52:09.643] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T04:52:09.646] [DEBUG] app - dmu1313 already viewed questionId: 273710450892182
+[2019-05-13T04:52:30.547] [DEBUG] app - Error getting data from memcached: Error: connect ETIMEDOUT 192.168.122.23:11211
+[2019-05-13T04:52:38.361] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T04:52:38.366] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T04:52:38.370] [DEBUG] app - dmu1313 already viewed questionId: 273710450892182
+[2019-05-13T04:52:56.844] [DEBUG] app - Error getting data from memcached: Error: Timed out while trying to establish connection
+[2019-05-13T04:52:56.847] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T04:52:56.850] [DEBUG] app - dmu1313 already viewed questionId: 273710450892182
+[2019-05-13T04:53:17.745] [DEBUG] app - Error getting data from memcached: Error: connect ETIMEDOUT 192.168.122.23:11211
+[2019-05-13T05:01:09.954] [DEBUG] app - /questions/add
+[2019-05-13T05:01:09.955] [DEBUG] app - /////////////////////////////
+[2019-05-13T05:01:10.056] [DEBUG] app - Error getting data from memcached: Error: Timed out while trying to establish connection
+[2019-05-13T05:01:10.059] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:01:10.060] [DEBUG] app - Sending /questions/add to RabbitMQ: questionId: 273807006024490
+[2019-05-13T05:01:10.106] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:01:10.109] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:01:10.113] [DEBUG] app - Insert user view result: {"n":1,"ok":1}
+[2019-05-13T05:01:16.881] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:01:16.883] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:01:16.884] [DEBUG] app - Sending /answers/add to RabbitMQ: questionId: 273807688450423
+[2019-05-13T05:01:21.997] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:01:22.001] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:01:22.001] [DEBUG] app - Sending /answers/add to RabbitMQ: questionId: 273808200181389
+[2019-05-13T05:01:24.831] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:01:24.834] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:01:24.834] [DEBUG] app - Sending /answers/add to RabbitMQ: questionId: 273808483495388
+[2019-05-13T05:01:27.524] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:01:27.527] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:01:27.535] [DEBUG] app - dmu1313 already viewed questionId: 273807006024490
+[2019-05-13T05:01:30.969] [DEBUG] app - Error getting data from memcached: Error: connect ETIMEDOUT 192.168.122.23:11211
+[2019-05-13T05:01:36.264] [DEBUG] app - /answers/273807688450423/accept
+[2019-05-13T05:01:36.265] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:01:36.268] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:01:36.278] [DEBUG] app - Answer updated with accepted status: n: 1, nModified: 1
+[2019-05-13T05:01:36.279] [DEBUG] app - Question updated with accepted status: n: 1, nModified: 1
+[2019-05-13T05:01:43.081] [DEBUG] app - /answers/273808200181389/accept
+[2019-05-13T05:01:43.182] [DEBUG] app - Error getting data from memcached: Error: Timed out while trying to establish connection
+[2019-05-13T05:01:43.185] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:01:43.189] [DEBUG] app - Question already has an accepted answer with ID: 273807688450423
+[2019-05-13T05:01:52.584] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:01:52.587] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:01:52.591] [DEBUG] app - dmu1313 already viewed questionId: 273807006024490
+[2019-05-13T05:02:04.082] [DEBUG] app - Error getting data from memcached: Error: connect ETIMEDOUT 192.168.122.23:11211
+[2019-05-13T05:03:40.840] [DEBUG] app - Error getting data from memcached: Error: Timed out while trying to establish connection
+[2019-05-13T05:03:40.845] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:03:40.848] [DEBUG] app - dmu1313 already viewed questionId: 273807006024490
+[2019-05-13T05:04:01.740] [DEBUG] app - Error getting data from memcached: Error: connect ETIMEDOUT 192.168.122.23:11211
+[2019-05-13T05:04:36.602] [DEBUG] app - Error getting data from memcached: Error: Timed out while trying to establish connection
+[2019-05-13T05:04:36.605] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:04:36.608] [DEBUG] app - dmu1313 already viewed questionId: 273807006024490
+[2019-05-13T05:04:37.423] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:04:37.426] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:04:37.428] [DEBUG] app - dmu1313 already viewed questionId: 273807006024490
+[2019-05-13T05:04:57.501] [DEBUG] app - Error getting data from memcached: Error: connect ETIMEDOUT 192.168.122.23:11211
+[2019-05-13T05:05:21.758] [DEBUG] app - Error getting data from memcached: Error: Timed out while trying to establish connection
+[2019-05-13T05:05:21.762] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:05:21.766] [DEBUG] app - dmu1313 already viewed questionId: 273807006024490
+[2019-05-13T05:05:42.661] [DEBUG] app - Error getting data from memcached: Error: connect ETIMEDOUT 192.168.122.23:11211
+[2019-05-13T05:06:32.098] [DEBUG] app - Error getting data from memcached: Error: Timed out while trying to establish connection
+[2019-05-13T05:06:32.102] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:06:32.105] [DEBUG] app - dmu1313 already viewed questionId: 273807006024490
+[2019-05-13T05:06:37.289] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:06:37.292] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:06:37.296] [DEBUG] app - dmu1313 already viewed questionId: 273807006024490
+[2019-05-13T05:06:53.002] [DEBUG] app - Error getting data from memcached: Error: connect ETIMEDOUT 192.168.122.23:11211
+[2019-05-13T05:06:58.352] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:06:58.356] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:06:58.359] [DEBUG] app - dmu1313 already viewed questionId: 273807006024490
+[2019-05-13T05:07:26.515] [DEBUG] app - Error getting data from memcached: Error: Timed out while trying to establish connection
+[2019-05-13T05:07:26.518] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:07:26.521] [DEBUG] app - dmu1313 already viewed questionId: 273807006024490
+[2019-05-13T05:07:40.898] [DEBUG] app - /answers/273808200181389/accept
+[2019-05-13T05:07:40.899] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:07:40.901] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:07:40.906] [DEBUG] app - Question already has an accepted answer with ID: 273807688450423
+[2019-05-13T05:07:43.032] [DEBUG] app - /answers/273807688450423/accept
+[2019-05-13T05:07:43.032] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:07:43.035] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:07:43.041] [DEBUG] app - Question already has an accepted answer with ID: 273807688450423
+[2019-05-13T05:07:47.412] [DEBUG] app - Error getting data from memcached: Error: connect ETIMEDOUT 192.168.122.23:11211
+[2019-05-13T05:09:16.989] [DEBUG] app - Error getting data from memcached: Error: Timed out while trying to establish connection
+[2019-05-13T05:09:16.992] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:09:16.995] [DEBUG] app - dmu1313 already viewed questionId: 273807006024490
+[2019-05-13T05:09:24.157] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:09:24.160] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:09:24.163] [DEBUG] app - dmu1313 already viewed questionId: 273807006024490
+[2019-05-13T05:09:37.888] [DEBUG] app - Error getting data from memcached: Error: connect ETIMEDOUT 192.168.122.23:11211
+[2019-05-13T05:17:32.611] [DEBUG] app - Error getting data from memcached: Error: Timed out while trying to establish connection
+[2019-05-13T05:17:32.615] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:17:32.621] [DEBUG] app - dmu1313 already viewed questionId: 273807006024490
+[2019-05-13T05:17:53.512] [DEBUG] app - Error getting data from memcached: Error: connect ETIMEDOUT 192.168.122.23:11211
+[2019-05-13T05:18:29.136] [DEBUG] app - Error getting data from memcached: Error: Timed out while trying to establish connection
+[2019-05-13T05:18:29.140] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:18:29.144] [DEBUG] app - dmu1313 already viewed questionId: 273807006024490
+[2019-05-13T05:18:41.784] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:18:41.787] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:18:41.791] [DEBUG] app - dmu1313 already viewed questionId: 273807006024490
+[2019-05-13T05:18:50.042] [DEBUG] app - Error getting data from memcached: Error: connect ETIMEDOUT 192.168.122.23:11211
+[2019-05-13T05:22:19.719] [DEBUG] app - Error getting data from memcached: Error: Timed out while trying to establish connection
+[2019-05-13T05:22:19.726] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:22:19.729] [DEBUG] app - dmu1313 already viewed questionId: 273807006024490
+[2019-05-13T05:22:31.929] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:22:31.932] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:22:31.933] [DEBUG] app - Sending /answers/add to RabbitMQ: questionId: 273935193313014
+[2019-05-13T05:22:40.638] [DEBUG] app - Error getting data from memcached: Error: connect ETIMEDOUT 192.168.122.23:11211
+[2019-05-13T05:24:29.093] [DEBUG] app - Error getting data from memcached: Error: Timed out while trying to establish connection
+[2019-05-13T05:24:29.098] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:24:29.102] [DEBUG] app - dmu1313 already viewed questionId: 273807006024490
+[2019-05-13T05:24:34.144] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:24:34.148] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:24:34.148] [DEBUG] app - Sending /answers/add to RabbitMQ: questionId: 27394741488985
+[2019-05-13T05:24:49.976] [DEBUG] app - Error getting data from memcached: Error: connect ETIMEDOUT 192.168.122.23:11211
+[2019-05-13T05:25:05.078] [DEBUG] app - Error getting data from memcached: Error: Timed out while trying to establish connection
+[2019-05-13T05:25:05.082] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:25:05.085] [DEBUG] app - dmu1313 already viewed questionId: 273807006024490
+[2019-05-13T05:25:08.705] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:25:08.708] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:25:08.708] [DEBUG] app - Sending /answers/add to RabbitMQ: questionId: 273950870844701
+[2019-05-13T05:25:25.981] [DEBUG] app - Error getting data from memcached: Error: connect ETIMEDOUT 192.168.122.23:11211
+[2019-05-13T05:26:17.647] [DEBUG] app - Error getting data from memcached: Error: Timed out while trying to establish connection
+[2019-05-13T05:26:17.651] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:26:17.655] [DEBUG] app - dmu1313 already viewed questionId: 273807006024490
+[2019-05-13T05:26:38.549] [DEBUG] app - Error getting data from memcached: Error: connect ETIMEDOUT 192.168.122.23:11211
+[2019-05-13T05:27:20.721] [DEBUG] app - Error getting data from memcached: Error: Timed out while trying to establish connection
+[2019-05-13T05:27:20.727] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:27:20.730] [DEBUG] app - dmu1313 already viewed questionId: 273807006024490
+[2019-05-13T05:27:29.405] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:27:29.409] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:27:29.410] [DEBUG] app - Sending /answers/add to RabbitMQ: questionId: 273964941085538
+[2019-05-13T05:27:41.620] [DEBUG] app - Error getting data from memcached: Error: connect ETIMEDOUT 192.168.122.23:11211
+[2019-05-13T05:39:41.338] [DEBUG] app - Error getting data from memcached: Error: Timed out while trying to establish connection
+[2019-05-13T05:39:41.342] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:39:41.346] [DEBUG] app - dmu1313 already viewed questionId: 273807006024490
+[2019-05-13T05:39:49.634] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:39:49.637] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:39:49.639] [DEBUG] app - dmu1313 already viewed questionId: 273807006024490
+[2019-05-13T05:40:02.248] [DEBUG] app - Error getting data from memcached: Error: connect ETIMEDOUT 192.168.122.23:11211
+[2019-05-13T05:40:20.631] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:40:20.634] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:40:20.637] [DEBUG] app - dmu1313 already viewed questionId: 273807006024490
+[2019-05-13T05:40:33.188] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:40:33.191] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:40:33.191] [DEBUG] app - Sending /answers/add to RabbitMQ: questionId: 27404331914503
+[2019-05-13T05:41:40.113] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:41:40.118] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:41:40.121] [DEBUG] app - dmu1313 already viewed questionId: 273807006024490
+[2019-05-13T05:46:57.791] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:46:57.794] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:46:57.796] [DEBUG] app - dmu1313 already viewed questionId: 273807006024490
+[2019-05-13T05:48:26.169] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:48:26.172] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:48:26.178] [DEBUG] app - dmu1313 already viewed questionId: 273807006024490
+[2019-05-13T05:48:40.818] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:48:40.822] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:48:40.826] [DEBUG] app - dmu1313 already viewed questionId: 273807006024490
+[2019-05-13T05:48:57.372] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:48:57.375] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:48:57.378] [DEBUG] app - dmu1313 already viewed questionId: 273807006024490
+[2019-05-13T05:51:24.971] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:51:24.974] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:51:24.974] [DEBUG] app - Sending /answers/add to RabbitMQ: questionId: 274108497496521
+[2019-05-13T05:54:07.717] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:54:07.721] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:54:07.724] [DEBUG] app - dmu1313 already viewed questionId: 273807006024490
+[2019-05-13T05:54:10.950] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:54:10.954] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T05:54:10.954] [DEBUG] app - Sending /answers/add to RabbitMQ: questionId: 274125095421920
+[2019-05-13T06:16:52.875] [DEBUG] app - /questions/add
+[2019-05-13T06:16:52.876] [DEBUG] app - /////////////////////////////
+[2019-05-13T06:16:52.876] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:16:52.879] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:16:52.879] [DEBUG] app - Sending /questions/add to RabbitMQ: questionId: 2742612879464
+[2019-05-13T06:16:52.930] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:16:52.933] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:16:52.940] [DEBUG] app - Insert user view result: {"n":1,"ok":1}
+[2019-05-13T06:16:55.678] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:16:55.680] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:16:55.683] [DEBUG] app - dmu1313 already viewed questionId: 2742612879464
+[2019-05-13T06:17:10.152] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:17:10.156] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:17:10.159] [DEBUG] app - dmu1313 already viewed questionId: 2742612879464
+[2019-05-13T06:20:20.585] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:20:20.588] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:20:20.592] [DEBUG] app - dmu1313 already viewed questionId: 2742612879464
+[2019-05-13T06:20:28.712] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:20:28.715] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:20:28.717] [DEBUG] app - dmu1313 already viewed questionId: 2742612879464
+[2019-05-13T06:20:50.681] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:20:50.685] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:20:50.689] [DEBUG] app - dmu1313 already viewed questionId: 2742612879464
+[2019-05-13T06:20:59.649] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:20:59.652] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:20:59.654] [DEBUG] app - dmu1313 already viewed questionId: 2742612879464
+[2019-05-13T06:21:08.071] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:21:08.075] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:21:08.078] [DEBUG] app - dmu1313 already viewed questionId: 2742612879464
+[2019-05-13T06:21:12.841] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:21:12.844] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:21:12.846] [DEBUG] app - dmu1313 already viewed questionId: 2742612879464
+[2019-05-13T06:21:28.916] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:21:28.920] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:21:28.922] [DEBUG] app - dmu1313 already viewed questionId: 2742612879464
+[2019-05-13T06:21:31.818] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:21:31.821] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:21:31.823] [DEBUG] app - dmu1313 already viewed questionId: 2742612879464
+[2019-05-13T06:22:52.237] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:22:52.241] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:22:52.245] [DEBUG] app - dmu1313 already viewed questionId: 2742612879464
+[2019-05-13T06:23:43.771] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:23:43.775] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:23:43.776] [DEBUG] app - Sending /answers/add to RabbitMQ: questionId: 274302377699656
+[2019-05-13T06:23:49.089] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:23:49.092] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:23:49.095] [DEBUG] app - Sending /answers/add to RabbitMQ: questionId: 274302909517814
+[2019-05-13T06:23:54.412] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:23:54.415] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:23:54.415] [DEBUG] app - Sending /answers/add to RabbitMQ: questionId: 27430344155941
+[2019-05-13T06:24:34.573] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:24:34.577] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:24:34.577] [DEBUG] app - Sending /answers/add to RabbitMQ: questionId: 274307457719534
+[2019-05-13T06:24:35.569] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:24:35.572] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:24:35.572] [DEBUG] app - Sending /answers/add to RabbitMQ: questionId: 274307557270809
+[2019-05-13T06:27:11.733] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:27:11.737] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:27:11.740] [DEBUG] app - dmu1313 already viewed questionId: 2742612879464
+[2019-05-13T06:27:42.225] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:27:42.228] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:27:42.230] [DEBUG] app - dmu1313 already viewed questionId: 2742612879464
+[2019-05-13T06:27:50.988] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:27:50.991] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:27:50.991] [DEBUG] app - Sending /answers/add to RabbitMQ: questionId: 274327099131651
+[2019-05-13T06:27:55.275] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:27:55.278] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:27:55.281] [DEBUG] app - dmu1313 already viewed questionId: 2742612879464
+[2019-05-13T06:28:10.567] [DEBUG] app - /////////////////////////////////////
+[2019-05-13T06:28:10.567] [DEBUG] app - /search
+[2019-05-13T06:28:10.568] [DEBUG] app - search
+[2019-05-13T06:28:10.568] [DEBUG] app - Timestamp: undefined
+[2019-05-13T06:28:10.568] [DEBUG] app - Limit: undefined
+[2019-05-13T06:28:10.568] [DEBUG] app - q: undefined
+[2019-05-13T06:28:10.568] [DEBUG] app - sort_by: score
+[2019-05-13T06:28:10.568] [DEBUG] app - tags: 
+[2019-05-13T06:28:10.568] [DEBUG] app - has_media: false
+[2019-05-13T06:28:10.568] [DEBUG] app - accepted: false
+[2019-05-13T06:29:29.608] [DEBUG] app - /questions/add
+[2019-05-13T06:29:29.608] [DEBUG] app - /////////////////////////////
+[2019-05-13T06:29:29.608] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:29:29.611] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:29:29.612] [DEBUG] app - Sending /questions/add to RabbitMQ: questionId: 27433696129030
+[2019-05-13T06:29:46.477] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:29:46.480] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:29:46.487] [DEBUG] app - Insert user view result: {"n":1,"ok":1}
+[2019-05-13T06:29:52.701] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:29:52.704] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:29:52.704] [DEBUG] app - Sending /answers/add to RabbitMQ: questionId: 274339270488908
+[2019-05-13T06:29:54.547] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:29:54.551] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:29:54.554] [DEBUG] app - dmu1313 already viewed questionId: 27433696129030
+[2019-05-13T06:39:56.163] [DEBUG] app - /questions/add
+[2019-05-13T06:39:56.164] [DEBUG] app - /////////////////////////////
+[2019-05-13T06:39:56.165] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:39:56.168] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:39:56.168] [DEBUG] app - QUESTION_ADD_ERROR: Title, body, and tags must all have valid values for /questions/add.
+[2019-05-13T06:40:03.112] [DEBUG] app - /questions/add
+[2019-05-13T06:40:03.113] [DEBUG] app - /////////////////////////////
+[2019-05-13T06:40:03.113] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:40:03.115] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:40:03.116] [DEBUG] app - Sending /questions/add to RabbitMQ: questionId: 274400311652573
+[2019-05-13T06:40:05.730] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:40:05.735] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:40:05.739] [DEBUG] app - dmu1313 already viewed questionId: 27433696129030
+[2019-05-13T06:40:09.819] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:40:09.823] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:40:09.826] [DEBUG] app - dmu1313 already viewed questionId: 27433696129030
+[2019-05-13T06:40:10.983] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:40:10.986] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:40:10.989] [DEBUG] app - dmu1313 already viewed questionId: 27433696129030
+[2019-05-13T06:42:06.970] [DEBUG] app - /questions/add
+[2019-05-13T06:42:06.971] [DEBUG] app - /////////////////////////////
+[2019-05-13T06:42:06.971] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:42:06.974] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:42:06.975] [DEBUG] app - Sending /questions/add to RabbitMQ: questionId: 274412697587848
+[2019-05-13T06:42:25.666] [DEBUG] app - /questions/add
+[2019-05-13T06:42:25.666] [DEBUG] app - /////////////////////////////
+[2019-05-13T06:42:25.666] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:42:25.670] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:42:25.670] [DEBUG] app - Sending /questions/add to RabbitMQ: questionId: 274414567073690
+[2019-05-13T06:43:05.112] [DEBUG] app - /questions/add
+[2019-05-13T06:43:05.113] [DEBUG] app - /////////////////////////////
+[2019-05-13T06:43:05.113] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:43:05.117] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:43:05.117] [DEBUG] app - Sending /questions/add to RabbitMQ: questionId: 274418511767123
+[2019-05-13T06:43:06.907] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:43:06.910] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:43:06.916] [DEBUG] app - Insert user view result: {"n":1,"ok":1}
+[2019-05-13T06:43:10.853] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:43:10.856] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:43:10.856] [DEBUG] app - Sending /answers/add to RabbitMQ: questionId: 274419085696205
+[2019-05-13T06:43:12.675] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:43:12.679] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:43:12.682] [DEBUG] app - dmu1313 already viewed questionId: 274418511767123
+[2019-05-13T06:43:15.606] [DEBUG] app - -------------------------------
+[2019-05-13T06:43:15.606] [DEBUG] app - /questions/274418511767123
+[2019-05-13T06:43:15.607] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:43:15.610] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T06:43:15.613] [DEBUG] app - questionDoc == null: false
+[2019-05-13T06:43:15.613] [DEBUG] app - questionDoc.questionId: 274418511767123
+[2019-05-13T06:43:15.617] [DEBUG] app - [/questions/:id] - Failed to delete ES question with id 274418511767123: NoLivingConnectionsError: There are not living connections
+[2019-05-13T06:43:15.622] [DEBUG] app - Deleted question: n=1, ok=1
+[2019-05-13T06:43:15.624] [DEBUG] app - Deleted 1 documents.
+[2019-05-13T06:43:20.104] [DEBUG] app - [/user/:username] - Successfully got user profile username: dmu1313, userId: 270202291769807, email: dmu1313@gmail.com, reputation: 1
+[2019-05-13T06:43:20.358] [DEBUG] app - [/user/:username/questions] - Got 8 questions for username: dmu1313
+[2019-05-13T06:43:20.425] [DEBUG] app - [/user/:username/answers] - Got + 20 answers for username: dmu1313
+[2019-05-13T07:06:37.190] [DEBUG] app - [/user/:username] - Successfully got user profile username: dmu1313, userId: 270202291769807, email: dmu1313@gmail.com, reputation: 1
+[2019-05-13T07:06:37.440] [DEBUG] app - [/user/:username/questions] - Got 8 questions for username: dmu1313
+[2019-05-13T07:06:37.519] [DEBUG] app - [/user/:username/answers] - Got + 20 answers for username: dmu1313
+[2019-05-13T07:06:42.409] [DEBUG] app - /////////////////////////////////////
+[2019-05-13T07:06:42.409] [DEBUG] app - /search
+[2019-05-13T07:06:42.410] [DEBUG] app - search
+[2019-05-13T07:06:42.410] [DEBUG] app - Timestamp: undefined
+[2019-05-13T07:06:42.410] [DEBUG] app - Limit: undefined
+[2019-05-13T07:06:42.410] [DEBUG] app - q: undefined
+[2019-05-13T07:06:42.410] [DEBUG] app - sort_by: score
+[2019-05-13T07:06:42.410] [DEBUG] app - tags: 
+[2019-05-13T07:06:42.410] [DEBUG] app - has_media: false
+[2019-05-13T07:06:42.410] [DEBUG] app - accepted: false
+[2019-05-13T07:06:46.272] [DEBUG] app - /////////////////////////////////////
+[2019-05-13T07:06:46.273] [DEBUG] app - /search
+[2019-05-13T07:06:46.273] [DEBUG] app - search
+[2019-05-13T07:06:46.273] [DEBUG] app - Timestamp: undefined
+[2019-05-13T07:06:46.273] [DEBUG] app - Limit: undefined
+[2019-05-13T07:06:46.273] [DEBUG] app - q: c
+[2019-05-13T07:06:46.273] [DEBUG] app - sort_by: score
+[2019-05-13T07:06:46.273] [DEBUG] app - tags: 
+[2019-05-13T07:06:46.273] [DEBUG] app - has_media: false
+[2019-05-13T07:06:46.273] [DEBUG] app - accepted: false
+[2019-05-13T07:06:46.304] [DEBUG] app - Failed to do search. Error: NoLivingConnectionsError: There are not living connections
+[2019-05-13T07:06:53.712] [DEBUG] app - /questions/add
+[2019-05-13T07:06:53.712] [DEBUG] app - /////////////////////////////
+[2019-05-13T07:06:53.713] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:06:53.715] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:06:53.715] [DEBUG] app - Sending /questions/add to RabbitMQ: questionId: 274561371585962
+[2019-05-13T07:06:55.453] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:06:55.456] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:06:55.460] [DEBUG] app - Insert user view result: {"n":1,"ok":1}
+[2019-05-13T07:10:30.913] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:10:30.916] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:10:30.918] [DEBUG] app - dmu1313 already viewed questionId: 274561371585962
+[2019-05-13T07:10:58.533] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:10:58.536] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:10:58.539] [DEBUG] app - dmu1313 already viewed questionId: 274561371585962
+[2019-05-13T07:12:08.437] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:12:08.439] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:12:08.442] [DEBUG] app - dmu1313 already viewed questionId: 274561371585962
+[2019-05-13T07:12:13.015] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:12:13.017] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:12:13.024] [DEBUG] app - [/questions/:id/upvote] - No previous upvote/downvote for userId 270202291769807, questionId: 274561371585962, Insert upvote: true
+[2019-05-13T07:12:13.024] [DEBUG] app - [/questions/:id/upvote] - Update User 270202291769807 Reputation: inc_reputation: 1
+[2019-05-13T07:12:13.025] [DEBUG] app - [/questions/:id/upvote] - Inserting upvote query: userId: 270202291769807, questionId: 274561371585962, val: true, waived: false
+[2019-05-13T07:12:13.026] [DEBUG] app - [/questions/:id/upvote] - Updating Question 274561371585962 score with inc: 1
+[2019-05-13T07:13:02.193] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:13:02.195] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:13:02.197] [DEBUG] app - dmu1313 already viewed questionId: 274561371585962
+[2019-05-13T07:13:04.227] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:13:04.229] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:13:04.235] [DEBUG] app - [/questions/:id/upvote] - Modify previous upvote/downvote for userId 270202291769807, questionId: 274561371585962, Insert upvote: true
+[2019-05-13T07:13:04.236] [DEBUG] app - [/questions/:id/upvote] - Update User 270202291769807 Reputation: inc_reputation: -1
+[2019-05-13T07:13:04.236] [DEBUG] app - [/questions/:id/upvote] - Deleting upvote with userId 270202291769807, questionId 274561371585962
+[2019-05-13T07:13:04.237] [DEBUG] app - [/questions/:id/upvote] - Updating Question 274561371585962 score with inc: -1
+[2019-05-13T07:13:38.002] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:13:38.005] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:13:38.008] [DEBUG] app - dmu1313 already viewed questionId: 274561371585962
+[2019-05-13T07:14:17.827] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:14:17.829] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:14:17.831] [DEBUG] app - dmu1313 already viewed questionId: 274561371585962
+[2019-05-13T07:14:22.667] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:14:22.669] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:14:22.675] [DEBUG] app - [/questions/:id/upvote] - No previous upvote/downvote for userId 270202291769807, questionId: 274561371585962, Insert upvote: true
+[2019-05-13T07:14:22.675] [DEBUG] app - [/questions/:id/upvote] - Update User 270202291769807 Reputation: inc_reputation: 1
+[2019-05-13T07:14:22.676] [DEBUG] app - [/questions/:id/upvote] - Inserting upvote query: userId: 270202291769807, questionId: 274561371585962, val: true, waived: false
+[2019-05-13T07:14:22.676] [DEBUG] app - [/questions/:id/upvote] - Updating Question 274561371585962 score with inc: 1
+[2019-05-13T07:14:22.696] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:14:22.699] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:14:22.701] [DEBUG] app - dmu1313 already viewed questionId: 274561371585962
+[2019-05-13T07:14:24.520] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:14:24.523] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:14:24.529] [DEBUG] app - [/questions/:id/upvote] - Modify previous upvote/downvote for userId 270202291769807, questionId: 274561371585962, Insert upvote: false
+[2019-05-13T07:14:24.530] [DEBUG] app - [/questions/:id/upvote] - Update User 270202291769807 Reputation: set_reputation: 1
+[2019-05-13T07:14:24.530] [DEBUG] app - [/questions/:id/upvote] - Updating Question upvote userId 270202291769807, questionId 274561371585962, With val: false, waived: true
+[2019-05-13T07:14:24.531] [DEBUG] app - [/questions/:id/upvote] - Updating Question 274561371585962 score with inc: -2
+[2019-05-13T07:14:24.774] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:14:24.776] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:14:24.779] [DEBUG] app - dmu1313 already viewed questionId: 274561371585962
+[2019-05-13T07:14:29.108] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:14:29.110] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:14:29.115] [DEBUG] app - [/questions/:id/upvote] - Modify previous upvote/downvote for userId 270202291769807, questionId: 274561371585962, Insert upvote: true
+[2019-05-13T07:14:29.115] [DEBUG] app - [/questions/:id/upvote] - Update User 270202291769807 Reputation: inc_reputation: 1
+[2019-05-13T07:14:29.115] [DEBUG] app - [/questions/:id/upvote] - Updating Question upvote userId 270202291769807, questionId 274561371585962, With val: true, waived: false
+[2019-05-13T07:14:29.116] [DEBUG] app - [/questions/:id/upvote] - Updating Question 274561371585962 score with inc: 2
+[2019-05-13T07:14:29.436] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:14:29.439] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:14:29.442] [DEBUG] app - dmu1313 already viewed questionId: 274561371585962
+[2019-05-13T07:14:30.119] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:14:30.122] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:14:30.127] [DEBUG] app - [/questions/:id/upvote] - Modify previous upvote/downvote for userId 270202291769807, questionId: 274561371585962, Insert upvote: false
+[2019-05-13T07:14:30.127] [DEBUG] app - [/questions/:id/upvote] - Update User 270202291769807 Reputation: set_reputation: 1
+[2019-05-13T07:14:30.129] [DEBUG] app - [/questions/:id/upvote] - Updating Question upvote userId 270202291769807, questionId 274561371585962, With val: false, waived: true
+[2019-05-13T07:14:30.129] [DEBUG] app - [/questions/:id/upvote] - Updating Question 274561371585962 score with inc: -2
+[2019-05-13T07:14:30.447] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:14:30.449] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:14:30.451] [DEBUG] app - dmu1313 already viewed questionId: 274561371585962
+[2019-05-13T07:14:31.532] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:14:31.534] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:14:31.539] [DEBUG] app - [/questions/:id/upvote] - Modify previous upvote/downvote for userId 270202291769807, questionId: 274561371585962, Insert upvote: true
+[2019-05-13T07:14:31.540] [DEBUG] app - [/questions/:id/upvote] - Update User 270202291769807 Reputation: inc_reputation: 1
+[2019-05-13T07:14:31.540] [DEBUG] app - [/questions/:id/upvote] - Updating Question upvote userId 270202291769807, questionId 274561371585962, With val: true, waived: false
+[2019-05-13T07:14:31.541] [DEBUG] app - [/questions/:id/upvote] - Updating Question 274561371585962 score with inc: 2
+[2019-05-13T07:14:31.865] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:14:31.867] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:14:31.870] [DEBUG] app - dmu1313 already viewed questionId: 274561371585962
+[2019-05-13T07:14:32.607] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:14:32.609] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:14:32.615] [DEBUG] app - [/questions/:id/upvote] - Modify previous upvote/downvote for userId 270202291769807, questionId: 274561371585962, Insert upvote: true
+[2019-05-13T07:14:32.615] [DEBUG] app - [/questions/:id/upvote] - Update User 270202291769807 Reputation: inc_reputation: -1
+[2019-05-13T07:14:32.616] [DEBUG] app - [/questions/:id/upvote] - Deleting upvote with userId 270202291769807, questionId 274561371585962
+[2019-05-13T07:14:32.616] [DEBUG] app - [/questions/:id/upvote] - Updating Question 274561371585962 score with inc: -1
+[2019-05-13T07:14:32.937] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:14:32.940] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:14:32.942] [DEBUG] app - dmu1313 already viewed questionId: 274561371585962
+[2019-05-13T07:14:34.117] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:14:34.119] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:14:34.127] [DEBUG] app - [/questions/:id/upvote] - No previous upvote/downvote for userId 270202291769807, questionId: 274561371585962, Insert upvote: true
+[2019-05-13T07:14:34.127] [DEBUG] app - [/questions/:id/upvote] - Update User 270202291769807 Reputation: inc_reputation: 1
+[2019-05-13T07:14:34.128] [DEBUG] app - [/questions/:id/upvote] - Inserting upvote query: userId: 270202291769807, questionId: 274561371585962, val: true, waived: false
+[2019-05-13T07:14:34.128] [DEBUG] app - [/questions/:id/upvote] - Updating Question 274561371585962 score with inc: 1
+[2019-05-13T07:14:34.458] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:14:34.460] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:14:34.462] [DEBUG] app - dmu1313 already viewed questionId: 274561371585962
+[2019-05-13T07:14:35.271] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:14:35.274] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:14:35.279] [DEBUG] app - [/questions/:id/upvote] - Modify previous upvote/downvote for userId 270202291769807, questionId: 274561371585962, Insert upvote: true
+[2019-05-13T07:14:35.279] [DEBUG] app - [/questions/:id/upvote] - Update User 270202291769807 Reputation: inc_reputation: -1
+[2019-05-13T07:14:35.280] [DEBUG] app - [/questions/:id/upvote] - Deleting upvote with userId 270202291769807, questionId 274561371585962
+[2019-05-13T07:14:35.280] [DEBUG] app - [/questions/:id/upvote] - Updating Question 274561371585962 score with inc: -1
+[2019-05-13T07:14:35.615] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:14:35.618] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:14:35.620] [DEBUG] app - dmu1313 already viewed questionId: 274561371585962
+[2019-05-13T07:14:37.924] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:14:37.927] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:14:37.927] [DEBUG] app - Sending /answers/add to RabbitMQ: questionId: 274607792715667
+[2019-05-13T07:14:39.140] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:14:39.143] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:14:39.145] [DEBUG] app - dmu1313 already viewed questionId: 274561371585962
+[2019-05-13T07:14:41.841] [DEBUG] app - --------------------------------
+[2019-05-13T07:14:41.841] [DEBUG] app - /answers/274607792715667/upvote, upvote: true
+[2019-05-13T07:14:41.842] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:14:41.844] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:14:41.849] [DEBUG] app - No previous upvote/downvote for this answer and user. Inserting now.
+[2019-05-13T07:15:23.294] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:15:23.297] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:15:23.300] [DEBUG] app - dmu1313 already viewed questionId: 274561371585962
+[2019-05-13T07:15:27.084] [DEBUG] app - --------------------------------
+[2019-05-13T07:15:27.084] [DEBUG] app - /answers/274607792715667/upvote, upvote: true
+[2019-05-13T07:15:27.084] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:15:27.086] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:15:27.109] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:15:27.110] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:15:27.112] [DEBUG] app - dmu1313 already viewed questionId: 274561371585962
+[2019-05-13T07:15:28.381] [DEBUG] app - --------------------------------
+[2019-05-13T07:15:28.381] [DEBUG] app - /answers/274607792715667/upvote, upvote: true
+[2019-05-13T07:15:28.381] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:15:28.384] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:15:28.390] [DEBUG] app - No previous upvote/downvote for this answer and user. Inserting now.
+[2019-05-13T07:15:28.636] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:15:28.638] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:15:28.640] [DEBUG] app - dmu1313 already viewed questionId: 274561371585962
+[2019-05-13T07:15:29.376] [DEBUG] app - --------------------------------
+[2019-05-13T07:15:29.376] [DEBUG] app - /answers/274607792715667/upvote, upvote: true
+[2019-05-13T07:15:29.376] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:15:29.378] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:15:29.706] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:15:29.708] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:15:29.710] [DEBUG] app - dmu1313 already viewed questionId: 274561371585962
+[2019-05-13T07:15:30.480] [DEBUG] app - --------------------------------
+[2019-05-13T07:15:30.480] [DEBUG] app - /answers/274607792715667/upvote, upvote: true
+[2019-05-13T07:15:30.481] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:15:30.483] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:15:30.487] [DEBUG] app - No previous upvote/downvote for this answer and user. Inserting now.
+[2019-05-13T07:15:30.806] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:15:30.808] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:15:30.810] [DEBUG] app - dmu1313 already viewed questionId: 274561371585962
+[2019-05-13T07:15:31.626] [DEBUG] app - --------------------------------
+[2019-05-13T07:15:31.626] [DEBUG] app - /answers/274607792715667/upvote, upvote: false
+[2019-05-13T07:15:31.627] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:15:31.629] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:15:31.954] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:15:31.956] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:15:31.957] [DEBUG] app - dmu1313 already viewed questionId: 274561371585962
+[2019-05-13T07:15:33.305] [DEBUG] app - --------------------------------
+[2019-05-13T07:15:33.306] [DEBUG] app - /answers/274607792715667/upvote, upvote: true
+[2019-05-13T07:15:33.306] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:15:33.308] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:15:33.643] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:15:33.645] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:15:33.646] [DEBUG] app - dmu1313 already viewed questionId: 274561371585962
+[2019-05-13T07:15:34.412] [DEBUG] app - --------------------------------
+[2019-05-13T07:15:34.412] [DEBUG] app - /answers/274607792715667/upvote, upvote: false
+[2019-05-13T07:15:34.413] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:15:34.415] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:15:34.741] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:15:34.743] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:15:34.745] [DEBUG] app - dmu1313 already viewed questionId: 274561371585962
+[2019-05-13T07:15:35.409] [DEBUG] app - --------------------------------
+[2019-05-13T07:15:35.409] [DEBUG] app - /answers/274607792715667/upvote, upvote: false
+[2019-05-13T07:15:35.410] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:15:35.412] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:15:35.754] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:15:35.756] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:15:35.758] [DEBUG] app - dmu1313 already viewed questionId: 274561371585962
+[2019-05-13T07:15:36.365] [DEBUG] app - --------------------------------
+[2019-05-13T07:15:36.365] [DEBUG] app - /answers/274607792715667/upvote, upvote: true
+[2019-05-13T07:15:36.365] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:15:36.367] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:15:36.372] [DEBUG] app - No previous upvote/downvote for this answer and user. Inserting now.
+[2019-05-13T07:15:36.696] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:15:36.699] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:15:36.702] [DEBUG] app - dmu1313 already viewed questionId: 274561371585962
+[2019-05-13T07:15:37.331] [DEBUG] app - --------------------------------
+[2019-05-13T07:15:37.331] [DEBUG] app - /answers/274607792715667/upvote, upvote: true
+[2019-05-13T07:15:37.331] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:15:37.333] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:15:37.657] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:15:37.659] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:15:37.661] [DEBUG] app - dmu1313 already viewed questionId: 274561371585962
+[2019-05-13T07:15:38.257] [DEBUG] app - /answers/274607792715667/accept
+[2019-05-13T07:15:38.258] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:15:38.260] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:15:38.267] [DEBUG] app - Answer updated with accepted status: n: 1, nModified: 1
+[2019-05-13T07:15:38.268] [DEBUG] app - Question updated with accepted status: n: 1, nModified: 1
+[2019-05-13T07:15:43.635] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:15:43.637] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:15:43.639] [DEBUG] app - dmu1313 already viewed questionId: 274561371585962
+[2019-05-13T07:15:52.559] [DEBUG] app - --------------------------------
+[2019-05-13T07:15:52.560] [DEBUG] app - /answers/274607792715667/upvote, upvote: true
+[2019-05-13T07:15:52.560] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:15:52.564] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:15:52.572] [DEBUG] app - No previous upvote/downvote for this answer and user. Inserting now.
+[2019-05-13T07:15:52.815] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:15:52.817] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:15:52.818] [DEBUG] app - dmu1313 already viewed questionId: 274561371585962
+[2019-05-13T07:15:57.984] [DEBUG] app - /////////////////////////////////////
+[2019-05-13T07:15:57.984] [DEBUG] app - /search
+[2019-05-13T07:15:57.984] [DEBUG] app - search
+[2019-05-13T07:15:57.984] [DEBUG] app - Timestamp: undefined
+[2019-05-13T07:15:57.984] [DEBUG] app - Limit: undefined
+[2019-05-13T07:15:57.984] [DEBUG] app - q: undefined
+[2019-05-13T07:15:57.984] [DEBUG] app - sort_by: score
+[2019-05-13T07:15:57.984] [DEBUG] app - tags: 
+[2019-05-13T07:15:57.984] [DEBUG] app - has_media: false
+[2019-05-13T07:15:57.984] [DEBUG] app - accepted: false
+[2019-05-13T07:16:00.627] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:16:00.629] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:16:00.634] [DEBUG] app - dmu1313 already viewed questionId: 982245264564283700191
+[2019-05-13T07:16:06.957] [DEBUG] app - /////////////////////////////////////
+[2019-05-13T07:16:06.957] [DEBUG] app - /search
+[2019-05-13T07:16:06.957] [DEBUG] app - search
+[2019-05-13T07:16:06.957] [DEBUG] app - Timestamp: undefined
+[2019-05-13T07:16:06.957] [DEBUG] app - Limit: undefined
+[2019-05-13T07:16:06.958] [DEBUG] app - q: undefined
+[2019-05-13T07:16:06.958] [DEBUG] app - sort_by: score
+[2019-05-13T07:16:06.958] [DEBUG] app - tags: 
+[2019-05-13T07:16:06.958] [DEBUG] app - has_media: false
+[2019-05-13T07:16:06.958] [DEBUG] app - accepted: false
+[2019-05-13T07:16:08.648] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:16:08.651] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:16:08.654] [DEBUG] app - Insert user view result: {"n":1,"ok":1}
+[2019-05-13T07:16:10.596] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:16:10.598] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:16:10.603] [DEBUG] app - [/questions/:id/upvote] - No previous upvote/downvote for userId 270202291769807, questionId: 982249877282277742373, Insert upvote: true
+[2019-05-13T07:16:10.603] [DEBUG] app - [/questions/:id/upvote] - Update User 981651114415189981962 Reputation: inc_reputation: 1
+[2019-05-13T07:16:10.603] [DEBUG] app - [/questions/:id/upvote] - Inserting upvote query: userId: 270202291769807, questionId: 982249877282277742373, val: true, waived: false
+[2019-05-13T07:16:10.604] [DEBUG] app - [/questions/:id/upvote] - Updating Question 982249877282277742373 score with inc: 1
+[2019-05-13T07:16:10.923] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:16:10.926] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:16:10.928] [DEBUG] app - dmu1313 already viewed questionId: 982249877282277742373
+[2019-05-13T07:16:14.504] [DEBUG] app - /////////////////////////////////////
+[2019-05-13T07:16:14.504] [DEBUG] app - /search
+[2019-05-13T07:16:14.504] [DEBUG] app - search
+[2019-05-13T07:16:14.504] [DEBUG] app - Timestamp: undefined
+[2019-05-13T07:16:14.504] [DEBUG] app - Limit: undefined
+[2019-05-13T07:16:14.505] [DEBUG] app - q: undefined
+[2019-05-13T07:16:14.505] [DEBUG] app - sort_by: score
+[2019-05-13T07:16:14.505] [DEBUG] app - tags: 
+[2019-05-13T07:16:14.505] [DEBUG] app - has_media: false
+[2019-05-13T07:16:14.505] [DEBUG] app - accepted: false
+[2019-05-13T07:16:15.719] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:16:15.722] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
+[2019-05-13T07:16:15.724] [DEBUG] app - dmu1313 already viewed questionId: 982249877282277742373

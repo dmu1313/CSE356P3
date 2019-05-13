@@ -10,6 +10,7 @@ class Home extends React.Component {
     constructor(props) {
         super(props);
         this.postQuestion = this.postQuestion.bind(this);
+        this.state = {};
     }
 
     postQuestion() {
@@ -33,7 +34,6 @@ class Home extends React.Component {
     }
 
     render() {
-
         var skip = false;
         if (this.props.location.state != null) {
             skip = this.props.location.state.skipFirstRender;
@@ -59,8 +59,7 @@ class Home extends React.Component {
 
         return (
             <div>
-                <Button className="button ripple" callback={ this.postQuestion }>Post Question</Button>
-                {message}
+                <h1>Welcome to my StackOverflow clone called ArrayOutOfBounds!</h1>
             </div>
         );
     }

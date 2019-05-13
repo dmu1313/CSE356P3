@@ -2,14 +2,17 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 
-import {App} from './App';
 import {Home} from './Home';
 import {NavBar} from './Navigation';
 import {SuccessNewAccountPage} from './Accounts';
 import {LoginPage, LogoutPage} from './LoginPage';
 import {VerifyPage} from './Verify';
-import {QuestionPage} from './Questions';
+import {questionPage as QuestionPage} from './Questions';
 import {QuestionsPage} from './QuestionsPage';
+import {MediaPage} from './Media.js';
+import {SearchPage} from './SearchPage.js';
+import {usersPage as UsersPage} from './Users.js';
+import {UserPage} from './Users.js';
 
 class LoginStatus extends React.Component {
     constructor(props) {
@@ -93,15 +96,17 @@ class LoginStatus extends React.Component {
         return (
         <React.Fragment>
             <NavBar loggedIn={status} />
-            <Route exact path = "/" render={ (props) => <App {...props} loggedIn={status} getLoginStatus={this.getLoginStatus} setLoginState={this.setLoginState} /> } />
-            <Route path = "/Home" render={ (props) => <Home {...props} loggedIn={status} getLoginStatus={this.getLoginStatus} setLoginState={this.setLoginState} /> } />
-            <Route path="/Search" render={ (props) => <Home {...props} loggedIn={status} getLoginStatus={this.getLoginStatus} setLoginState={this.setLoginState} /> } />
+            <Route exact path = "/" render={ (props) => <Home {...props} loggedIn={status} getLoginStatus={this.getLoginStatus} setLoginState={this.setLoginState} /> } />
+            <Route path="/Search" render={ (props) => <SearchPage {...props} action="/search" loggedIn={status} getLoginStatus={this.getLoginStatus} setLoginState={this.setLoginState} /> } />
             <Route path="/NewAccount" render={ (props) => <SuccessNewAccountPage {...props} loggedIn={status} getLoginStatus={this.getLoginStatus} setLoginState={this.setLoginState} />} />
             <Route path="/Login" render={ (props) => <LoginPage {...props} loggedIn={status} getLoginStatus={this.getLoginStatus} setLoginState={this.setLoginState} /> } />
             <Route path="/Logout" render={ (props) => <LogoutPage {...props} action="/logout" notification={this.state.notification} loggedIn={status} getLoginStatus={this.getLoginStatus} setLoginState={this.setLoginState} /> } />
             <Route path="/Verify" component={VerifyPage} />
-            <Route path="/Questions" component={QuestionsPage} />
-            <Route path="/Question/:id" component={QuestionPage} />
+            <Route path="/Questions" render={ (props) => <QuestionsPage {...props} notification={this.state.notification} loggedIn={status} getLoginStatus={this.getLoginStatus} setLoginState={this.setLoginState} /> }  />
+            <Route path="/Question/:id" render={ (props) => <QuestionPage {...props} notification={this.state.notification} loggedIn={status} getLoginStatus={this.getLoginStatus} setLoginState={this.setLoginState} /> }  />
+            <Route path="/Media" render={ (props) => <MediaPage {...props} action="/addmedia" notification={this.state.notification} loggedIn={status} getLoginStatus={this.getLoginStatus} setLoginState={this.setLoginState} /> } />
+            <Route path="/Users" render={ (props) => <UsersPage {...props} notification={this.state.notification} loggedIn={status} getLoginStatus={this.getLoginStatus} setLoginState={this.setLoginState} /> } />
+            <Route path="/User/:username" render={ (props) => <UserPage {...props} notification={this.state.notification} loggedIn={status} getLoginStatus={this.getLoginStatus} setLoginState={this.setLoginState} /> } />
         </React.Fragment>
         );
     }

@@ -18,20 +18,41 @@ var getRandomIdString = constants.getRandomIdString;
 const COLLECTION_MEDIA_USER = constants.COLLECTION_MEDIA_USER;
 
 
+function sleep(ms) {
+    return new Promise(resolve => {
+        setTimeout(resolve, ms);
+    });
+}
+
+
 module.exports = function(app) {
 
     app.post('/addmedia', async function(req, res) {
         logger.debug("/addmedia");
+
+        var time = Date.now();
         var id = getRandomIdString();
         var db = mongoUtil.getDB();
 
         var form = new formidable.IncomingForm();
+        logger.debug("Get incoming form: " + (Date.now() - time));
         var chunks = [];
         
         var filename;
         var file;
 
+        
+        const authErrorMessage = "Must be logged in to add media.";
+        var cookie = req.cookies['SessionID'];
+        if (cookie == null) {
+            // Not logged in. Fail.
+            logger.debug(authErrorMessage);
+            res.status(401).json({status: "error", error: authErrorMessage});
+            return;
+        }
+
         form.onPart = function(part) {
+            logger.debug("onPart time: " + (Date.now() - time));
             if (!part.filename) {
                 form.handlePart(part);
                 return;
@@ -44,17 +65,14 @@ module.exports = function(app) {
             });
             part.on('end', function() {
                 file = Buffer.concat(chunks);
+                logger.debug("Add media time: " + (Date.now() - time));
             });
             part.on('error', function(err) {
                 logger.debug("error handling stream: " + err);
             });
         }
 
-        var cookie = req.cookies['SessionID'];
-        const authErrorMessage = "Must be logged in to add media.";
-
         var user = await mongoUtil.getUserAndIdForCookie(cookie);
-            
         if (user == null) {
             // Not logged in. Fail.
             logger.debug(authErrorMessage);
@@ -68,7 +86,7 @@ module.exports = function(app) {
         // db.collection(COLLECTION_MEDIA_USER).insertOne(mediaUserQuery);
 
         form.parse(req, async function(err, fields, files) {
-
+            logger.debug("PARSE TIME: " + (Date.now() - time));
             logger.debug("addmedia: user: " + user.userId);
 
             

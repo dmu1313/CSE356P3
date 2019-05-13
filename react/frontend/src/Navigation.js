@@ -23,8 +23,11 @@ class NavBar extends React.Component {
                 <MyLink className="Title" to="/">ArrayOutOfBounds</MyLink>
                 <SearchBar className="SearchBar" action="/search"></SearchBar>
                 <div className="EmptyFlex" style={{flexGrow: "2"}}></div>
-                <MyLink className="NavLink" to="/Home">Home</MyLink>
+                <MyLink className="NavLink" to="/">Home</MyLink>
                 <MyLink className="NavLink" to="/Questions">Questions</MyLink>
+                <MyLink className="NavLink" to="/Search">Search</MyLink>
+                <MyLink className="NavLink" to="/Media">Media</MyLink>
+                <MyLink className="NavLink" to="/Users">Users</MyLink>
                 {loginButton}
                 <div className="EmptyFlex" style={{flexGrow: "3"}}></div>
             </div>

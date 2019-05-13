@@ -1,0 +1,36 @@
+
+cd /var/www/server
+
+sudo vi WriteWorker.js
+
+(sudo node app.js &) && (sudo node WriteWorker.js &)
+
+sudo node app.js &
+
+sudo node WriteWorker.js &
+
+sudo pkill -f node
+
+curl -XGET '192.168.122.26:9200/_cluster/health?pretty'
+
+curl -XGET '192.168.122.26:9200/questions/_count?pretty'
+
+sudo rm -f app.txt && sudo rm -f Write.txt
+
+
+cd ..
+
+sudo git checkout 3301feb
+
+
+app.js
+----------------
+Load balancer
+mongo
+api2
+api3
+control node
+
+WriteWorker.js
+----------------
+ap1

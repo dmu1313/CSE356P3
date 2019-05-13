@@ -6,8 +6,8 @@ const app = express();
 const port = 3001;
 
 app.use(express.json({limit: '50mb'}));
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static(__dirname + "/static"));
+// app.use(express.urlencoded({ extended: true }));
+// app.use(express.static(__dirname + "/static"));
 // app.use(cookieParser('cse356-cookie-secret'));
 app.use(cookieParser());
 
@@ -51,4 +51,3 @@ app.post('/CheckLoginStatus', async function(req, res) {
 app.listen(port, function() {
 });
 
-// Math.floor(Date.now() / 1000);

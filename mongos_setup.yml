@@ -17,7 +17,7 @@
     - name: One time install for MongoDB
       apt:
         name: mongodb-org
-    - name: Stop mongod. Start mongos.
+    - name: Start mongos.
       shell: |
-        sudo systemctl stop mongod
-        mongos --config /var/www/MongoMongos.conf
+        sudo chmod 777 /var/log/mongodb
+        mongos --config /var/www/MongoMongos.conf --fork --logpath /var/log/mongodb/mongos.log

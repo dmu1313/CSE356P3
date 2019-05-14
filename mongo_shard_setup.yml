@@ -28,10 +28,7 @@
     - name: One time install for MongoDB
       apt:
         name: mongodb-org
-    - name: Start MongoDB
-      shell: |
-        sudo service mongod start
     - name: Setup configuration for MongoDB
       shell: |
         sudo mv /var/www/MongoShard.conf /etc/mongod.conf
-        sudo systemctl restart mongod
+        sudo service mongod start

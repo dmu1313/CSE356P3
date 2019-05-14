@@ -17,9 +17,6 @@
     - name: One time install for MongoDB
       apt:
         name: mongodb-org
-    - name: Start MongoDB
-      shell: |
-        sudo service mongod start
     - name: Stop mongod. Start mongos.
       shell: |
         sudo systemctl stop mongod

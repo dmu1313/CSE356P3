@@ -30,6 +30,8 @@ const COLLECTION_IP_VIEWS = constants.COLLECTION_IP_VIEWS;
 const COLLECTION_USER_VIEWS = constants.COLLECTION_USER_VIEWS;
 const COLLECTION_MEDIA = constants.COLLECTION_MEDIA;
 const COLLECTION_MEDIA_USER = constants.COLLECTION_MEDIA_USER;
+const COLLECTION_QUESTION_UPVOTE = constants.COLLECTION_QUESTION_UPVOTE;
+const COLLECTION_ANSWER_UPVOTE = constants.COLLECTION_ANSWER_UPVOTE;
 
 var getRandomIdString = constants.getRandomIdString;
 var getUnixTime = constants.getUnixTime;
@@ -425,6 +427,15 @@ module.exports = function(app) {
                     });
                 }
 
+                // Delete views associated with question
+                db.collection(COLLECTION_IP_VIEWS).deleteMany(questionIdQuery);
+                db.collection(COLLECTION_USER_VIEWS).deleteMany(questionIdQuery);
+
+                // Delete upvotes/downvotes associated with question
+                let upvoteQuestionIdQuery = {qid: qid};
+                db.collection(COLLECTION_QUESTION_UPVOTE).deleteMany(upvoteQuestionIdQuery);
+
+                // Delete question
                 db.collection(COLLECTION_QUESTIONS).deleteOne(questionIdQuery)
                 .then(function(ret) {
                     if (ret == null) return;
@@ -467,6 +478,12 @@ module.exports = function(app) {
 
                 while (await cursor.hasNext()) {
                     let answerDoc = await cursor.next();
+
+                    // Delete upvotes/downvotes associated with answer
+                    let upvoteAnswerIdQuery = {aid: answerDoc.answerId};
+                    db.collection(COLLECTION_ANSWER_UPVOTE).deleteMany(upvoteAnswerIdQuery);
+
+                    // Delete media associated with answer
                     if (answerDoc.media != null && answerDoc.media.length > 0) {
                         answerDoc.media.forEach(function(mediaId) {
                             let deleteMediaQuery = {_id: mediaId};

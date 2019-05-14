@@ -19,25 +19,39 @@ const COLLECTION_MEDIA_USER = constants.COLLECTION_MEDIA_USER;
 const COLLECTION_ANSWER_UPVOTE = constants.COLLECTION_ANSWER_UPVOTE;
 const COLLECTION_QUESTION_UPVOTE = constants.COLLECTION_QUESTION_UPVOTE;
 
-// Already Set
+
+// Sharding commands:
+// sh.shardCollection("Final.Cookies", {val: "hashed"})
+// sh.shardCollection("Final.Users", {userId: "hashed"})
+// sh.shardCollection("Final.Questions", {questionId: "hashed"})
+// sh.shardCollection("Final.Answers", {answerId: "hashed"})
+// sh.shardCollection("Final.Ip_Views", {questionId: "hashed"})
+// sh.shardCollection("Final.User_Views", {questionId: "hashed"})
+// sh.shardCollection("Final.A_upvote", {aid: "hashed"})
+// sh.shardCollection("Final.Q_upvote", {qid: "hashed"})
+// sh.shardCollection("Final.MEDIA", {_id: "hashed"})
+// sh.shardCollection("Final.Media_U", {_id: "hashed"})
+
+
+// Already Implemented:
 
 // cookie: { _id, val:string, username:string, userId:string }
-// user: { _id, userID:string, username:string, password:string, email:string, reputation:int, verified:boolean, key:"string" }
-// questions: { _id, questionID:string, userId, title, body, score, view_count, answer_count, timestamp, tags, media, has_media:boolean accepted_answer_id, accepted:boolean, username }
-// answers: { _id, answerID:string, questionId, body, media, userId, score:int, accepted:boolean, timestamp, username }
-// ip_views: { _id, ip:string, questionID:string }
+// user: { _id, userId:string, username:string, password:string, email:string, reputation:int, verified:boolean, key:"string" }
+// questions: { _id, questionId:string, userId, title, body, score, view_count, answer_count, timestamp, tags, media, has_media:boolean accepted_answer_id, accepted:boolean, username }
+// answers: { _id, answerId:string, questionId, body, media, userId, score:int, accepted:boolean, timestamp, username }
+// ip_views: { _id, ip:string, questionId:string }
 // user_views: { _id, username:string, questionId:string }
-
+// q_upvote: {_id, uid=userId, qid=questionId, val:boolean, waived:boolean}
+// a_upvote: {_id, uid=userId, aid=answerId, val:boolean, waived:boolean}
 // COLLECTION_MEDIA: {_id: mediaId, qa: questionId/answerId}
 // COLLECTION_MEDIA_USER: {_id: mediaId, userId: userId};
 
-// Combined:
+
+
+// Combined: (Proposed: Not implemented)
 // COLLECTION_MEDIA: {_id: mediaId, qa: questionId/answerId, uid: userId}
 
 
-
-// q_upvote: {_id, uid=userId, qid=questionId, val:boolean, waived:boolean}
-// a_upvote: {_id, uid=userId, aid=answerId, val:boolean, waived:boolean}
 
 
 
@@ -259,7 +273,10 @@ module.exports = function(app) {
             console.log("COOKIES: " + error);
         });
 
-        db.collection(COLLECTION_IP_VIEWS).createIndex( { questionId: 1, ip: 1 } )
+        db.collection(COLLECTION_IP_VIEWS).createIndexes([
+                                                            { key: {questionId: 1} },
+                                                            { key: { questionId: 1, ip: 1 } }
+                                                        ])
         .then(function(result) {
             console.log("Ip_View index: " + result);
         })
@@ -267,7 +284,10 @@ module.exports = function(app) {
             console.log("IP_VIEW: " + error);
         });
 
-        db.collection(COLLECTION_USER_VIEWS).createIndex( { questionId: 1, username: 1 } )
+        db.collection(COLLECTION_USER_VIEWS).createIndexes([
+                                                            { key: {questionId: 1} },
+                                                            { key: {questionId: 1, username: 1} }
+                                                        ])
         .then(function(result) {
             console.log("User_View index: " + result);
         })
@@ -275,7 +295,10 @@ module.exports = function(app) {
             console.log("USER_VIEW: " + error);
         });
 
-        db.collection(COLLECTION_QUESTION_UPVOTE).createIndex( { uid: 1, qid: 1 } )
+        db.collection(COLLECTION_QUESTION_UPVOTE).createIndexes([
+                                                                    { key: {qid: 1} },
+                                                                    { key: {uid: 1, qid: 1} }
+                                                                ])
         .then(function(result) {
             console.log("Q_upvote index: " + result);
         })
@@ -283,7 +306,10 @@ module.exports = function(app) {
             console.log("Q_UPVOTE: " + error);
         });
 
-        db.collection(COLLECTION_ANSWER_UPVOTE).createIndex( {uid: 1, aid: 1})
+        db.collection(COLLECTION_ANSWER_UPVOTE).createIndexes([
+                                                                { key: {aid: 1} },
+                                                                { key: {uid: 1, aid: 1} }
+                                                            ])
         .then(function(result) {
             console.log("A_upvote index: " + result);
         })

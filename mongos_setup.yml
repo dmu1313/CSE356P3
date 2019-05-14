@@ -1,6 +1,6 @@
-# For generic single MongoDB server. No longer used once sharding is implemented.
+# Meant for a one time setup for the older API servers that need mongos
 ---
-- hosts: final_mongo
+- hosts: final_mongos
   remote_user: ubuntu
   gather_facts: no
   become: yes
@@ -20,8 +20,7 @@
     - name: Start MongoDB
       shell: |
         sudo service mongod start
-    - name: Setup configuration for MongoDB
+    - name: Stop mongod. Start mongos.
       shell: |
-        sudo mv /var/www/mongod.conf /etc/mongod.conf
-        sudo systemctl restart mongod
-    # Must change network bind to allow incoming traffic
+        sudo systemctl stop mongod
+        mongos --config /var/www/MongoMongos.conf

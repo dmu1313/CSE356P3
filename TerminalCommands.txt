@@ -20,6 +20,8 @@ sudo rm -f app.txt && sudo rm -f Write.txt
 
 cd .. && sudo git pull && cd server
 
+cd .. && sudo git pull && cd server && sudo pkill -f node
+
 cd ..
 
 sudo git checkout 3301feb

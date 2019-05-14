@@ -213,9 +213,9 @@ module.exports = function(app) {
         var db = mongoUtil.getDB();
 
         db.collection(COLLECTION_USERS).createIndexes([
-                                                        { key: {userId: 1} },
-                                                        { key: {username: 1} },
-                                                        { key: {email: 1} }
+                                                        { key: {userId: 1}, unique: true },
+                                                        { key: {username: 1}, unique: true },
+                                                        { key: {email: 1}, unique: true }
                                                     ])
         .then(function(result) {
             console.log("Users Index: " + result);
@@ -225,23 +225,23 @@ module.exports = function(app) {
         });
         
         db.collection(COLLECTION_QUESTIONS).createIndexes([
-                                                            { key: {questionId: 1} },
+                                                            { key: {questionId: 1}, unique: true },
                                                             { key: {timestamp: 1} },
                                                             { key: {has_media: 1} },
                                                             { key: {accepted: 1} },
                                                             
                                                             { key: {timestamp: 1, accepted: 1} },
                                                             { key: {timestamp: 1, has_media: 1} },
-                                                            { key: {questionId: 1, accepted: 1} },
+                                                            { key: {questionId: 1, accepted: 1}, unique: true },
                                                             { key: {has_media: 1, accepted: 1} },
 
-                                                            { key: {questionId:1, has_media: 1, accepted: 1} },
+                                                            { key: {questionId:1, has_media: 1, accepted: 1}, unique: true },
                                                             { key: {timestamp: 1, has_media: 1, accepted: 1} },
                                                             { key: {timestamp: 1, questionId: 1, accepted: 1} },
 
-                                                            { key: {timestamp: 1, questionId: 1, has_media: 1, accepted: 1} },
+                                                            { key: {timestamp: 1, questionId: 1, has_media: 1, accepted: 1}, unique: true },
 
-
+                                                            { key: {questionId: 1}, unique: true},
                                                             { key: {userId: 1} },
                                                             { key: {username: 1} },
                                                             { key: {score: 1} }
@@ -254,9 +254,9 @@ module.exports = function(app) {
         });
         
         db.collection(COLLECTION_ANSWERS).createIndexes([
-                                                            { key: {answerId: 1} },
+                                                            { key: {answerId: 1}, unique: true },
                                                             { key: {questionId: 1} },
-                                                            { key: {username: 1}}
+                                                            { key: {username: 1} }
                                                         ])
         .then(function(result) {
             console.log("Answers Index: " + result);
@@ -265,7 +265,7 @@ module.exports = function(app) {
             console.log("ANSWERS: " + error);
         });
 
-        db.collection(COLLECTION_COOKIES).createIndex( { val: 1 } )
+        db.collection(COLLECTION_COOKIES).createIndex( { val: 1 }, {unique: true} )
         .then(function(result) {
             console.log("Cookies Index: " + result);
         })
@@ -275,7 +275,7 @@ module.exports = function(app) {
 
         db.collection(COLLECTION_IP_VIEWS).createIndexes([
                                                             { key: {questionId: 1} },
-                                                            { key: { questionId: 1, ip: 1 } }
+                                                            { key: { questionId: 1, ip: 1 }, unique: true }
                                                         ])
         .then(function(result) {
             console.log("Ip_View index: " + result);
@@ -286,7 +286,7 @@ module.exports = function(app) {
 
         db.collection(COLLECTION_USER_VIEWS).createIndexes([
                                                             { key: {questionId: 1} },
-                                                            { key: {questionId: 1, username: 1} }
+                                                            { key: {questionId: 1, username: 1}, unique: true }
                                                         ])
         .then(function(result) {
             console.log("User_View index: " + result);
@@ -297,7 +297,7 @@ module.exports = function(app) {
 
         db.collection(COLLECTION_QUESTION_UPVOTE).createIndexes([
                                                                     { key: {qid: 1} },
-                                                                    { key: {uid: 1, qid: 1} }
+                                                                    { key: {uid: 1, qid: 1}, unique: true }
                                                                 ])
         .then(function(result) {
             console.log("Q_upvote index: " + result);
@@ -308,7 +308,7 @@ module.exports = function(app) {
 
         db.collection(COLLECTION_ANSWER_UPVOTE).createIndexes([
                                                                 { key: {aid: 1} },
-                                                                { key: {uid: 1, aid: 1} }
+                                                                { key: {uid: 1, aid: 1}, unique: true }
                                                             ])
         .then(function(result) {
             console.log("A_upvote index: " + result);

@@ -167,6 +167,27 @@ async function run() {
     // console.log(res);
 
 
+    db.collection(COLLECTION_TEST).createIndexes([
+        { key: {userId: 1}, unique: true },
+        { key: {username: 1}, unique: true },
+        { key: {email: 1}, unique: true }
+    ])
+    .then(function(result) {
+    console.log("createIndexes: " + result);
+    })
+    .catch(function(error) {
+    console.log("createIndexes: " + error);
+    });
+
+    db.collection(COLLECTION_TEST).createIndex( { val: 1 }, {unique: true} )
+    .then(function(result) {
+        console.log("createIndex: " + result);
+    })
+    .catch(function(error) {
+        console.log(" createIndex: " + error);
+    });
+
+
     
 
 // let deleteQuery = { questionId: qid, userId: userId };

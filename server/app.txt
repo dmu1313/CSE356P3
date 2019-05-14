@@ -1235,3 +1235,4 @@ MongoDB Message: {"n":1,"ok":1}
 [2019-05-13T07:16:15.719] [DEBUG] app - Error getting data from memcached: Error: Server at 192.168.122.23:11211 not available
 [2019-05-13T07:16:15.722] [DEBUG] app - Error setting object in memcached: Error: Server at 192.168.122.23:11211 not available
 [2019-05-13T07:16:15.724] [DEBUG] app - dmu1313 already viewed questionId: 982249877282277742373
+[2019-05-14T18:52:08.552] [DEBUG] app - CONNECTED

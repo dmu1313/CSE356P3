@@ -1,0 +1,23 @@
+# For all Express servers
+---
+- hosts: final_quick_git_update
+  remote_user: ubuntu
+  gather_facts: no
+  become: yes
+  pre_tasks:
+    - name: update
+      apt:
+        update_cache: yes
+  tasks:
+######    Git    #######
+    - name: Delete log files for the git checkout
+      shell: |
+        sudo rm -f /var/www/Write.txt && sudo rm -f /var/www/app.txt
+    - name: Git pull
+      git:
+        repo: 'https://github.com/dmu1313/CSE356P3.git'
+        dest: /var/www/
+        update: yes
+    - name: Change permissions
+      shell: |
+        sudo chmod 777 /var/www/server

@@ -241,7 +241,6 @@ module.exports = function(app) {
 
                                                             { key: {timestamp: 1, questionId: 1, has_media: 1, accepted: 1}, unique: true },
 
-                                                            { key: {questionId: 1}, unique: true},
                                                             { key: {userId: 1} },
                                                             { key: {username: 1} },
                                                             { key: {score: 1} }

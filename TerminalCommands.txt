@@ -18,6 +18,8 @@ curl -XGET '192.168.122.26:9200/questions/_count?pretty'
 sudo rm -f app.txt && sudo rm -f Write.txt
 
 
+cd .. && sudo git pull && cd server
+
 cd ..
 
 sudo git checkout 3301feb

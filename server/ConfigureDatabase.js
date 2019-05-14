@@ -157,22 +157,10 @@ module.exports = function(app) {
             console.log("Failed to wipe COLLECTION_MEDIA_USER, Error: " + error);
         });
 
-        // db.dropDatabase(function(error, result) {
-        //     if (error) console.log("Error: " + error);
-        //     console.log("Drop database: " + result);
-            // mongoUtil.getRealDB().close();
-            // .then(function(error, result) {
-            //     console.log("ERROR: " + error);
-            //     console.log("RESULT: " + result);
-            //     mongoUtil.connect();
-            // });
-            // db.collection("testing").insertOne({ obj: "bye" });
-        // });
-
         res.json(STATUS_OK);
     });
 
-    app.get("/DeleteDatabase", function(req, res) {
+    app.get('/DeleteDatabase', function(req, res) {
         var cassandraClient = cassandraUtils.getCassandraClient();
         var cassandraKeyspace = cassandraUtils.cassandraKeyspace;
 
@@ -198,135 +186,18 @@ module.exports = function(app) {
         });
 
         var db = mongoUtil.getDB();
-        
-        db.collection(COLLECTION_COOKIES).deleteMany({})
-        .then(function(result) {
-            console.log(result.result.n + " deleted from COLLECTION_COOKIES");
-        })
-        .catch(function(error) {
-            console.log("Error deleting from COLLECTION_COOKIES: " + error);
-        });
 
-        db.collection(COLLECTION_ANSWERS).deleteMany({})
-        .then(function(result) {
-            console.log(result.result.n + " deleted from COLLECTION_ANSWERS");
-        })
-        .catch(function(error) {
-            console.log("Error deleting from COLLECTION_ANSWERS: " + error);
+        db.dropDatabase(function(error, result) {
+            if (error) console.log("Error: " + error);
+            console.log("Drop database: " + result);
         });
-
-        db.collection(COLLECTION_USERS).deleteMany({})
-        .then(function(result) {
-            console.log(result.result.n + " deleted from COLLECTION_USERS");
-        })
-        .catch(function(error) {
-            console.log("Error deleting from COLLECTION_USERS: " + error);
-        });
-
-        db.collection(COLLECTION_QUESTIONS).deleteMany({})
-        .then(function(result) {
-            console.log(result.result.n + " deleted from COLLECTION_QUESTIONS");
-        })
-        .catch(function(error) {
-            console.log("Error deleting from COLLECTION_QUESTIONS: " + error);
-        });
-
-        db.collection(COLLECTION_IP_VIEWS).deleteMany({})
-        .then(function(result) {
-            console.log(result.result.n + " deleted from COLLECTION_IP_VIEWS");
-        })
-        .catch(function(error) {
-            console.log("Error deleting from COLLECTION_IP_VIEWS: " + error);
-        });
-
-        db.collection(COLLECTION_USER_VIEWS).deleteMany({})
-        .then(function(result) {
-            console.log(result.result.n + " deleted from COLLECTION_USER_VIEWS");
-        })
-        .catch(function(error) {
-            console.log("Error deleting from COLLECTION_USER_VIEWS: " + error);
-        });
-
-        db.collection(COLLECTION_ANSWER_UPVOTE).deleteMany({})
-        .then(function(result) {
-            console.log(result.result.n + " deleted from COLLECTION_ANSWER_UPVOTE");
-        })
-        .catch(function(error) {
-            console.log("Error deleting from COLLECTION_ANSWER_UPVOTE: " + error);
-        });
-
-        db.collection(COLLECTION_QUESTION_UPVOTE).deleteMany({})
-        .then(function(result) {
-            console.log(result.result.n + " deleted from COLLECTION_QUESTION_UPVOTE");
-        })
-        .catch(function(error) {
-            console.log("Error deleting from COLLECTION_QUESTION_UPVOTE: " + error);
-        });
-
 
         res.json(STATUS_OK);
     });
 
-    app.get('/init', function(req, res) {
+    app.get('/IndexMongo', function(req, res) {
         var db = mongoUtil.getDB();
 
-        db.collection(COLLECTION_USERS).insertOne({ testField: 0 });
-        db.collection(COLLECTION_COOKIES).insertOne({ val:"hi", username:"hi" });
-        db.collection(COLLECTION_ANSWERS).insertOne({ testField: 0 });
-        db.collection(COLLECTION_QUESTIONS).insertOne({ testField: 0 });
-        db.collection(COLLECTION_IP_VIEWS).insertOne({ ip: "hi", questionId: "hi" });
-        db.collection(COLLECTION_USER_VIEWS).insertOne({userId: "hi", questionId: "hi"});
-        res.json(STATUS_OK);
-    });
-
-    app.get('/ConfigureDatabase', function(req, res) {
-        var cassandraClient = cassandraUtils.getCassandraClient();
-        var cassandraKeyspace = cassandraUtils.cassandraKeyspace;
-        var cassandraTable = cassandraUtils.cassandraTable;
-        var cassandraFullName = cassandraUtils.cassandraFullName;
-
-        var createKeyspaceQuery = "CREATE KEYSPACE IF NOT EXISTS " + cassandraKeyspace +
-                                    " WITH replication = {'class': 'SimpleStrategy', 'replication_factor': '1' }";
-        var createTableQuery = "CREATE TABLE IF NOT EXISTS " + cassandraFullName +
-                                " (id text, filename text, contents blob, PRIMARY KEY(id)) WITH gc_grace_seconds=180";
-    
-        cassandraClient.execute(createKeyspaceQuery)
-        .then(function(result) {
-            console.log("Created keyspace: " + result);
-            return cassandraClient.execute(createTableQuery);
-        })
-        .then(function(result) {
-            console.log("Created table: " + result);
-        })
-        .catch(function(error) {
-            console.log("Error configuring cassandra: " + error);
-        });
-
-
-
-        var client = elasticClient.getElasticClient();
-        client.indices.create({
-            index: 'questions',
-            body: {
-                settings : {
-                    index : {
-                        number_of_shards : 6, 
-                        number_of_replicas : 0 
-                    }
-                }
-            }
-        })
-        .then(function(ret) {
-            console.log("Created ElasticSearch index: Questions. ret: " + ret);
-        })
-        .catch(function(error) {
-            console.log("ElasticSearch failed to create index: Questions. Error: " + error);
-        });
-        
-        // client.cluster.
-
-        var db = mongoUtil.getDB();
-/*
         db.collection(COLLECTION_USERS).createIndexes([
                                                         { key: {userId: 1} },
                                                         { key: {username: 1} },
@@ -341,13 +212,25 @@ module.exports = function(app) {
         
         db.collection(COLLECTION_QUESTIONS).createIndexes([
                                                             { key: {questionId: 1} },
-                                                            { key: {timestamp: 1, questionId: 1} },
                                                             { key: {timestamp: 1} },
+                                                            { key: {has_media: 1} },
+                                                            { key: {accepted: 1} },
+                                                            
+                                                            { key: {timestamp: 1, accepted: 1} },
+                                                            { key: {timestamp: 1, has_media: 1} },
+                                                            { key: {questionId: 1, accepted: 1} },
+                                                            { key: {has_media: 1, accepted: 1} },
+
+                                                            { key: {questionId:1, has_media: 1, accepted: 1} },
+                                                            { key: {timestamp: 1, has_media: 1, accepted: 1} },
+                                                            { key: {timestamp: 1, questionId: 1, accepted: 1} },
+                                                            
+                                                            { key: {timestamp: 1, questionId: 1, has_media: 1, accepted: 1} },
+
+
                                                             { key: {userId: 1} },
                                                             { key: {username: 1} },
-                                                            { key: {has_media: 1, accepted: 1, timestamp: -1, score: -1} },
-                                                            { key: {accepted: 1, timestamp: -1, score: -1} },
-                                                            { key: {timestamp: -1, score: -1} }
+                                                            { key: {score: 1} }
                                                         ])
         .then(function(result) {
             console.log("Questions Index: " + result);
@@ -392,31 +275,6 @@ module.exports = function(app) {
             console.log("USER_VIEW: " + error);
         });
 
-
-        // MEDIA_USER {the media id, the user id}
-        // MEDIA {the media id, the Q/A id}
-        // media: { _id=questionId/answerId, mediaId }
-
-        // db.collection(COLLECTION_MEDIA).createIndex( { mediaId: 1  })
-        // .then(function(result) {
-        //     console.log("media index: " + result);
-        // })
-        // .catch(function(error) {
-        //     console.log("MEDIA ERROR: " + error);
-        // });
-
-        // db.collection(COLLECTION_MEDIA_USER).createIndex( {} )
-        // .then(function(result) {
-        //     console.log("media_user index: " + result);
-        // })
-        // .catch(function(error) {
-        //     console.log("MEDIA_USER ERROR: " + error);
-        // });
-
-
-
-
-
         db.collection(COLLECTION_QUESTION_UPVOTE).createIndex( { uid: 1, qid: 1 } )
         .then(function(result) {
             console.log("Q_upvote index: " + result);
@@ -433,7 +291,52 @@ module.exports = function(app) {
             console.log("A_UPVOTE: " + error);
         });
 
-*/
+
+        res.json(STATUS_OK);
+    });
+
+    app.get('/ConfigureDatabase', function(req, res) {
+        var cassandraClient = cassandraUtils.getCassandraClient();
+        var cassandraKeyspace = cassandraUtils.cassandraKeyspace;
+        var cassandraFullName = cassandraUtils.cassandraFullName;
+
+        var createKeyspaceQuery = "CREATE KEYSPACE IF NOT EXISTS " + cassandraKeyspace +
+                                    " WITH replication = {'class': 'SimpleStrategy', 'replication_factor': '1' }";
+        var createTableQuery = "CREATE TABLE IF NOT EXISTS " + cassandraFullName +
+                                " (id text, filename text, contents blob, PRIMARY KEY(id)) WITH gc_grace_seconds=180";
+    
+        cassandraClient.execute(createKeyspaceQuery)
+        .then(function(result) {
+            console.log("Created keyspace: " + result);
+            return cassandraClient.execute(createTableQuery);
+        })
+        .then(function(result) {
+            console.log("Created table: " + result);
+        })
+        .catch(function(error) {
+            console.log("Error configuring cassandra: " + error);
+        });
+
+        var client = elasticClient.getElasticClient();
+        client.indices.create({
+            index: 'questions',
+            body: {
+                settings : {
+                    index : {
+                        number_of_shards : 6, 
+                        number_of_replicas : 0 
+                    }
+                }
+            }
+        })
+        .then(function(ret) {
+            console.log("Created ElasticSearch index: Questions. ret: " + ret);
+        })
+        .catch(function(error) {
+            console.log("ElasticSearch failed to create index: Questions. Error: " + error);
+        });
+        
+
         res.json(STATUS_OK);
     });
 

@@ -324,7 +324,7 @@ module.exports = function(app) {
         });
         
         // client.cluster.
-/*
+
         var db = mongoUtil.getDB();
 
         db.collection(COLLECTION_USERS).createIndexes([
@@ -433,7 +433,7 @@ module.exports = function(app) {
             console.log("A_UPVOTE: " + error);
         });
 
-*/
+
         res.json(STATUS_OK);
     });
 

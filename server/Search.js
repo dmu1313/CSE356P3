@@ -20,8 +20,6 @@ const COLLECTION_IP = constants.COLLECTION_IP;
 
 module.exports = function(app) {
     app.post('/search', async function(req, res) {
-        logger.debug("/////////////////////////////////////");
-        logger.debug("/search");
         var client = elasticUtils.getElasticClient();
         var db = mongoUtil.getDB();
 
@@ -43,14 +41,17 @@ module.exports = function(app) {
                 tags = tagsArray.join(" ");
             }
 
-            logger.debug("search");
-            logger.debug("Timestamp: " + timestamp);
-            logger.debug("Limit: " + limit);
-            logger.debug("q: " + q);
-            logger.debug("sort_by: " + sort_by);
-            logger.debug("tags: " + tags);
-            logger.debug("has_media: " + has_media);
-            logger.debug("accepted: " + accepted);
+            // logger.debug("search");
+            // logger.debug("Timestamp: " + timestamp);
+            // logger.debug("Limit: " + limit);
+            // logger.debug("q: " + q);
+            // logger.debug("sort_by: " + sort_by);
+            // logger.debug("tags: " + tags);
+            // logger.debug("has_media: " + has_media);
+            // logger.debug("accepted: " + accepted);
+
+            
+            var start = Date.now();
 
             var matches;
             if (q != null && q != "") {
@@ -124,6 +125,8 @@ module.exports = function(app) {
                 matches = body.hits.hits;
             }
 
+            var end = Date.now();
+            logger.debug("[/search] - Elastic Search query took " + (end - start));
 
             if (limit == null) {
                 limit = 25;
@@ -163,6 +166,8 @@ module.exports = function(app) {
 
 
             var questionsArray = [];
+            
+            start = Date.now();
 
             var cursor;
             if (sort_by == "timestamp") {
@@ -183,6 +188,10 @@ module.exports = function(app) {
                 };
                 questionsArray.push(question);
             }
+
+            end = Date.now();
+            logger.debug("[/search] - MongoDB search query took " + (end - start));
+
             // for (var i = 0; i < questionsArray.length; i++) {
             //     logger.debug(questionsArray[i]);
             // }

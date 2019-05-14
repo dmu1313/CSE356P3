@@ -142,7 +142,6 @@ module.exports = function(app) {
         var rabbitChannel = rabbitUtils.getChannel();
         var db = mongoUtil.getDB();
         try {
-            logger.debug("/questions/add");
             var title = req.body.title;
             var body = req.body.body;
             var tags = req.body.tags; // Array of tags (strings)
@@ -151,7 +150,6 @@ module.exports = function(app) {
             var cookie = req.cookies['SessionID'];
             const authErrorMessage = "QUESTION_ADD_ERROR: User is not logged in. Must be logged in to add a question.";
 
-            logger.debug("/////////////////////////////");
             // logger.debug("title: " + title);
             // logger.debug("body: " + body);
             // logger.debug("tags: " + tags);

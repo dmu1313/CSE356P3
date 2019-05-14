@@ -28,14 +28,14 @@ function sleep(ms) {
 module.exports = function(app) {
 
     app.post('/addmedia', async function(req, res) {
-        logger.debug("/addmedia");
+        // logger.debug("/addmedia");
 
-        var time = Date.now();
+        // var time = Date.now();
         var id = getRandomIdString();
         var db = mongoUtil.getDB();
 
         var form = new formidable.IncomingForm();
-        logger.debug("Get incoming form: " + (Date.now() - time));
+        // logger.debug("Get incoming form: " + (Date.now() - time));
         var chunks = [];
         
         var filename;
@@ -52,7 +52,7 @@ module.exports = function(app) {
         }
 
         form.onPart = function(part) {
-            logger.debug("onPart time: " + (Date.now() - time));
+            // logger.debug("onPart time: " + (Date.now() - time));
             if (!part.filename) {
                 form.handlePart(part);
                 return;
@@ -65,7 +65,7 @@ module.exports = function(app) {
             });
             part.on('end', function() {
                 file = Buffer.concat(chunks);
-                logger.debug("Add media time: " + (Date.now() - time));
+                // logger.debug("Add media time: " + (Date.now() - time));
             });
             part.on('error', function(err) {
                 logger.debug("error handling stream: " + err);
@@ -86,8 +86,8 @@ module.exports = function(app) {
         // db.collection(COLLECTION_MEDIA_USER).insertOne(mediaUserQuery);
 
         form.parse(req, async function(err, fields, files) {
-            logger.debug("PARSE TIME: " + (Date.now() - time));
-            logger.debug("addmedia: user: " + user.userId);
+            // logger.debug("PARSE TIME: " + (Date.now() - time));
+            // logger.debug("addmedia: user: " + user.userId);
 
             
             // file = Buffer.concat(chunks);

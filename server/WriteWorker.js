@@ -272,10 +272,10 @@ async function addMedia(db, connection) {
         var mediaUserQuery = {_id: id, userId: userId};
         db.collection(COLLECTION_MEDIA_USER).insertOne(mediaUserQuery);
 
-        logger.debug("Cassandra Insert");
+        // logger.debug("Cassandra Insert");
         cassandraClient.execute(query, [id, filename, file], {prepare: true})
         .then(function(result) {
-            logger.debug("Inserting file id: " + id + ", filename: " + filename + ", result: " + result);
+            // logger.debug("Inserting file id: " + id + ", filename: " + filename + ", result: " + result);
         })
         .catch(function(error) {
             logger.debug("Error inserting into cassandra: " + error);
@@ -308,7 +308,7 @@ async function addUsers(db, connection) {
 
         db.collection(COLLECTION_USERS).insertOne(insertQuery)
         .then(function(result) {
-            logger.debug("[MQ Add Users] - Adding userId: " + userId + ", email: " + email + ", result: " + result);
+            // logger.debug("[MQ Add Users] - Adding userId: " + userId + ", email: " + email + ", result: " + result);
         })
         .catch(function(error) {
             logger.debug("[MQ Add Users] - Unable to add userId: " + userId + ", email: " + email + ", Error: " + error);
@@ -353,7 +353,7 @@ function sendMail(email, key) {
     }
 
     transporter.sendMail(mailOptions, (error, info) => {
-        logger.debug("Sending email");
+        // logger.debug("Sending email");
         // logger.debug(util.inspect(info, {showHidden: false, depth: 4}));
 
         if (error) {

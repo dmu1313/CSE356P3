@@ -76,9 +76,90 @@ module.exports = function(app) {
         });
 
         var db = mongoUtil.getDB();
-        db.dropDatabase(function(error, result) {
-            if (error) console.log("Error: " + error);
-            console.log("Drop database: " + result);
+        
+        db.collection(COLLECTION_USERS).deleteMany({})
+        .then(function(res) {
+            console.log("Wiped COLLECTION_USERS: " + res);
+        })
+        .catch(function(error) {
+            console.log("Failed to wipe COLLECTION_USERS, Error: " + error);
+        });
+        
+        db.collection(COLLECTION_COOKIES).deleteMany({})
+        .then(function(res) {
+            console.log("Wiped COLLECTION_COOKIES: " + res);
+        })
+        .catch(function(error) {
+            console.log("Failed to wipe COLLECTION_COOKIES, Error: " + error);
+        });
+
+        db.collection(COLLECTION_QUESTIONS).deleteMany({})
+        .then(function(res) {
+            console.log("Wiped COLLECTION_QUESTIONS: " + res);
+        })
+        .catch(function(error) {
+            console.log("Failed to wipe COLLECTION_QUESTIONS, Error: " + error);
+        });
+
+        db.collection(COLLECTION_ANSWERS).deleteMany({})
+        .then(function(res) {
+            console.log("Wiped COLLECTION_ANSWERS: " + res);
+        })
+        .catch(function(error) {
+            console.log("Failed to wipe COLLECTION_ANSWERS, Error: " + error);
+        });
+
+        db.collection(COLLECTION_IP_VIEWS).deleteMany({})
+        .then(function(res) {
+            console.log("Wiped COLLECTION_IP_VIEWS: " + res);
+        })
+        .catch(function(error) {
+            console.log("Failed to wipe COLLECTION_IP_VIEWS, Error: " + error);
+        });
+
+        db.collection(COLLECTION_USER_VIEWS).deleteMany({})
+        .then(function(res) {
+            console.log("Wiped COLLECTION_USER_VIEWS: " + res);
+        })
+        .catch(function(error) {
+            console.log("Failed to wipe COLLECTION_USER_VIEWS, Error: " + error);
+        });
+
+        db.collection(COLLECTION_ANSWER_UPVOTE).deleteMany({})
+        .then(function(res) {
+            console.log("Wiped COLLECTION_ANSWER_UPVOTE: " + res);
+        })
+        .catch(function(error) {
+            console.log("Failed to wipe COLLECTION_ANSWER_UPVOTE, Error: " + error);
+        });
+
+        db.collection(COLLECTION_QUESTION_UPVOTE).deleteMany({})
+        .then(function(res) {
+            console.log("Wiped COLLECTION_QUESTION_UPVOTE: " + res);
+        })
+        .catch(function(error) {
+            console.log("Failed to wipe COLLECTION_QUESTION_UPVOTE, Error: " + error);
+        });
+
+        db.collection(COLLECTION_MEDIA).deleteMany({})
+        .then(function(res) {
+            console.log("Wiped COLLECTION_MEDIA: " + res);
+        })
+        .catch(function(error) {
+            console.log("Failed to wipe COLLECTION_MEDIA, Error: " + error);
+        });
+
+        db.collection(COLLECTION_MEDIA_USER).deleteMany({})
+        .then(function(res) {
+            console.log("Wiped COLLECTION_MEDIA_USER: " + res);
+        })
+        .catch(function(error) {
+            console.log("Failed to wipe COLLECTION_MEDIA_USER, Error: " + error);
+        });
+
+        // db.dropDatabase(function(error, result) {
+        //     if (error) console.log("Error: " + error);
+        //     console.log("Drop database: " + result);
             // mongoUtil.getRealDB().close();
             // .then(function(error, result) {
             //     console.log("ERROR: " + error);
@@ -86,7 +167,8 @@ module.exports = function(app) {
             //     mongoUtil.connect();
             // });
             // db.collection("testing").insertOne({ obj: "bye" });
-        });
+        // });
+
         res.json(STATUS_OK);
     });
 
@@ -224,15 +306,15 @@ module.exports = function(app) {
 
         var client = elasticClient.getElasticClient();
         client.indices.create({
-            index: 'questions'//,
-            // body: {
-            //     settings : {
-            //         index : {
-            //             number_of_shards : 6, 
-            //             number_of_replicas : 0 
-            //         }
-            //     }
-            // }
+            index: 'questions',
+            body: {
+                settings : {
+                    index : {
+                        number_of_shards : 6, 
+                        number_of_replicas : 0 
+                    }
+                }
+            }
         })
         .then(function(ret) {
             console.log("Created ElasticSearch index: Questions. ret: " + ret);
@@ -242,7 +324,7 @@ module.exports = function(app) {
         });
         
         // client.cluster.
-
+/*
         var db = mongoUtil.getDB();
 
         db.collection(COLLECTION_USERS).createIndexes([
@@ -351,7 +433,7 @@ module.exports = function(app) {
             console.log("A_UPVOTE: " + error);
         });
 
-
+*/
         res.json(STATUS_OK);
     });
 

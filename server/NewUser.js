@@ -87,7 +87,7 @@ module.exports = function(app) {
             try {
                 let result = await db.collection(COLLECTION_USERS).insertOne(insertQuery);
 
-                logger.debug("[/adduser] - Adding userId: " + userId + ", result: " + result);
+                // logger.debug("[/adduser] - Adding userId: " + userId + ", result: " + result);
                 sendMail(email, key);
                 res.json(STATUS_OK);
             }
@@ -116,8 +116,8 @@ module.exports = function(app) {
         var key = req.body.key;
         var backdoor = "abracadabra";
 
-        logger.debug("[/verify] - Email: " + email);
-        logger.debug("[/verify] - Key: " + key);
+        // logger.debug("[/verify] - Email: " + email);
+        // logger.debug("[/verify] - Key: " + key);
 
         var db = mongoUtil.getDB();
 
@@ -142,12 +142,12 @@ module.exports = function(app) {
             }
             username = doc.username;
             userId = doc.userId;
-            logger.debug("[/verify] - Attempting to verify username: " + username + ", userId: " + userId);
+            // logger.debug("[/verify] - Attempting to verify username: " + username + ", userId: " + userId);
             return db.collection(COLLECTION_USERS).updateOne(verifyQuery, update);
         })
         .then(function(ret) {
             if (ret == null) return;
-            logger.debug("[/verify] - Update verified result: " + ret);
+            // logger.debug("[/verify] - Update verified result: " + ret);
             verifySuccess = true;
         })
         .catch(function(error) {
@@ -156,7 +156,7 @@ module.exports = function(app) {
         })
         .finally(function() {
             if (verifySuccess) {
-                logger.debug("[/verify] - Sucessfully verified userId " + userId);
+                // logger.debug("[/verify] - Sucessfully verified userId " + userId);
                 res.json(STATUS_OK);
             }
             else {

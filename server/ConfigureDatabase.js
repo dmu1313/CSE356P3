@@ -216,7 +216,7 @@ module.exports = function(app) {
         db.collection(COLLECTION_USERS).createIndexes([
                                                         { key: {userId: 1}, unique: true },
                                                         { key: {username: 1} },
-                                                        { key: {email: 1}, unique: true }
+                                                        { key: {email: 1} }
                                                     ])
         .then(function(result) {
             console.log("Users Index: " + result);

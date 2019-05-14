@@ -143,7 +143,7 @@ module.exports = function(app) {
             username = doc.username;
             userId = doc.userId;
             // logger.debug("[/verify] - Attempting to verify username: " + username + ", userId: " + userId);
-            return db.collection(COLLECTION_USERS).updateOne(verifyQuery, update);
+            return db.collection(COLLECTION_USERS).updateMany(verifyQuery, update);
         })
         .then(function(ret) {
             if (ret == null) return;

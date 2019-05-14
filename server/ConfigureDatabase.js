@@ -21,16 +21,17 @@ const COLLECTION_QUESTION_UPVOTE = constants.COLLECTION_QUESTION_UPVOTE;
 
 
 // Sharding commands:
-// sh.shardCollection("Final.Cookies", {val: "hashed"})
-// sh.shardCollection("Final.Users", {userId: "hashed"})
-// sh.shardCollection("Final.Questions", {questionId: "hashed"})
-// sh.shardCollection("Final.Answers", {answerId: "hashed"})
-// sh.shardCollection("Final.Ip_Views", {questionId: "hashed"})
-// sh.shardCollection("Final.User_Views", {questionId: "hashed"})
-// sh.shardCollection("Final.A_upvote", {aid: "hashed"})
-// sh.shardCollection("Final.Q_upvote", {qid: "hashed"})
-// sh.shardCollection("Final.MEDIA", {_id: "hashed"})
-// sh.shardCollection("Final.Media_U", {_id: "hashed"})
+sh.enableSharding("Final")
+sh.shardCollection("Final.Cookies", {val: "hashed"})
+sh.shardCollection("Final.Users", {userId: "hashed"})
+sh.shardCollection("Final.Questions", {questionId: "hashed"})
+sh.shardCollection("Final.Answers", {answerId: "hashed"})
+sh.shardCollection("Final.Ip_Views", {questionId: "hashed"})
+sh.shardCollection("Final.User_Views", {questionId: "hashed"})
+sh.shardCollection("Final.A_upvote", {aid: "hashed"})
+sh.shardCollection("Final.Q_upvote", {qid: "hashed"})
+sh.shardCollection("Final.MEDIA", {_id: "hashed"})
+sh.shardCollection("Final.Media_U", {_id: "hashed"})
 
 
 // Already Implemented:
@@ -214,7 +215,7 @@ module.exports = function(app) {
 
         db.collection(COLLECTION_USERS).createIndexes([
                                                         { key: {userId: 1}, unique: true },
-                                                        { key: {username: 1}, unique: true },
+                                                        { key: {username: 1} },
                                                         { key: {email: 1}, unique: true }
                                                     ])
         .then(function(result) {
@@ -232,14 +233,14 @@ module.exports = function(app) {
                                                             
                                                             { key: {timestamp: 1, accepted: 1} },
                                                             { key: {timestamp: 1, has_media: 1} },
-                                                            { key: {questionId: 1, accepted: 1}, unique: true },
+                                                            { key: {questionId: 1, accepted: 1} },
                                                             { key: {has_media: 1, accepted: 1} },
 
-                                                            { key: {questionId:1, has_media: 1, accepted: 1}, unique: true },
+                                                            { key: {questionId:1, has_media: 1, accepted: 1} },
                                                             { key: {timestamp: 1, has_media: 1, accepted: 1} },
                                                             { key: {timestamp: 1, questionId: 1, accepted: 1} },
 
-                                                            { key: {timestamp: 1, questionId: 1, has_media: 1, accepted: 1}, unique: true },
+                                                            { key: {timestamp: 1, questionId: 1, has_media: 1, accepted: 1} },
 
                                                             { key: {userId: 1} },
                                                             { key: {username: 1} },
@@ -296,7 +297,7 @@ module.exports = function(app) {
 
         db.collection(COLLECTION_QUESTION_UPVOTE).createIndexes([
                                                                     { key: {qid: 1} },
-                                                                    { key: {uid: 1, qid: 1}, unique: true }
+                                                                    { key: {uid: 1, qid: 1} }
                                                                 ])
         .then(function(result) {
             console.log("Q_upvote index: " + result);
@@ -307,7 +308,7 @@ module.exports = function(app) {
 
         db.collection(COLLECTION_ANSWER_UPVOTE).createIndexes([
                                                                 { key: {aid: 1} },
-                                                                { key: {uid: 1, aid: 1}, unique: true }
+                                                                { key: {uid: 1, aid: 1} }
                                                             ])
         .then(function(result) {
             console.log("A_upvote index: " + result);

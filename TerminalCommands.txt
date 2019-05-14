@@ -20,7 +20,7 @@ sudo rm -f app.txt && sudo rm -f Write.txt
 
 cd .. && sudo git pull && cd server
 
-cd .. && sudo git pull && cd server && sudo pkill -f node
+sudo pkill -f node && sudo rm -f Write.txt && sudo rm -f app.txt && cd .. && sudo git pull && cd server
 
 cd ..
 

@@ -4,15 +4,13 @@
   remote_user: ubuntu
   gather_facts: no
   become: yes
-  pre_tasks:
-    - name: update
-      apt:
-        update_cache: yes
   tasks:
 ######    Git    #######
     - name: Delete log files for the git checkout
       shell: |
-        sudo rm -f /var/www/Write.txt && sudo rm -f /var/www/app.txt
+        sudo pkill -f node
+        sudo rm -f /var/www/server/Write.txt
+        sudo rm -f /var/www/server/app.txt
     - name: Git pull
       git:
         repo: 'https://github.com/dmu1313/CSE356P3.git'

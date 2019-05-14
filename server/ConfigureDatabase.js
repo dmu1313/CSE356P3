@@ -224,7 +224,7 @@ module.exports = function(app) {
                                                             { key: {questionId:1, has_media: 1, accepted: 1} },
                                                             { key: {timestamp: 1, has_media: 1, accepted: 1} },
                                                             { key: {timestamp: 1, questionId: 1, accepted: 1} },
-                                                            
+
                                                             { key: {timestamp: 1, questionId: 1, has_media: 1, accepted: 1} },
 
 
@@ -323,7 +323,7 @@ module.exports = function(app) {
             body: {
                 settings : {
                     index : {
-                        number_of_shards : 6, 
+                        number_of_shards : 4, 
                         number_of_replicas : 0 
                     }
                 }

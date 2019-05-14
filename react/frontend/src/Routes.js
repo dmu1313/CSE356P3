@@ -93,6 +93,7 @@ class LoginStatus extends React.Component {
         //     status = this.state.loggedIn;
         // }
 
+        console.log("Routes Routes Routes");
         return (
         <React.Fragment>
             <NavBar loggedIn={status} />
@@ -104,6 +105,7 @@ class LoginStatus extends React.Component {
             <Route path="/Verify" component={VerifyPage} />
             <Route path="/Questions" render={ (props) => <QuestionsPage {...props} notification={this.state.notification} loggedIn={status} getLoginStatus={this.getLoginStatus} setLoginState={this.setLoginState} /> }  />
             <Route path="/Question/:id" render={ (props) => <QuestionPage {...props} notification={this.state.notification} loggedIn={status} getLoginStatus={this.getLoginStatus} setLoginState={this.setLoginState} /> }  />
+            {/* <Route path="Question/:id" component */}
             <Route path="/Media" render={ (props) => <MediaPage {...props} action="/addmedia" notification={this.state.notification} loggedIn={status} getLoginStatus={this.getLoginStatus} setLoginState={this.setLoginState} /> } />
             <Route path="/Users" render={ (props) => <UsersPage {...props} notification={this.state.notification} loggedIn={status} getLoginStatus={this.getLoginStatus} setLoginState={this.setLoginState} /> } />
             <Route path="/User/:username" render={ (props) => <UserPage {...props} notification={this.state.notification} loggedIn={status} getLoginStatus={this.getLoginStatus} setLoginState={this.setLoginState} /> } />

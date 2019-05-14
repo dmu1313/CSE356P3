@@ -124,11 +124,19 @@ module.exports = function(app) {
                 matches = body.hits.hits;
             }
 
+
+            if (limit == null) {
+                limit = 25;
+            }
+            else if (limit < 0) limit = 0;
+            else if (limit > 100) limit = 100;
+
             var stringMatchedIds = [];
             if (matches != null) {
-                for (let i = 0; i < matches.length; i++) {
+                let max = (matches.length >= limit) ? limit : matches.length;
+                for (let i = 0; i < max; i++) {
                     stringMatchedIds.push(matches[i]._source.id);
-                    logger.debug("Available ID: " + matches[i]._source.id);
+                    // logger.debug("Available ID: " + matches[i]._source.id);
                 }
             }
 
@@ -153,11 +161,6 @@ module.exports = function(app) {
                 searchQuery.accepted = accepted;
             }
 
-            if (limit == null) {
-                limit = 25;
-            }
-            else if (limit < 0) limit = 0;
-            else if (limit > 100) limit = 100;
 
             var questionsArray = [];
 

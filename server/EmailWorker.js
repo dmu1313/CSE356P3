@@ -56,7 +56,7 @@ async function startConsumer() {
     }
 }
 
-async function sendEmails(db, connection) {
+async function sendEmails(connection) {
     var ch = await connection.createChannel();
     var ok = await ch.assertQueue(EMAIL_QUEUE, {durable: true});
     await ch.prefetch(EMAIL_PREFETCH);

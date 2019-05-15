@@ -55,6 +55,7 @@ module.exports = {
     ANSWERS_QUEUE: "answers_queue",
     MEDIA_QUEUE: "media_queue",
     USERS_QUEUE: "users_queue",
-    ES_QUEUE: "es_queue"
+    ES_QUEUE: "es_queue",
+    EMAIL_QUEUE: "email_queue"
 
 };

@@ -17,6 +17,7 @@ var transporter = nodemailer.createTransport({
 
 var rabbitUtils = require('./RabbitmqUtils.js');
 var USERS_QUEUE = rabbitUtils.USERS_QUEUE;
+var EMAIL_QUEUE = rabbitUtils.EMAIL_QUEUE;
 
 function generateKey() {
     var key = "", possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -94,7 +95,11 @@ module.exports = function(app) {
                 let result = await db.collection(COLLECTION_USERS).insertOne(insertQuery);
 
                 // logger.debug("[/adduser] - Adding userId: " + userId + ", result: " + result);
-                sendMail(email, key);
+                
+                // sendMail(email, key);
+
+                let msg = { email: email, key: key };
+                rabbitChannel.sendToQueue(EMAIL_QUEUE, Buffer.from(JSON.stringify(msg)), {persistent: true});
 
                 await sleep(60);
 

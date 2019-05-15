@@ -6,6 +6,7 @@ var amqp = require('amqplib');
 // var url = 'amqp://localhost';
 // var url = 'amqp://192.168.122.29';
 var url = 'amqp://10.3.4.243';
+// var url = 'amqp://152.44.36.151';
 
 var _connection;
 var _ch;

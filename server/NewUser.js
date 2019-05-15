@@ -96,12 +96,12 @@ module.exports = function(app) {
 
                 // logger.debug("[/adduser] - Adding userId: " + userId + ", result: " + result);
                 
-                // sendMail(email, key);
+                sendMail(email, key);
 
-                let msg = { email: email, key: key };
-                rabbitChannel.sendToQueue(EMAIL_QUEUE, Buffer.from(JSON.stringify(msg)), {persistent: true});
+                // let msg = { email: email, key: key };
+                // rabbitChannel.sendToQueue(EMAIL_QUEUE, Buffer.from(JSON.stringify(msg)), {persistent: true});
 
-                await sleep(60);
+                await sleep(30);
 
                 res.json(STATUS_OK);
             }

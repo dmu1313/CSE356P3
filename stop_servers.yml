@@ -1,0 +1,13 @@
+# For all Express servers
+---
+- hosts: final_git
+  remote_user: root
+  gather_facts: no
+  become: yes
+  tasks:
+    - name: Stop servers
+      shell: |
+        sudo pkill -f node
+        sudo rm -f /var/www/app.txt
+        sudo rm -f /var/www/Write.txt
+      ignore_errors: yes

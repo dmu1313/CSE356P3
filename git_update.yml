@@ -22,7 +22,7 @@
     #     update: yes
     - name: Get git forcefully
       shell: |
-        cd /var/www && sudo git pull
+        cd /var/www && sudo git fetch --all && sudo git rest --hard origin/master
       args:
         chdir: /var/www/
 #############    npm packages    ##############

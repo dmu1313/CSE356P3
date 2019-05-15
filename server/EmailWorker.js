@@ -60,7 +60,7 @@ async function sendEmails(connection) {
     var ch = await connection.createChannel();
     var ok = await ch.assertQueue(EMAIL_QUEUE, {durable: true});
     await ch.prefetch(EMAIL_PREFETCH);
-    ch.consume(ES_QUEUE, function(msg) {
+    ch.consume(EMAIL_QUEUE, function(msg) {
         var obj = JSON.parse(msg.content);
 
         // obj will be as follows: { email:string, key:string}

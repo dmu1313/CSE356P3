@@ -1,0 +1,117 @@
+# /etc/ansible/hosts file for the control node
+
+
+# This is the default ansible 'hosts' file.
+#
+# It should live in /etc/ansible/hosts
+#
+#   - Comments begin with the '#' character
+#   - Blank lines are ignored
+#   - Groups of hosts are delimited by [header] elements
+#   - You can enter hostnames or ip addresses
+#   - A hostname/ip can be a member of multiple groups
+
+# Ex 1: Ungrouped hosts, specify before any group headers.
+
+## green.example.com
+## blue.example.com
+## 192.168.100.1
+## 192.168.100.10
+
+# Ex 2: A collection of hosts belonging to the 'webservers' group
+
+
+
+[final_api]
+10.3.0.97
+10.3.5.244
+10.3.6.56
+10.3.6.102
+10.3.6.127
+10.3.6.153
+10.3.6.154
+10.3.7.32
+
+[final-python]
+#10.3.4.243
+#10.3.5.108
+#10.3.0.220
+#10.3.5.236
+#10.3.5.241
+# API SERVERS
+10.3.0.97
+10.3.5.244
+10.3.6.56
+10.3.6.102
+10.3.6.127
+10.3.6.153
+10.3.6.154
+10.3.7.32
+# MONGO SHARD SERVERS
+10.3.7.66
+10.3.7.99
+10.3.7.100
+10.3.7.103
+10.3.7.104
+10.3.7.105
+
+[final_rabbitmq]
+10.3.4.243
+
+[final_memcached]
+10.3.5.108
+
+[final_mongo_cfg]
+10.3.0.220
+10.3.5.236
+10.3.5.241
+
+[final_mongo_shard]
+10.3.7.66
+10.3.7.99
+10.3.7.100
+10.3.7.103
+10.3.7.104
+10.3.7.105
+
+[final_git]
+192.168.122.13
+192.168.122.24
+192.168.122.25
+192.168.122.32
+
+[final_elasticsearch]
+#192.168.122.26
+#192.168.122.27
+#192.168.122.28
+
+
+
+[final_cassandra]
+#192.168.122.30
+#192.168.122.31
+
+
+
+
+
+
+
+# If you have multiple hosts following a pattern you can specify
+# them like this:
+
+## www[001:006].example.com
+
+# Ex 3: A collection of database servers in the 'dbservers' group
+
+## [dbservers]
+##
+## db01.intranet.mydomain.net
+## db02.intranet.mydomain.net
+## 10.25.1.56
+## 10.25.1.57
+
+# Here's another example of host ranges, this time there are no
+# leading 0s:
+
+## db-[99:101]-node.example.com

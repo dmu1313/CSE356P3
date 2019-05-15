@@ -1,7 +1,7 @@
 # For MongoDB Configuration servers
 ---
 - hosts: final_mongo_cfg
-  remote_user: ubuntu
+  remote_user: root
   gather_facts: no
   become: yes
   pre_tasks:
@@ -28,9 +28,6 @@
     - name: One time install for MongoDB
       apt:
         name: mongodb-org
-    # - name: Start MongoDB
-    #   shell: |
-    #     sudo service mongod start
     - name: Setup configuration for MongoDB
       shell: |
         sudo mv /var/www/MongoCfg.conf /etc/mongod.conf

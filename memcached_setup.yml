@@ -1,7 +1,7 @@
 # For memcached servers
 ---
 - hosts: final_memcached
-  remote_user: ubuntu
+  remote_user: root
   gather_facts: no
   become: yes
   pre_tasks:
@@ -9,6 +9,15 @@
       apt:
         update_cache: yes
   tasks:
+    - name: install git
+      apt:
+        name: git
+    - name: Delete /var/www/ for the git checkout
+      shell: sudo rm -rf /var/www/
+    - name: Get git checkout
+      git:
+        repo: 'https://github.com/dmu1313/CSE356P3.git'
+        dest: /var/www/
     - name: Install memcached
       apt:
         name: memcached
@@ -16,4 +25,5 @@
     - name: Copy over memcached configuration file
       shell: |
         sudo mv /var/www/memcached.conf /etc/memcached.conf
+        sudo systemctl restart memcached
     # memcached configuration file stored at /etc/memcached.conf

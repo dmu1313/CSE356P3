@@ -1,7 +1,7 @@
 # For API backend servers
 ---
 - hosts: final_api
-  remote_user: ubuntu
+  remote_user: root
   gather_facts: no
   become: yes
   pre_tasks:
@@ -97,7 +97,6 @@
       shell: |
         sudo mv /var/www/main.cf /etc/postfix/main.cf
         sudo systemctl restart postfix
-
     - name: One time setup for MongoDB
       shell: |
         sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 9DA31620334BD75D9DCB49F368818C72E52529D4

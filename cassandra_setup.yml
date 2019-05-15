@@ -1,7 +1,7 @@
 # For Cassandra Servers
 ---
 - hosts: final_cassandra
-  remote_user: ubuntu
+  remote_user: root
   gather_facts: no
   become: yes
   pre_tasks:
@@ -28,11 +28,14 @@
         update_cache: yes
     - name: Configure Cassandra
       shell: |
+        sudo systemctl stop cassandra
+        sudo rm -rf /var/lib/cassandra
         sudo mv /var/www/cassandra.yaml /etc/cassandra/cassandra.yaml
         sudo mv /var/www/cassandra-rackdc.properties /etc/cassandra/cassandra-rackdc.properties
         sudo rm -f /etc/cassandra/cassandra-topology.properties
         sudo chmod 777 /var/lib/
-        sudo systemctl stop cassandra
+        sudo systemctl restart cassandra
+        
         
 # concurrent_reads: 16 # (16 * drives)
 # concurrent_writes: 16 # (8 * cores)

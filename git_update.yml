@@ -1,7 +1,7 @@
 # For all Express servers
 ---
 - hosts: final_git
-  remote_user: ubuntu
+  remote_user: root
   gather_facts: no
   become: yes
   pre_tasks:
@@ -13,74 +13,75 @@
     # - name: install git
     #   apt:
     #     name: git
-    - name: Delete /var/www/ for the git checkout
-      shell: sudo rm -rf /var/www/
+    # - name: Delete /var/www/ for the git checkout
+    #   shell: sudo rm -rf /var/www/
     - name: Get git checkout
       git:
         repo: 'https://github.com/dmu1313/CSE356P3.git'
         dest: /var/www/
+        update: yes
 #############    npm packages    ##############
-    - name: Init npm in project directory
-      shell: |
-        cd /var/www/server/
-        sudo npm init -y
-      args:
-        chdir: /var/www/server/
-    - name: Install Express JS
-      npm:
-        name: express
-        global: no
-        path: /var/www/server/
-    - name: Install NodeMailer
-      npm:
-        name: nodemailer
-        global: no
-        path: /var/www/server/
-    - name: Install Cookie-Parser
-      npm:
-        name: cookie-parser
-        global: no
-        path: /var/www/server
-    - name: Install MongoDB npm package
-      npm:
-        name: mongodb
-        global: no
-        path: /var/www/server
-    - name: Install util npm package
-      npm:
-        name: util
-        global: no
-        path: /var/www/server
-    - name: Install ElasticSearch npm package
-      npm:
-        name: "@elastic/elasticsearch"
-        global: no
-        path: /var/www/server
-    - name: Install cassandra driver
-      npm:
-        name: cassandra-driver
-        global: no
-        path: /var/www/server/
-    - name: Install formidable
-      npm:
-        name: formidable
-        global: no
-        path: /var/www/server/
-    - name: Install memcached Node client
-      npm:
-        name: memcached
-        global: no
-        path: /var/www/server
-    - name: Install amqplib
-      npm:
-        name: amqplib
-        global: no
-        path: /var/www/server/
-    - name: Install log4js
-      npm:
-        name: log4js
-        global: no
-        path: /var/www/server
-    - name: Change permissions
-      shell: |
-        sudo chmod 777 /var/www/server
+    # - name: Init npm in project directory
+    #   shell: |
+    #     cd /var/www/server/
+    #     sudo npm init -y
+    #   args:
+    #     chdir: /var/www/server/
+    # - name: Install Express JS
+    #   npm:
+    #     name: express
+    #     global: no
+    #     path: /var/www/server/
+    # - name: Install NodeMailer
+    #   npm:
+    #     name: nodemailer
+    #     global: no
+    #     path: /var/www/server/
+    # - name: Install Cookie-Parser
+    #   npm:
+    #     name: cookie-parser
+    #     global: no
+    #     path: /var/www/server
+    # - name: Install MongoDB npm package
+    #   npm:
+    #     name: mongodb
+    #     global: no
+    #     path: /var/www/server
+    # - name: Install util npm package
+    #   npm:
+    #     name: util
+    #     global: no
+    #     path: /var/www/server
+    # - name: Install ElasticSearch npm package
+    #   npm:
+    #     name: "@elastic/elasticsearch"
+    #     global: no
+    #     path: /var/www/server
+    # - name: Install cassandra driver
+    #   npm:
+    #     name: cassandra-driver
+    #     global: no
+    #     path: /var/www/server/
+    # - name: Install formidable
+    #   npm:
+    #     name: formidable
+    #     global: no
+    #     path: /var/www/server/
+    # - name: Install memcached Node client
+    #   npm:
+    #     name: memcached
+    #     global: no
+    #     path: /var/www/server
+    # - name: Install amqplib
+    #   npm:
+    #     name: amqplib
+    #     global: no
+    #     path: /var/www/server/
+    # - name: Install log4js
+    #   npm:
+    #     name: log4js
+    #     global: no
+    #     path: /var/www/server
+    # - name: Change permissions
+    #   shell: |
+    #     sudo chmod 777 /var/www/server

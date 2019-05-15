@@ -66,7 +66,8 @@ http.port: 9200
 # Pass an initial list of hosts to perform discovery when new node is started:
 # The default list of hosts is ["127.0.0.1", "[::1]"]
 #
-discovery.zen.ping.unicast.hosts: ["192.168.122.26", "192.168.122.27"]
+discovery.zen.ping.unicast.hosts: ["10.3.7.114", "10.3.7.115", "10.3.7.116", "10.3.7.117"]
+# discovery.zen.ping.unicast.hosts: ["192.168.122.26", "192.168.122.27"]
 #
 # Prevent the "split brain" by configuring the majority of nodes (total number of master-eligible nodes / 2 + 1):
 #

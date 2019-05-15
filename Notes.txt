@@ -1,10 +1,4 @@
 
-React
-
-- React Router mounts different webpages upon new route. If route is the same but with different parameters, it will
-only change props. Not mount again.
-
-
 
 
 Elastic Search
@@ -21,12 +15,10 @@ Cassandra
 - Increase RAM and cores
 
 MongoDB
-- Single threaded
+- Single threaded for inserts. Reads can use other cores.
 
 
 - Measure resource usage by node/express app
-
-Look into deep linking with /Question/:id
 
 
 

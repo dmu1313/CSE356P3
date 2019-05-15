@@ -1,7 +1,7 @@
 # For ElasticSearch servers
 ---
 - hosts: final_elasticsearch
-  remote_user: ubuntu
+  remote_user: root
   gather_facts: no
   become: yes
   pre_tasks:
@@ -39,6 +39,6 @@
     - name: Elastic search config
       shell: |
         sudo mv /var/www/elasticsearch.yml /etc/elasticsearch/elasticsearch.yml
-        sudo systemctl restart elasticsearch
         sudo chmod 777 /etc/elasticsearch
         sudo chmod 777 /var/log/elasticsearch
+        sudo systemctl restart elasticsearch

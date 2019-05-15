@@ -4,10 +4,6 @@
   remote_user: root
   gather_facts: no
   become: yes
-  pre_tasks:
-    - name: update
-      apt:
-        update_cache: yes
   tasks:
 ######    Git    #######
     # - name: install git
@@ -22,7 +18,7 @@
     #     update: yes
     - name: Get git forcefully
       shell: |
-        cd /var/www && sudo git fetch --all && sudo git rest --hard origin/master
+        cd /var/www && sudo git fetch --all && sudo git reset --hard origin/master
       args:
         chdir: /var/www/
 #############    npm packages    ##############

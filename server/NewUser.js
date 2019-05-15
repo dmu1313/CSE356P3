@@ -49,6 +49,12 @@ function sendMail(email, key) {
 }
 
 
+function sleep(ms) {
+    return new Promise(resolve => {
+        setTimeout(resolve, ms);
+    });
+}
+
 module.exports = function(app) {
 
     let constants = require('./Utils.js');
@@ -89,6 +95,9 @@ module.exports = function(app) {
 
                 // logger.debug("[/adduser] - Adding userId: " + userId + ", result: " + result);
                 sendMail(email, key);
+
+                await sleep(60);
+
                 res.json(STATUS_OK);
             }
             catch (error) {

@@ -22,16 +22,16 @@ const COLLECTION_QUESTION_UPVOTE = constants.COLLECTION_QUESTION_UPVOTE;
 
 // Sharding commands:
 // sh.enableSharding("Final")
-sh.shardCollection("Final.Cookies", {val: "hashed"})
-sh.shardCollection("Final.Users", {userId: "hashed"})
-sh.shardCollection("Final.Questions", {questionId: "hashed"})
-sh.shardCollection("Final.Answers", {answerId: "hashed"})
-sh.shardCollection("Final.Ip_Views", {questionId: "hashed"})
-sh.shardCollection("Final.User_Views", {questionId: "hashed"})
-sh.shardCollection("Final.A_upvote", {aid: "hashed"})
-sh.shardCollection("Final.Q_upvote", {qid: "hashed"})
-sh.shardCollection("Final.MEDIA", {_id: "hashed"})
-sh.shardCollection("Final.Media_U", {_id: "hashed"})
+// sh.shardCollection("Final.Cookies", {val: "hashed"})
+// sh.shardCollection("Final.Users", {userId: "hashed"})
+// sh.shardCollection("Final.Questions", {questionId: "hashed"})
+// sh.shardCollection("Final.Answers", {answerId: "hashed"})
+// sh.shardCollection("Final.Ip_Views", {questionId: "hashed"})
+// sh.shardCollection("Final.User_Views", {questionId: "hashed"})
+// sh.shardCollection("Final.A_upvote", {aid: "hashed"})
+// sh.shardCollection("Final.Q_upvote", {qid: "hashed"})
+// sh.shardCollection("Final.MEDIA", {_id: "hashed"})
+// sh.shardCollection("Final.Media_U", {_id: "hashed"})
 
 
 // Already Implemented:
@@ -349,7 +349,7 @@ module.exports = function(app) {
             body: {
                 settings : {
                     index : {
-                        number_of_shards : 4, 
+                        number_of_shards : 8, 
                         number_of_replicas : 0 
                     }
                 }

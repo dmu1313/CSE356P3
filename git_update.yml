@@ -15,11 +15,16 @@
     #     name: git
     # - name: Delete /var/www/ for the git checkout
     #   shell: sudo rm -rf /var/www/
-    - name: Get git checkout
-      git:
-        repo: 'https://github.com/dmu1313/CSE356P3.git'
-        dest: /var/www/
-        update: yes
+    # - name: Get git checkout
+    #   git:
+    #     repo: 'https://github.com/dmu1313/CSE356P3.git'
+    #     dest: /var/www/
+    #     update: yes
+    - name: Get git forcefully
+      shell: |
+        cd /var/www && sudo git pull
+      args:
+        chdir: /var/www/
 #############    npm packages    ##############
     # - name: Init npm in project directory
     #   shell: |

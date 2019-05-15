@@ -26,8 +26,8 @@ const COLLECTION_QUESTION_UPVOTE = constants.COLLECTION_QUESTION_UPVOTE;
 // sh.shardCollection("Final.Users", {userId: "hashed"})
 // sh.shardCollection("Final.Questions", {questionId: "hashed"})
 // sh.shardCollection("Final.Answers", {answerId: "hashed"})
-// sh.shardCollection("Final.Ip_Views", {questionId: "hashed"})
-// sh.shardCollection("Final.User_Views", {questionId: "hashed"})
+// sh.shardCollection("Final.Ip_Views", {_id: "hashed"})
+// sh.shardCollection("Final.User_Views", {_id: "hashed"})
 // sh.shardCollection("Final.A_upvote", {aid: "hashed"})
 // sh.shardCollection("Final.Q_upvote", {qid: "hashed"})
 // sh.shardCollection("Final.MEDIA", {_id: "hashed"})
@@ -275,7 +275,7 @@ module.exports = function(app) {
 
         db.collection(COLLECTION_IP_VIEWS).createIndexes([
                                                             { key: {questionId: 1} },
-                                                            { key: { questionId: 1, ip: 1 }, unique: true }
+                                                            { key: { questionId: 1, ip: 1 }/*, unique: true */}
                                                         ])
         .then(function(result) {
             console.log("Ip_View index: " + result);
@@ -286,7 +286,7 @@ module.exports = function(app) {
 
         db.collection(COLLECTION_USER_VIEWS).createIndexes([
                                                             { key: {questionId: 1} },
-                                                            { key: {questionId: 1, username: 1}, unique: true }
+                                                            { key: {questionId: 1, username: 1}/*, unique: true*/ }
                                                         ])
         .then(function(result) {
             console.log("User_View index: " + result);

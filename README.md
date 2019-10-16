@@ -32,7 +32,7 @@ System setup:
 <br/>
 <br/>
 
-My system's tested performance at the end:
-95% of requests were handled in < 85ms
-99% of requests were handled in < 120ms
+My system's tested performance at the end:<br\>
+95% of requests were handled in < 85ms<br\>
+99% of requests were handled in < 120ms<br\>
 
